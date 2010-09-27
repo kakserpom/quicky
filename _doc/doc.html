@@ -1,0 +1,548 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<style type="text/css">
+* {margin: 0; padding: 0;}
+.ullink a {text-decoration: none;}
+.ullink a:hover {text-decoration: underline;}
+legend {font-size: 15px;}
+oldbody  {font-size: 11px; font-family: Arial, Helvetica, sans-serif, "Arial Narrow", serif; color: #000000;}
+img {border: none;}
+.clearfloat {clear: both; height: 0; font-size: 1px; line-height: 0px;}
+ul {list-style: none;}
+.ullist {list-style: disc; margin-left: 25px;}
+.ullist a {text-decoration: none;}
+.ullist a:hover {text-decoration: underline;}
+fieldset {padding: 5px;}
+.table_simple {BORDER-COLLAPSE: collapse; border-ColorDark: #646464; border-ColorLight: #646464;}
+.table_simple td,tr {padding: 5px;}
+.table_simple td,tr {padding: 5px; font-size: 1em; font-family: Verdana,Helvetica,sans-serif;}
+.table_simple h3 {padding: 5px; font-size: 0.9em; font-family: Verdana,Helvetica,sans-serif;}
+.bquote {background-color:#F0F0F0; padding: 0.5em; margin-top: 10px; margin-bottom: 10px;}
+a {color: #000000;}
+/*center*/
+.center {width: 990px; margin: 0px auto;}
+/*center*/
+
+/*head*/
+#header-wrap {cursor: default; color: #A2D41B; margin-top: 15px; text-align: left; padding-top: 2px; border-top: 1px dashed #ccc; border-bottom: 1px dashed #ccc;}
+#header {letter-spacing: 0.5pt; margin-left: auto; margin-right: auto; width: 720px; padding-bottom: 5px}
+
+#content
+{
+ font-family: Verdana,Helvetica,sans-serif;
+ font-size: 0.8em;
+ line-height: 1.4em;
+ margin-left: auto; margin-right: auto; width: 720px;
+ margin-top: 8px;
+}
+
+#nav-wrap {margin: 0; text-align: left; padding-top: 2px; border-bottom: 1px dashed #ccc;}
+#nav
+{
+ padding: 5px;
+ font: 13px Verdana,Arial,sans-serif;
+ margin-left: auto;
+ margin-right: auto;
+ width: 720px;
+ font-family : Verdana, Arial, sans-serif;
+ font-size: 0.7em;
+ line-height: 1.5em;
+}
+#nav ul {
+  margin : 0;
+  padding : 0;
+  list-style : none;
+}
+#nav ul li {margin: 0; padding: 0 8px 0 0; display: inline;}
+#nav img {vertical-align:middle;}
+#nav a:link, #nav a:visited, #nav a:active {
+  margin: 0;
+  padding: 4px;
+  border: 1px solid white;
+  color: #3a6ea5;
+  background-color: transparent;
+  text-decoration: none;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+#nav a:hover {
+  margin: 0;
+  padding: 4px;
+  border: 1px solid #ff8000;
+  color: #ff8000;
+  background-color: #ffeec2;
+  text-decoration: none;
+  display: inline-block;
+  white-space: nowrap;
+}
+#footer-wrap {margin-top: 15px; text-align: left; padding-top: 2px; border-top: 1px dashed #ccc;}
+#footer
+{
+ letter-spacing: 0.5pt; margin-left: auto; margin-right: auto; width: 720px; padding-bottom: 5px;
+ font-size: 0.7em;
+ line-height: 1.5em;
+ font-family: Verdana,Arial,sans-serif;
+}
+#footer address
+{
+ font-style : italic;
+ color: gray;
+}
+.term {text-decoration: none; border-bottom:1px dashed #000000;}</style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Документация Quicky 0.5</title>
+</head>
+<body>
+<div id="header-wrap">
+
+	<div id="header">
+		<h1>Quicky - Fast PHP templates system</h1>
+	</div>
+</div>
+<div id="nav-wrap">
+	<div id="nav">
+		<ul>
+			<li><a href="doc.html">Документация</a></li>
+
+			<li><a href="http://code.google.com/p/quicky">Cтраница проекта</a></li>
+			<li><a href="http://code.google.com/p/quicky/issues/list">Сообщить об ошибке</a></li>
+			<li><a href="http://code.google.com/p/quicky/downloads/list">Скачать</a></li>
+		</ul>
+	</div>
+</div>
+
+<div id="content">
+<h3>Документация Quicky 0.5</h3><br />
+Документация находится в стадии разработки.<br />
+<br /><h4>Оглавление:</h4>
+<ul class="ullist">
+<li><a href="#p1">1. Введение</a></li>
+<li><a href="#p2">2. Установка и системные требования</a></li>
+<li><a href="#p3">3. Описание API (для программистов)</a></li>
+<li><a href="#p3.1">3.1. Начало работы</a></li>
+<li><a href="#p3.2">3.2. Список и назначение свойств</a></li>
+
+<li><a href="#p3.3">3.3. Список и назначение методов</a></li>
+<li><a href="#p3.4">3.4. Кеширование</a></li>
+<li><a href="#p4">4. Синтаксис шаблонов</a></li>
+<li><a href="#p4.1">4.1. Введение</a></li>
+<li><a href="#p4.2">4.2. Переменные и константы</a></li>
+<li><a href="#p4.3">4.3. Список и назначение встроенных блоков</a></li>
+<li><a href="#p4.4">4.4. Список и назначение команд</a></li>
+<li><a href="#p4.5">4.5. Строковые выражения</a></li>
+<li><a href="#p4.6">4.6. Операторы компилятора</a></li>
+
+<li><a href="#p4.7">4.7. Quicky_form</a></li>
+<li><a href="#p4.8">4.8. Отладочная консоль</a></li>
+<li><a href="#p4.9">4.9. Мультиязычность</a></li>
+<li><a href="#p5">5. Quicky_BBcode</a></li>
+<li><a href="#p5.1">5.1. Спецификация Quicky BB-code</a></li>
+<li><a href="#p5.2">5.2. API</a></li>
+</ul>
+<br /><h4><a name="p1"></a>1. Введение</h4>
+<font class="term">Quicky</font> - интерпрератор шаблонов выполненный в виде PHP-скрипта, служащий для отделение логики предоставления от бизнес-логики, иными словами - для отделения той части программы которая непосредственно генерирует HTML-код от той которая обрабатывает и генерирует данные, что позволяет легко изменять внешний вид программы посредством шаблонов, и не внося изменений в значимый исходный код. Это позволяет разделить задачи программиста и верстальщика.
+
+<br /><br /><h4><a name="p2"></a>2. Установка и системные требования</h4>
+Системные требования: PHP 5.2.5.<br />
+Скопируйте содержимое каталога в установочную папку, установите права записи для <font class="term">templates_c</font> и <font class="term">templates_cache</font>.
+<br /><br /><h4><a name="p3"></a>3. Описание API (для программистов)</h4>
+<h4><a name="p3.1"></a>3.1 Начало работы.</h4>
+Для работы интерпретатора необходимо подключить файл Quicky.class.php и создать объект:
+<br /><br />
+<div style="font-size: 15px"><pre class="php" style="color: #000066; border: 1px solid #d0d0d0; background-color: #f0f0f0;"><span style="color: #b1b100;">require_once</span> <span style="color: #ff0000;">'Quicky.class.php'</span>;
+
+<span style="color: #0000ff;">$tpl</span> = <span style="color: #000000; font-weight: bold;">new</span> Quicky;</pre></div>
+<br /><h4><a name="p3.2"></a>3.2 Список и назначение свойств</h4>
+ public $template_dir = './templates/'  -- Путь корневой папки с шаблонами<br />
+ public $compile_dir = './templates_c/' -- Путь папки с компиляциями шаблонов<br />
+ public $config_dir = './configs/';  --- Путь корневой папки конфиг-файлов.<br />
+
+ public $cache_dir = './templates_cache/'; -- Путь до папки кеша.<br />
+ public $plugins_dir = array(); -- Пути до дополнительных папок с плагинами.<br />
+ public $_tpl_vars = array(); -- Массив переменных доступных из шаблонов.<br />
+ public $_tpl_config = array(); -- Массив конфиг-переменных доступных из шаблонов.<br />
+ public $_block_props = array(); -- Массив хранящий свойства блоков.<br />
+ public $auto_filename_prefix = ''; -- Префикс добавляющийся к именам файлов компиляций и кеша.<br />
+
+ public $compilers = array(); --  Компиляторы.<br />
+ public $prefilters = array(); -- Пре-фильтры.<br />
+ public $postfilters = array(); -- Пост-фильтры.<br />
+ public $outputfilters = array(); -- output-фильтры.<br />
+ public $compile_check = TRUE; -- Проверка актуальности скомпилированного шаблона.<br />
+ public $force_compile = FALSE; -- Перекомпилировать каждый раз.<br />
+
+ public $max_recursion_depth = 10; -- Максимальная глубина рекурсии.<br />
+ public $compiler_prefs = array(<br />
+		'inline_includes' => TRUE, -- Вставка текста дочернего шаблона в родительный при include.<br />
+		'allow_php_native' => TRUE -- Разрешение {php}.<br />
+		).<br />
+ public $error_reporting; -- Уровень показа ошибок в шаблонах.<br />
+
+ public $version = '0.4'; --  Версия Quicky.<br />
+ public $caching = 0; -- Режим кеширования.<br />
+ public $cache_lifetime = 60; -- Время жизни кеша в секундах.<br />
+ public $precompiled_vars = array(); -- Компиляционные переменные.<br />
+ public $lang = ''; -- Язык (аналог $auto_filename_prefix).<br />
+ public $use_sub_dirs = FALSE; -- разбивка временных файлов на подкаталоги.<br />
+
+ public $cache_id = ''; -- id кеша.<br />
+ public $compile_id = ''; -- id компиляции.<br />
+<br />
+<h4><a name="p3.3"></a>3.3. Список и назначение методов</h4>
+ void Quicky (void) - инициализация объекта.<br />
+ void register_prefilter (string filtername, mixed callback) - загрузка пре-фильтра.<br />
+ void unregister_prefilter (string filtername) - удаление пре-фильтра.<br />
+
+ void register_postfilter (string filtername, mixed callback) - загрузка пост-фильтра.<br />
+ void unregister_postfilter (string filtername) - удаление пост-фильтра.<br />
+ void register_outputfilter (string filtername, mixed callback) - загрузка output-фильтра.<br />
+ void unregister_outputfilter (string filtername) - удаление output-фильтра.<br />
+ bool template_exists (string filename) - проверить существование шаблона.<br />
+ bool confing_load (string filename, string section = '') - загрузка конфигурационного файла.<br />
+
+ bool load_filter (string type, string name) - загрузка фильтра.<br />
+ bool load_compiler (string compiler)  - загрузка компилятора.<br />
+ void register_object (string name, object obj) - загрузка объекта.<br />
+ void unregister_object (string name) - удаление объекта.<br />
+ object get_register_object (string name) - получение объекта.<br />
+ mixed get_templates_vars (string name) - получение переменной из области видимости шаблонов.<br />
+
+ bool assign (string var, mixed value = NULL) - объявить переменную в области видимости шаблонов.<br />
+ bool assign_byf (string var, mixed value = NULL) - объявить переменную в области видимости шаблонов используя ссылочную переменную.<br />
+ void clear_assign (mixed var) - удалить одну или несколько переменных из области видимости шаблонов.<br />
+ void reset(), clear_all_assign() - сбросить область видимости шаблонов.<br />
+ bool clear_cache (string path, string cache_id = NULL, string compile_id = NULL, int exp = -1) - удаление файла кеша старше exp секунд.<br />
+ void clear_all_cache (int exp = -1) - очистка всего кеша старше exp секунд.<br />
+
+ bool clear_compiled_tpl (string path, string compile_id = NULL, int exp = -1) - удаление скомпилированного шаблона старше exp секунд.<br />
+ void clear_all_compiled_tpl (int exp = -1) - удаление всех скомпилированных шаблонов старше exp секунд.<br />
+ bool warning (string text) - вывод ошибки.<br />
+ string _get_template_path (string path) - преобразование относительного пути шаблона в абсолютный.<br />
+ string _get_auto_filename (string path, string cache_id = NULL, string compile_id = NULL) - генерация имени временного файла.<br />
+ bool display (string path, string cache_id = NULL, string compile_id = NULL, string compiler = 'Quicky') - вывод шаблона.<br />
+
+ string fetch (string path, string cache_id = NULL, string compile_id = NULL, string compiler = 'Quicky') - получение вывода шаблона.<br />
+ bool is_cached (string path, string cache_id = NULL, string compile_id = NULL) - проверка существование кеша.<br />
+ string _get_compile_path (string path, string compile_id) - получение пути до скомпилированного шаблона.<br />
+ string _get_cache_path (string path, string cache_id = NULL, string compile_id = NULL) - получение пути до кеша.<br />
+ bool _is_compiled (string path, string compile_id = NULL)  - проверка скомпилированного шаблона.<br />
+ string _compile (string path, string compile_id = NULL, string compiler) - компиляция файла шаблона.<br />
+
+ string _compile_string (string body, string compiler = 'Quicky') - компиляция строки шаблона.<br />
+ void detect_form (string name) - интепретировать HTML-форму с заданным именем как активный объект Quicky_form.<br />
+ object getFormByName (string name) - получить объект формы (Quicky_form) по имени.<br />
+ string context_fetch (string name) - получить контекст.<br />
+ string context_set (array value) - установить переменные контекста.<br />
+ string context_iterate (string name = '') - встроить контекст.<br />
+
+<br /><h4><a name="p3.4"></a>3.4. Кеширование</h4>
+ Кеширование (сохранение результата выполнения шаблона) регулируется свойством caching, 0 - отключено, 1 - включено для следующего шаблона, 2 - включено всегда. Результат сохраняется на промежуток времени определяемый в секундах в свойстве cache_lifetime. Для проверки актуальности кеша следует использовать is_cached и если кеша нет, assign'нить необходимые переменные.<br />
+ Пример:<br /><br />
+ 
+ _test/caching.php:
+ <div style="font-size: 15px"><pre class="php" style="color: #000066; border: 1px solid #d0d0d0; background-color: #f0f0f0;"><span style="color: #b1b100;">require_once</span> <span style="color: #ff0000;">'../Quicky.class.php'</span>;
+ <span style="color: #0000ff;">$tpl</span> = <span style="color: #000000; font-weight: bold;">new</span> Quicky;
+ <span style="color: #0000ff;">$tpl</span>-&gt;<span style="color: #006600;">caching</span> = <span style="color: #cc66cc;">1</span>;
+ <span style="color: #0000ff;">$tpl</span>-&gt;<span style="color: #006600;">cache_lifetime</span> = <span style="color: #cc66cc;">60</span>; <span style="color: #808080; font-style: italic;">// минута</span>
+
+ <span style="color: #b1b100;">if</span> <span style="color: #66cc66;">&#40;</span>!<span style="color: #0000ff;">$tpl</span>-&gt;<span style="color: #006600;">is_cached</span><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'index.tpl'</span><span style="color: #66cc66;">&#41;</span><span style="color: #66cc66;">&#41;</span>
+ <span style="color: #808080; font-style: italic;">//проверяем существует ли актуальный кеш, если нет, то передаем данные</span>
+ <span style="color: #66cc66;">&#123;</span>
+  <span style="color: #0000ff;">$tpl</span>-&gt;<span style="color: #006600;">assign</span><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'var'</span>,<span style="color: #ff0000;">'какое-нибудь значение, например, из БД'</span><span style="color: #66cc66;">&#41;</span>;
+ <span style="color: #66cc66;">&#125;</span>
+
+ <span style="color: #0000ff;">$tpl</span>-&gt;<span style="color: #006600;">display</span><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'index.tpl'</span><span style="color: #66cc66;">&#41;</span>;</pre></div><br />index.tpl:
+ <div style="font-size: 15px"><pre class="smarty" style="color: #000066; border: 1px solid #d0d0d0; background-color: #f0f0f0;">Cached: <span style="color: #D36900;">&#123;</span>date<span style="color: #D36900;">&#40;</span><span style="color: #ff0000;">'r'</span><span style="color: #D36900;">&#41;</span><span style="color: #D36900;">&#125;</span>&lt;br /&gt;
+ Current time: <span style="color: #D36900;">&#123;</span>dynamic<span style="color: #D36900;">&#125;</span> <span style="color: #D36900;">&#123;</span>date<span style="color: #D36900;">&#40;</span><span style="color: #ff0000;">'r'</span><span style="color: #D36900;">&#41;</span><span style="color: #D36900;">&#125;</span> <span style="color: #D36900;">&#123;</span>/dynamic<span style="color: #D36900;">&#125;</span>&lt;br /&gt;
+
+ Var: <span style="color: #D36900;">&#123;</span>$var<span style="color: #D36900;">&#125;</span></pre></div><br />
+ При обновлении страницы примера (скрипт находится в _test/caching.php), Cached будет обновляться лишь раз в минуту, а Current time будет показывать текущее время независимо от кеша.
+<br /><h4><a name="p4"></a>4.0. Синтаксис шаблонов</h4>
+<h4><a name="p4.1"></a>4.1. Введение</h4>
+{literal}Команды шаблонизатора делятся на блоки и на строковые вызовы. Блок записывается как: {BLOCK}...{/BLOCK}, в закрывающем теге название можно не указывать, то бишь допустима запись {BLOCK}...{/}, строковый вызов как {...}.
+В открывающем теге части блоков подразумеваются строковые параметры, например {if 2+2 == 5}отец банкир{/}. Блоки могут быть вложенными. Комментарии записываются как {* комментарий *}
+Строковые выражения (совокупность операторов и операндов) одни и те же, и булевые операторы можно использовать например в объялении переменных, доступен расширяемый список встроенных функций PHP, а также функции-плагины (см. примеры).<br />
+Помимо стандартных возможностей, строковые выражения позволяют использовать модификаторы, они могут записываться либо после статического значения или переменной, либо после вызова функции, либо после закрывающей группирующей скобки. Например, {$var|escape} - вывод переменной будет фильтрован модификатором escape, {('prepend'.$var)|escape} и т.д. Параметры модификаторам передаются так: {expression|modifier:exprparam1:exprparam2...}, например {$var|escape:'url'}.
+<br /><br />
+<h4><a name="p4.2"></a>4.2. Переменные и константы</h4>
+ В строковых выражениях доступны регулярные переменные, конфиг-переменные, константы, и магические константы.<br />
+
+1. Регулярные переменные объявляются из API (методом assign) и внутри шаблонов, и доступны в строковых выражениях как $variable.<br />
+1.1. Магическая переменная $quicky.<br />
+При обращении к элементам псевдо-массива $quicky будут возвращены специальные значения. Например, $quicky.now вернет время в секундах от начала Эпохи UNIX.<br />
+&nbsp;&nbsp;rdelim - правый огранитель quicky-тега<br />
+&nbsp;&nbsp;ldelim - левый огранитель quicky-тега<br />
+&nbsp;&nbsp;request/get/post/cookie - массивы $_REQUEST, $_GET, $_POST, $_COOKIE соответственно.<br />
+&nbsp;&nbsp;requeststring/getstring/poststring/cookiestring - псевдо-индексы при обращении к которым не нужно заботиться о типе и существовании входящей переменной, при ее отсутствии и в случае передачи массива, будет возвращена пустая строка.<br />
+&nbsp;&nbsp;session/server/env - $_SESSION, $_SERVER, $_ENV<br />
+&nbsp;&nbsp;capture - массив содержащий значения блоков capture<br />
+
+&nbsp;&nbsp;template - путь текущего шаблона<br />
+&nbsp;&nbsp;version  - версия Quicky<br />
+&nbsp;&nbsp;const  - псевдо-массив констант PHP<br />
+&nbsp;&nbsp;foreach/section - двумерные массивы содержащие свойства этих именновых блоков<br />
+<br />
+2. Конфиг-переменные хранятся в подгружаемых конфигурационных файлах, и доступны в строковых выражениях как #variable#.<br />
+3. Константы доступны в строковых выражениях как CONSTANT (верхний регистр рекоммендован стилем, но не обязателен), расширяемый список доступных констант хранится в свойстве объекта компилятора allowed_php_constants, также всегда доступны M_*.<br />
+4. Магические константы это константы значение которых зависит от места в котором они вызываются. С помощью магических констант доступны свойства блоков (поддерживается вложенность), например:<br /><br />
+<div style="font-size: 15px"><pre class="smarty" style="color: #000066; border: 1px solid #d0d0d0; background-color: #f0f0f0;"><span style="color: #D36900;">&#123;</span><a style="color: #000060;" href="http://smarty.php.net/foreach"><span style="color: #0600FF;">foreach</span></a> <span style="color: #6A0A0A;">name</span>=<span style="color: #ff0000;">&quot;one&quot;</span> <span style="color: #6A0A0A;">key</span>=<span style="color: #ff0000;">&quot;key&quot;</span> <span style="color: #6A0A0A;">value</span>=<span style="color: #ff0000;">&quot;value&quot;</span> <a style="color: #000060;" href="http://smarty.php.net/from"><span style="color: #0600FF;">from</span></a>=array<span style="color: #D36900;">&#40;</span><span style="color: #ff0000;">'Key1'</span> =&gt; <span style="color: #ff0000;">'value1'</span>,
+
+<span style="color: #ff0000;">'Key2'</span> =&gt; <span style="color: #ff0000;">'value2'</span>,
+<span style="color: #ff0000;">'Key3'</span> =&gt; <span style="color: #ff0000;">'Value3'</span>,
+<span style="color: #ff0000;">'KeyN'</span> =&gt; <span style="color: #ff0000;">'ValueN'</span><span style="color: #D36900;">&#41;</span><span style="color: #D36900;">&#125;</span>
+
+<span style="color: #D36900;">&#123;</span>iteration is odd?<span style="color: #ff0000;">'~'</span>:<span style="color: #ff0000;">'-'</span><span style="color: #D36900;">&#125;</span><span style="color: #D36900;">&#123;</span>$key<span style="color: #D36900;">&#125;</span> = <span style="color: #D36900;">&#123;</span>$value<span style="color: #D36900;">&#125;</span>&lt;br /&gt;
+<span style="color: #D36900;">&#123;</span>/foreach<span style="color: #D36900;">&#125;</span></pre></div><br />
+Также доступны следующие магические константы:<br />
+&nbsp;&nbsp;tplpath - путь до текущего шаблона.<br />
+&nbsp;&nbsp;tplpathdir - папка текущего шаблона.<br />
+
+&nbsp;&nbsp;rdelim - правый ограничитель тега Quicky.<br />
+&nbsp;&nbsp;ldelim - левый ограничитель тега Quicky.<br />
+
+<br /><h4><a name="p4.3"></a>4.3. Список и назначение встроенных блоков.</h4>
+&nbsp;1. if/elseif/else. условный оператор. {if condition_expression}1{elseif condition}2{else}3{/}<br />
+&nbsp;&nbsp;&nbsp;2. section/sectionelse, foreach/foreachelse. цикличный оператор.<br />
+&nbsp;&nbsp;&nbsp;Параметры:<br />
+&nbsp;&nbsp;&nbsp;(string) name - название. обязательный параметр<br />
+&nbsp;&nbsp;&nbsp;(mixed) loop. обязательный параметр<br />
+
+&nbsp;&nbsp;&nbsp;(int) start - начальная итерация.<br />
+&nbsp;&nbsp;&nbsp;(int) max - ограничение количества итераций.<br />
+&nbsp;&nbsp;&nbsp;(int) step - шаг последовательности индекса, может быть отрицательным числом.<br />
+&nbsp;&nbsp;Свойства именового блока:<br />
+&nbsp;&nbsp;&nbsp;index - текущий индекс<br />
+&nbsp;&nbsp;&nbsp;index_prev - предыдущий индекс<br />
+&nbsp;&nbsp;&nbsp;index_next - следующий индекс<br />
+&nbsp;&nbsp;&nbsp;iteration, rownum - порядковый номер интерации начиная с 1<br />
+&nbsp;&nbsp;&nbsp;first - первый индекс<br />
+
+&nbsp;&nbsp;&nbsp;last - последний индекс<br />
+&nbsp;&nbsp;&nbsp;show - true если цикл произведет хотя бы одну итерацию, иначе false<br />
+&nbsp;&nbsp;&nbsp;total - количество итераций цикла <br />
+&nbsp;&nbsp;Примеры:<br />
+
+<div style="font-size: 15px"><pre class="smarty" style="color: #000066; border: 1px solid #d0d0d0; background-color: #f0f0f0;"><span style="color: #D36900;">&#123;</span><a style="color: #000060;" href="http://smarty.php.net/section"><span style="color: #0600FF;">section</span></a> <span style="color: #6A0A0A;">name</span>=<span style="color: #ff0000;">'mysection'</span> <span style="color: #6A0A0A;">loop</span>=<span style="color: #D36900;">&#40;</span>$arr = array<span style="color: #D36900;">&#40;</span><span style="color: #ff0000;">'one'</span>,<span style="color: #ff0000;">'two'</span>,<span style="color: #ff0000;">'three'</span><span style="color: #D36900;">&#41;</span><span style="color: #D36900;">&#41;</span><span style="color: #D36900;">&#125;</span>
+
+<span style="color: #D36900;">&#123;</span>$arr<span style="color: #D36900;">&#91;</span>mysection<span style="color: #D36900;">&#93;</span><span style="color: #D36900;">&#125;</span>&lt;br /&gt;
+<span style="color: #D36900;">&#123;</span>/<span style="color: #D36900;">&#125;</span>
+<span style="color: #D36900;">&#123;</span><a style="color: #000060;" href="http://smarty.php.net/section"><span style="color: #0600FF;">section</span></a> <span style="color: #6A0A0A;">name</span>=<span style="color: #ff0000;">'mysection'</span> <span style="color: #6A0A0A;">loop</span>=$n<span style="color: #D36900;">&#125;</span>
+<span style="color: #D36900;">&#123;</span>iteration<span style="color: #D36900;">&#125;</span>&lt;br /&gt;<span style="color: #D36900;">&#123;</span><a style="color: #000060;" href="http://smarty.php.net/sectionelse"><span style="color: #0600FF;">sectionelse</span></a><span style="color: #D36900;">&#125;</span>цикл не выполнил ни одной итерации
+
+<span style="color: #D36900;">&#123;</span>/section<span style="color: #D36900;">&#125;</span></pre></div><br />
+
+&nbsp;&nbsp;&nbsp;foreach отличается от section тем что имеет лишь свойства interation, total, first, и last, и параметры name и loop, при этом name не обязательный параметр, при его отсутствии свойства недоступны (не стоит его указывать когда они не требуются, в целях производительности).<br />
+&nbsp;3. for. цикличный оператор.<br />
+&nbsp;&nbsp;Параметры:<br />
+&nbsp;&nbsp;&nbsp;(int) start - начальное значение счетчика.<br />
+&nbsp;&nbsp;&nbsp;(int) step - шаг последовательности счетчика.<br />
+&nbsp;&nbsp;&nbsp;(int) loop - предел последовательности. обязательный параметр.<br />
+&nbsp;&nbsp;&nbsp;(var) value - переменная для счетчика. обязательный параметр.<br />
+
+&nbsp;&nbsp;Пример:<br />
+<div style="font-size: 15px"><pre class="smarty" style="color: #000066; border: 1px solid #d0d0d0; background-color: #f0f0f0;"><span style="color: #D36900;">&#123;</span>for <span style="color: #6A0A0A;">loop</span>=<span style="color: #cc66cc;">10</span> <span style="color: #6A0A0A;">step</span>=<span style="color: #cc66cc;">2</span> <span style="color: #6A0A0A;">value</span>=$i<span style="color: #D36900;">&#125;</span><span style="color: #D36900;">&#123;</span>$i<span style="color: #D36900;">&#125;</span><span style="color: #D36900;">&#123;</span>/<span style="color: #D36900;">&#125;</span></pre></div><br />
+&nbsp;4. while. цикличный оператор.<br />
+
+&nbsp;&nbsp;Цикл выполняется пока выражение является истинным<br />
+&nbsp;&nbsp;Пример:
+&nbsp;&nbsp;<div style="font-size: 15px"><pre class="smarty" style="color: #000066; border: 1px solid #d0d0d0; background-color: #f0f0f0;"><span style="color: #D36900;">&#123;</span>?$i = <span style="color: #cc66cc;">0</span><span style="color: #D36900;">&#125;</span>
+<span style="color: #D36900;">&#123;</span>while $i++ &lt; <span style="color: #cc66cc;">5</span><span style="color: #D36900;">&#125;</span>
+<span style="color: #D36900;">&#123;</span>sqrt<span style="color: #D36900;">&#40;</span>$i<span style="color: #D36900;">&#41;</span><span style="color: #D36900;">&#125;</span>
+<span style="color: #D36900;">&#123;</span>/<span style="color: #D36900;">&#125;</span></pre></div>
+
+<br />&nbsp;5. switch/case. оператор единственного выбора.<br />
+
+&nbsp;&nbsp;Пример:
+<div style="font-size: 15px"><pre class="smarty" style="color: #000066; border: 1px solid #d0d0d0; background-color: #f0f0f0;"><span style="color: #D36900;">&#123;</span>switch <span style="color: #cc66cc;">10</span>*<span style="color: #cc66cc;">10</span><span style="color: #D36900;">&#125;</span>
+<span style="color: #D36900;">&#123;</span>case <span style="color: #cc66cc;">50</span><span style="color: #D36900;">&#125;</span>пятьдесят
+<span style="color: #D36900;">&#123;</span>case <span style="color: #cc66cc;">100</span><span style="color: #D36900;">&#125;</span>сто
+<span style="color: #D36900;">&#123;</span>/switch<span style="color: #D36900;">&#125;</span></pre></div>
+<br />
+&nbsp;6. literal. блок игнорируемый компилятором.<br />
+
+&nbsp;&nbsp;Пример:<br /><div style="font-size: 15px"><pre class="smarty" style="color: #000066; border: 1px solid #d0d0d0; background-color: #f0f0f0;">{literal}
+<span style="color: #D36900;">&#123;</span> мы можем использовать Quicky-теги внутри этого блока и не беспокоиться о их интепретации <span style="color: #D36900;">&#125;</span>
+<span style="color: #D36900;">&#123;</span>/literal<span style="color: #D36900;">&#125;</span></pre></div><br />
+&nbsp;7. capture. блок записи вывода в переменную.<br />
+&nbsp;&nbsp;Параметры:<br />
+&nbsp;&nbsp;&nbsp;(string) name. название. по умолчанию - 'default'<br />
+&nbsp;&nbsp;&nbsp;(int) ob. если 1, то для записи используются ob_* функции, если 0, то конкатенация строк вывода. по умолчанию 0. Вариант 1 менее производительный и его стоит использовать лишь в том случае когда нужно "поймать" вывод функций вызываемых в шаблоне.<br />
+&nbsp;8. php. вставка PHP-кода.<br />
+
+&nbsp;&nbsp;Блок доступен если включен параметр компилятора allow_php_native. Не рекомендуется злоупотреблять этим блоком.<br />
+&nbsp;&nbsp;&nbsp;Пример:<br />
+<div style="font-size: 15px"><pre class="smarty" style="color: #000066; border: 1px solid #d0d0d0; background-color: #f0f0f0;"><span style="color: #D36900;">&#123;</span><a style="color: #000060;" href="http://smarty.php.net/php"><span style="color: #0600FF;">php</span></a><span style="color: #D36900;">&#125;</span>phpinfo();<span style="color: #D36900;">&#123;</span>/php<span style="color: #D36900;">&#125;</span></pre></div><br />
+&nbsp;9. strip. удаление ненужных пробелов и табуляций.<br />
+&nbsp;10. textformat. //...<br />
+&nbsp;11. dynamic. блок содержимое которого не подлежит кешированию. <br />
+&nbsp;12. select/option. обертка для &lt;select&gt;<br />
+
+&nbsp;&nbsp;Параметры варьируются.<br />
+&nbsp;&nbsp;Пример:<br />
+<div style="font-size: 15px"><pre class="smarty" style="color: #000066; border: 1px solid #d0d0d0; background-color: #f0f0f0;"><span style="color: #D36900;">&#123;</span>select <span style="color: #6A0A0A;">name</span>=myselect <span style="color: #6A0A0A;">value</span>=$quicky.<span style="color: #006600;">request</span>.<span style="color: #006600;">myselect</span><span style="color: #D36900;">&#125;</span>
+<span style="color: #D36900;">&#123;</span>optgroup text=Group<span style="color: #D36900;">&#125;</span>
+<span style="color: #D36900;">&#123;</span>option <span style="color: #6A0A0A;">value</span>=<span style="color: #ff0000;">'1'</span> text=One<span style="color: #D36900;">&#125;</span>
+
+<span style="color: #D36900;">&#123;</span>option <span style="color: #6A0A0A;">value</span>=<span style="color: #ff0000;">'2'</span> text=Two<span style="color: #D36900;">&#125;</span>
+<span style="color: #D36900;">&#123;</span>/optgroup<span style="color: #D36900;">&#125;</span>
+<span style="color: #D36900;">&#123;</span>/select<span style="color: #D36900;">&#125;</span></pre></div><br />
+&nbsp;&nbsp;При повторном показе формы выбранное значение будет сохраняться, что очень удобно.<br />
+&nbsp;13. joincalculator. установка зависимости между значениями input/textarea посредством мета-языка.<br />
+&nbsp;&nbsp;Пример:<br />
+
+<div style="font-size: 15px"><pre class="smarty" style="color: #000066; border: 1px solid #d0d0d0; background-color: #f0f0f0;">Стоимость: <span style="color: #D36900;">&#123;</span>input type=text id=calcfield1<span style="color: #D36900;">&#125;</span>&lt;br /&gt;
+Комиссия (3%): <span style="color: #D36900;">&#123;</span>input type=text id=calcfield2<span style="color: #D36900;">&#125;</span>
+<span style="color: #D36900;">&#123;</span>joincalculator <span style="color: #6A0A0A;">name</span>=<span style="color: #ff0000;">'mycalc'</span> fields=<span style="color: #ff0000;">'calcfield1 as one,calcfield2 as two'</span>
+onkeydown<span style="color: #D36900;">&#125;</span>
+
+calcfield1 = calcfield2/3*100
+calcfield2 = calcfield1/100*3
+<span style="color: #D36900;">&#123;</span>/<span style="color: #D36900;">&#125;</span></pre></div><br />
+&nbsp;В данном примере сразу после изменния комиссии или стоимость моментально считается другое значение.<br />
+&nbsp;&nbsp;14. helper/function. в шаблонах можно создавать хелперы, т.е. функции доступные внутри шаблона.<br />
+&nbsp;&nbsp;Они имеют общую с шаблонами область видимости переменных.<br />
+&nbsp;&nbsp;Пример:<br />
+<div style="font-size: 15px"><pre class="smarty" style="color: #000066; border: 1px solid #d0d0d0; background-color: #f0f0f0;"><span style="color: #D36900;">&#123;</span>helper myhelper<span style="color: #D36900;">&#40;</span>$a,$b,$c<span style="color: #D36900;">&#41;</span><span style="color: #D36900;">&#125;</span>
+<span style="color: #D36900;">&#123;</span>?$d = $b*$b<span style="color: #cc66cc;">-4</span>*$a*$c<span style="color: #D36900;">&#125;</span>
+
+<span style="color: #D36900;">&#123;</span>return array<span style="color: #D36900;">&#40;</span><span style="color: #D36900;">&#40;</span>-$b+sqrt<span style="color: #D36900;">&#40;</span>$d<span style="color: #D36900;">&#41;</span><span style="color: #D36900;">&#41;</span>/<span style="color: #D36900;">&#40;</span><span style="color: #cc66cc;">2</span>*$a<span style="color: #D36900;">&#41;</span>,<span style="color: #D36900;">&#40;</span>-$b-sqrt<span style="color: #D36900;">&#40;</span>$d<span style="color: #D36900;">&#41;</span><span style="color: #D36900;">&#41;</span>/<span style="color: #D36900;">&#40;</span><span style="color: #cc66cc;">2</span>*$a<span style="color: #D36900;">&#41;</span><span style="color: #D36900;">&#41;</span><span style="color: #D36900;">&#125;</span>
+<span style="color: #D36900;">&#123;</span>/helper<span style="color: #D36900;">&#125;</span></pre></div>
+<br /><h4><a name="p4.4"></a>4.4. Список и назначение команд.</h4>
+
+&nbsp;&nbsp;1. break. остановка цикла.<br />
+&nbsp;&nbsp;2. continue. переход к следующей итерации цикла.<br />
+&nbsp;&nbsp;3. return expr. возврат из функции/файла.<br />
+&nbsp;&nbsp;4. haltcompiler. остановка компиляции шаблона, используется для отладки, Quicky-теги ниже этой команды не воспринимаются.<br />
+&nbsp;&nbsp;5. halt expr. haltcompiler + return expr.<br />
+&nbsp;&nbsp;6. resumecompiler. вновь запустить обработку Quicky-тегов, обращаю Ваше внимание на то что команды haltcompiler/resumecompiler обрабатываются при компиляции и не могут справедливо участвовать в условных блоках и циклах.<br />
+<br /><h4><a name="p4.5"></a>4.5. Строковые выражения.</h4>
+Для того чтобы предотвратить вывод результата выполнения Quicky-тега на экран нужно дописать в начале '?', например: {?$x = 2+2}<br />
+<br />
+
+&nbsp;&nbsp;&nbsp;Доступные операторы:
+<table style="border: 1px; width: 100%">
+<tr>
+<td><strong>Оператор</strong></td>
+<td><strong>Альтернативы</strong></td>
+<td><strong>Пример</strong></td>
+<td><strong>Описание</strong></td>
+<td><strong>Эквивалент в PHP</strong></td>
+</tr>
+<tr><td>==</td><td>eq</td><td>$a eq $b</td><td>equals</td><td>==</td></tr>
+
+<tr><td>!=</td><td>ne, neq</td><td>$a neq $b</td><td>not equals</td><td>!=</td></tr>
+<tr><td>&gt;</td><td>gt</td><td>$a gt $b></td><td>greater than</td><td>&gt;</td></tr>
+<tr><td>&lt;</td><td>lt</td><td>$a lt $b/td><td>less than</td><td>&lt;</td></tr>
+<tr><td>&gt;=</td><td>gte, ge</td><td>$a ge $b</td><td>greater than or equal</td><td>&gt;=</td>
+
+<tr><td>&lt;=</td><td>lte, le</td><td>$a le $b</td><td>less than or equal</td><td>&lt;=</td>
+<tr><td>===</td><td></td><td>$a === 0</td><td>check for identity</td><td>===</td></tr>
+<tr><td>!</td><td>not</td><td>not $a</td><td>negation (unary)</td><td>!</td></tr>
+
+<tr><td>%</td><td>mod</td><td>$a mod $b</td><td>modulous</td><td>%</td></tr>
+<tr><td>is [not] div by</td><td></td><td>$a is not div by 4</td><td>divisible by</td><td>$a % $b == 0</td></tr>
+<tr><td>is [not] even</td><td></td><td>$a is not even</td><td>[not] an even number (unary)</td><td> $a % 2 == 0</td></tr>
+
+<tr><td>is [not] even by</td><td></td><td>$a is not even by $b</td><td>grouping level [not] even</td><td>($a / $b) % 2 == 0</tr>
+<tr><td>is [not] odd</td><td></td><td>$a is not odd</td><td>[not] an odd number (unary)</td><td>$a % 2 != 0</td></tr>
+<tr><td>is [not] odd by</td><td></td><td>$a is not odd by $b</td><td>[not] an odd grouping</td><td>($a / $b) % 2 != 0</td></tr>
+<tr><td>condition?expr:expr</td><td></td><td>$a == 2?'~':'-'</td><td>ternary operator</td><td>$a == 2?'~':'-'</td></tr>
+
+</table>	
+<br /><h4><a name="p4.6"></a>4.6. Операторы компилятора</h4>
+ Операторы компилятора выполняются только при компиляции шаблона, они воздействуют на код скомпилированного шаблона, т.е. их результат становится статическим. На данный момент доступны два оператора: _if и _foreach, синтаксически они идентичны их обычным аналогам, но, разумеется, свойств они не имеют. Существует отдельная область видимости переменных, из API доступны как свойства $_cpl_vars и $_cpl_configs объекта компилятора Quicky. Строчные компиляционные теги должны иметь символ _ вначале, например {_$var|escape}, после _ не стоит ставить пробел, чтобы не возник конфликт с gettext'ом, если пробел все же нужен, повторите символ _ дважды, т.е. {__ $var}. В компиляционных выражениях доступны магические константы, в том числе form, что позволяет при необходимости, используя _foreach, работать с переменным числом элементов формы, и частично или полностью абстрагивать форму от ее полей. Внутри обычных выражений компиляционные вызовы можно делать посредством _ после '('. Например {if (_form->name) == 'form1'}, правило пробела сохраняется.
+<br />
+<br /><h4><a name="p4.7"></a>4.7. Quicky_form</h4>
+ Quicky_form - это механизм взаимодействия API и элементов формы, позволяющий верстать динамические формы.<br />
+Блок {form ...}...{/form} имеет специальные параметры:<br />
+&nbsp;&nbsp;string name - обязательный параметр - название формы, оно должно строго соответствовать созданному в API.<br />
+&nbsp;&nbsp;bool no_quicky_form - отключает механизм для данного блока.<br />
+
+Остальные параметры воспринимаются как атрибуты HTML-тега.<br />
+Блок {form} не может быть вложеннным в {form}.<br />
+Объект формы доступен с помощью магической константы form. Например, {form->name} выведет имя текущей формы.<br />
+Свойства объекта form:<br />
+&nbsp;&nbsp;name - название формы.<br />
+&nbsp;&nbsp;elements - элементы формы.<br />
+Остальные свойства варьируются.<br />
+При этом к элементу формы можно обратиться и так: {form->ИМЯ_ЭЛЕМЕНТА}, в случае если имя элемента не пересекается с именем свойства форма.<br />
+Доступны хелперы {input} и {select}, их можно использовать и в отдельности, но для взаимодействия с нужным элементом формы нужно указать атрибут join. Например, {input join='text1'} чтобы импортировать свойства элемента, которые можно перекрыть inline в теге.<br />
+
+В папке _test прилагается пример form.php.<br />
+Основной объект элемента (Quicky_form_element) содержит следующие методы:<br />
+mixed getValue() - получить текущее значение элемента<br />
+void addFilter(mixed filter, string errormsg = '') - добавить к полю фильтр.<br />
+Фильтры полей используются для упрощения задания простых проверок. Доступные встроенные фильтры: email, url, length (int min = -1, int max = -1), format (string regexp)<br />
+Примеры:
+<div style="font-size: 15px"><pre class="php" style="color: #000066; border: 1px solid #d0d0d0; background-color: #f0f0f0;"><span style="color: #0000ff;">$form</span>-&gt;<span style="color: #006600;">text1</span>-&gt;<span style="color: #006600;">addFilter</span><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'email'</span>,<span style="color: #ff0000;">'isn<span style="color: #000099; font-weight: bold;">\'</span>t e-mail'</span><span style="color: #66cc66;">&#41;</span>;
+
+<span style="color: #0000ff;">$form</span>-&gt;<span style="color: #006600;">text1</span>-&gt;<span style="color: #006600;">addFilter</span><span style="color: #66cc66;">&#40;</span><a style="color: #000060;" href="http://www.php.net/array"><span style="color: #000066;">array</span></a><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'format'</span>,<span style="color: #ff0000;">'~_~'</span><span style="color: #66cc66;">&#41;</span>,<span style="color: #ff0000;">'need _'</span><span style="color: #66cc66;">&#41;</span>;
+<span style="color: #0000ff;">$form</span>-&gt;<span style="color: #006600;">text1</span>-&gt;<span style="color: #006600;">addFilter</span><span style="color: #66cc66;">&#40;</span><a style="color: #000060;" href="http://www.php.net/array"><span style="color: #000066;">array</span></a><span style="color: #66cc66;">&#40;</span><span style="color: #ff0000;">'length'</span>,<span style="color: #cc66cc;">-1</span>,<span style="color: #cc66cc;">20</span><span style="color: #66cc66;">&#41;</span>,<span style="color: #ff0000;">'len &gt; 20'</span><span style="color: #66cc66;">&#41;</span>;</pre></div><br />
+
+<br /><br /><h4><a name="p4.8"></a>4.8. Отладочная консоль</h4>
+ Отладочная консоль представляет собой инструмент помогающий устранять неисправности в шаблонах. При вызове функции debug_console будут выведены все значения переменных. Она не показывает время исполнения шаблонов т.к. это задача профайлера (например, xdebug).
+<br /><br /><h4><a name="p4.9"></a>4.9. Мультиязычность</h4>
+Существует два подхода. Можно использовать gettext, но большие куски текста вперемешку с управляющими конструкциями выносить из шаблона неудобно, а делать вагон и маленькую тележку условий - неудобно и непроизводительно.<br />
+Ввиду этого, компилятор Quicky имеет два механизма мультиязычности, которые используют свойство <font class="term">lang</font> класса <font class="term">Quicky</font>, при этом создается языкозависимая компиляция для каждого шаблона, таким образом мультиязычность не сказывается отрицательно на производительности.<br />Первый способ - компиляционный блок {LANG}, например:
+<div style="font-size: 15px"><pre class="smarty" style="color: #000066; border: 1px solid #d0d0d0; background-color: #f0f0f0;"><span style="color: #D36900;">&#123;</span>LANG<span style="color: #D36900;">&#125;</span>
+
+<span style="color: #D36900;">&#123;</span>de<span style="color: #D36900;">&#125;</span>Цацки-пецки
+<span style="color: #D36900;">&#123;</span>ru<span style="color: #D36900;">&#125;</span>Бутерброд
+<span style="color: #D36900;">&#123;</span><a style="color: #000060;" href="http://smarty.php.net/default"><span style="color: #008000;">default</span></a><span style="color: #D36900;">&#125;</span>Sandwich
+<span style="color: #D36900;">&#123;</span>/LANG<span style="color: #D36900;">&#125;</span></pre></div>
+<br />Второй способ - вызов callback-функции посредством конструкции {_ <i>название</i>}, например:
+<div style="font-size: 15px"><pre class="smarty" style="color: #000066; border: 1px solid #d0d0d0; background-color: #f0f0f0;"><span style="color: #D36900;">&#123;</span>_ SANDWICH<span style="color: #D36900;">&#125;</span></pre></div>
+<br />callback-функция опеределяется свойством lang_callback и lang_callback_e (используется с тегом {e_ <i>название</i>} - для экранированного вывода).
+<br />Пример:
+
+<div style="font-size: 15px"><pre class="php" style="color: #000066; border: 1px solid #d0d0d0; background-color: #f0f0f0;"><span style="color: #000000; font-weight: bold;">function</span> quicky_lang_callback<span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$m</span><span style="color: #66cc66;">&#41;</span> <span style="color: #66cc66;">&#123;</span><span style="color: #b1b100;">return</span> <a style="color: #000060;" href="http://www.php.net/gettext"><span style="color: #000066;">gettext</span></a><span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$m</span><span style="color: #66cc66;">&#91;</span><span style="color: #cc66cc;">1</span><span style="color: #66cc66;">&#93;</span><span style="color: #66cc66;">&#41;</span>;<span style="color: #66cc66;">&#125;</span>
+<span style="color: #000000; font-weight: bold;">function</span> quicky_lang_callback_e<span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$m</span><span style="color: #66cc66;">&#41;</span> <span style="color: #66cc66;">&#123;</span><span style="color: #b1b100;">return</span> <a style="color: #000060;" href="http://www.php.net/addslashes"><span style="color: #000066;">addslashes</span></a><span style="color: #66cc66;">&#40;</span><a style="color: #000060;" href="http://www.php.net/gettext"><span style="color: #000066;">gettext</span></a><span style="color: #66cc66;">&#40;</span><span style="color: #0000ff;">$m</span><span style="color: #66cc66;">&#91;</span><span style="color: #cc66cc;">1</span><span style="color: #66cc66;">&#93;</span><span style="color: #66cc66;">&#41;</span><span style="color: #66cc66;">&#41;</span>;<span style="color: #66cc66;">&#125;</span>
+
+<span style="color: #0000ff;">$tpl</span>-&gt;<span style="color: #006600;">lang</span> = <span style="color: #ff0000;">'ru'</span>; <span style="color: #808080; font-style: italic;">// данное свойство должно содержать текущий язык</span>
+<span style="color: #0000ff;">$tpl</span>-&gt;<span style="color: #006600;">lang_callback</span> = <span style="color: #ff0000;">'quicky_lang_callback'</span>;
+<span style="color: #0000ff;">$tpl</span>-&gt;<span style="color: #006600;">lang_callback_e</span> = <span style="color: #ff0000;">'quicky_lang_callback_e'</span>;</pre></div>
+
+<br />Будьте бдительны! Тег {LANG} имеет наибольший приоритет чем {literal}, и  {LANG} обрабывается в том числе внутри {literal}.
+
+<br /><h4><a name="p5"></a>5. Quicky_BBcode</h4>
+<h4><a name="p5.1"></a>5.1. Спецификация Quicky BB-code</h4>
+BB-коды записываются как [блок]содержание[/блок], название блока в закрывающем теге можно опустить,
+т.е. можно написать [блок]содержание[/]. В зависимости от указанного блока, над содержимым производится 
+соответствующее действие. Например, [b]полужирный[/b] выделит текст полужирным шрифтом. BB-коды могут быть
+ вложенными. BB-коды могут иметь параметры, они записываются как [тег параметр1=значение1 параметр2=значение2..],
+ значение единственного параметра можно передать как [тег=значение_параметра].
+Например, [color=red]красный[/color], или [url src=http://host.tld/]ссылка[/].
+<br />Список встроенных тегов:<br />
+	1)		[b]...[/b] - полужирный текст.<br />
+	2)		[i]...[/i - наклонный текст.<br />
+	3)		[u]...[/u] - подчеркнутый текст.<br />
+
+	4)		[s]...[/s] - зачеркнутый текст.<br />
+	5)		[color=green]...[/color] - цвет текста.<br />
+	6)		[size=15]...[/size] - размер текста.<br />
+	7)		[font=arial]...[/font] - шрифт текста.<br />
+	8)		[img]http://site.tld/image.jpg][/img] - картинка.<br />
+	9)		[link=http://site.tld/]текст ссылки[/link] - ссылка.<br />
+
+	10)		[g]запрос[/g] - ссылка на Google.<br />
+	11)		[m]запрос[/m] - ссылка на PHP Manual.<br />
+	12)		[list=a][*]первый[*]второй...[/list], [list=0][*]первый[*]второй...[/list] - маркированный список..<br />
+	13)		[quote=Автор]...[/quote] - цитата.<br />
+	14)		[php]...[/php] - подсветка PHP-кода.<br />
+	15)		[code]...[/code] - подсветка кода.<br />
+
+	16)		[email=admin@host.tld]почта[/email] - ссылка на электронную почту.<br />
+	17)		[literal]...[/literal], [plain]...[/plain] - BB-коды внутри блока не воспринимаются.<br />
+	18)		[p]...[/p] - параграф.<br />
+Смайлики записываются как :название:, например :wink: .<br />
+
+</div><div id="footer-wrap">
+	<div id="footer">
+		<address>&copy; WP 2006-2009</address>
+
+	</div>
+</div>
+</body>
+</html>
