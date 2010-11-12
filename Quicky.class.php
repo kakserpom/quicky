@@ -593,11 +593,11 @@ class Quicky
   fclose($fp);
   return $c;
  }
- function _compile_string($string,$compiler = NULL)
+ function _compile_string($string,$from,$compiler = NULL)
  {
   if ($compiler === NULL) {$compiler = $this->default_compiler;}
   $this->load_compiler($compiler);
-  return $this->compilers[$compiler]->_compile_source_string($string);
+  return $this->compilers[$compiler]->_compile_source_string($string,$from);
  }
  static function ind($a,$b = 0)
  {
