@@ -274,14 +274,18 @@ class Quicky
   }
   return TRUE;
  }
- function _eval($string)
+ function _eval($arg)
  {
   $var = &$this->_tpl_vars;
   $config = &$this->_tpl_config;
   $capture = &$this->_block_props['capture'];
   $foreach = &$this->_block_props['foreach'];
   $section = &$this->_block_props['section'];
-  return eval($string);
+  $tpl = $this;
+  if (is_string($arg)) {
+		return eval($arg);
+	}
+	return call_user_func($arg,$tpl);
  }
  function register_object($a,$b = NULL) {return $this->assign($a,$b);}
  function unregister_object($a) {return $this->clear_assign($a,$b);}
@@ -467,6 +471,7 @@ class Quicky
   $capture = &$this->_block_props['capture'];
   $foreach = &$this->_block_props['foreach'];
   $section = &$this->_block_props['section'];
+  $tpl = $this;
   $cache = $compile = FALSE;
   if (($cache = $this->caching?$this->is_cached($path,$cache_id,$compile_id):FALSE) or ($compile = $this->_compile($path,$compile_id,$compiler)))
   {

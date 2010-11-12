@@ -279,8 +279,8 @@ class Quicky_compiler
   $header = '<?php /* Quicky compiler version '.$this->compiler_version.', created on '.date('r').'
 			 compiled from '.$from.' */'."\n";
   for ($i = 0,$s = sizeof($this->load_plugins); $i < $s; $i++) {$header .= 'require_once '.var_export($this->load_plugins[$i],TRUE).';'."\n";}
-  $header .= '$local = &$this->_local_vars['.var_export($from,TRUE).'];'."\n";
-  $header .= '$var_buff = &$this->_tpl_vars_buff['.var_export($from,TRUE).'];'."\n";
+  $header .= '$local = &$tpl->_local_vars['.var_export($from,TRUE).'];'."\n";
+  $header .= '$var_buff = &$tpl->_tpl_vars_buff['.var_export($from,TRUE).'];'."\n";
   $header .= '$var_buff = array();'."\n";
   $header .= 'if ($local === NULL) {$local = array();}'."\n";
   $header .= 'else
@@ -293,8 +293,8 @@ class Quicky_compiler
 }
 ';
   $header .= '?>';
-  $footer = '<?php foreach ($this->_tpl_vars_buff['.var_export($from,TRUE).'] as $k => $v) {unset($var[$k]); $var[$k] = $v;} '."\n"
-  .' $this->_local_vars['.var_export($from,TRUE).'] = array(); ?>'; 
+  $footer = '<?php foreach ($tpl->_tpl_vars_buff['.var_export($from,TRUE).'] as $k => $v) {unset($var[$k]); $var[$k] = $v;} '."\n"
+  .' $tpl->_local_vars['.var_export($from,TRUE).'] = array(); ?>'; 
   if (sizeof($this->syntax_errors))
   {
    return implode("<br />\n",$this->syntax_errors);
