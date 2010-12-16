@@ -485,8 +485,8 @@ class Quicky_compiler
      $key_params = array();
      foreach ($params as $k => $v) {$key_params[] = var_export($k,TRUE).' => '.$v;}
      $t = $this->parent->reg_func[strtolower($tag)];
-     $pstr = 'array('.implode(',',$key_params).'),'.($this->_cplmode?'$this->parent':'$this').',TRUE';
-     if (is_array($t) || is_object($t)) {$t = 'call_user_func('.($this->_cplmode?'$this->parent->reg_func['.var_export($tag,TRUE).']':'$this->reg_func['.var_export($tag,TRUE).']').','.$pstr.')';}
+     $pstr = 'array('.implode(',',$key_params).'),'.($this->_cplmode?'$tpl->parent':'$tpl').',TRUE';
+     if (is_array($t) || is_object($t)) {$t = 'call_user_func('.($this->_cplmode?'$tpl->parent->reg_func['.var_export($tag,TRUE).']':'$tpl->reg_func['.var_export($tag,TRUE).']').','.$pstr.')';}
      else {$t = $t.'('.$pstr.')';}
      return '<?php '.($this->_write_out_to !== ''?$this->_write_out_to.' .=':'echo').' '.$t.';'."\n".'?>';
     }
@@ -496,7 +496,7 @@ class Quicky_compiler
      $key_params = array();
      foreach ($params as $k => $v) {$key_params[] = var_export($k,TRUE).' => '.$v;}
      if (!in_array($p,$this->load_plugins) and !$c) {$this->load_plugins[] = $p;}
-     return '<?php '.(($this->_cplmode and !$c)?'require_once '.var_export($p,TRUE).'; ':'').($this->_write_out_to !== ''?$this->_write_out_to.' .=':'echo').' quicky_function_'.$tag.'(array('.implode(',',$key_params).'),'.($this->_cplmode?'$this->parent':'$this').',TRUE);'."\n".'?>';
+     return '<?php '.(($this->_cplmode and !$c)?'require_once '.var_export($p,TRUE).'; ':'').($this->_write_out_to !== ''?$this->_write_out_to.' .=':'echo').' quicky_function_'.$tag.'(array('.implode(',',$key_params).'),'.($this->_cplmode?'$tpl->parent':'$tpl').',TRUE);'."\n".'?>';
     }
     elseif (preg_match('~^'.preg_quote($this->left_delimiter,'~').'\\*.*\\*'.preg_quote($this->right_delimiter,'~').'$~s',$mixed[0])) {return '';}
     else
@@ -712,10 +712,10 @@ class Quicky_compiler
     elseif ($t == 'capture') {$type = 'capture';}
     elseif ($t == 'now') {return 'time()';}
     elseif ($t == 'const') {return 'constant('.(isset($appendix_set[0])?$appendix_set[0]:'').')';}
-    elseif ($t == 'compiler_prefs') {return $this->parent->_fetch_expr('$this->compiler_prefs['.(isset($appendix_set[0])?$appendix_set[0]:'\'\'').']');}
+    elseif ($t == 'compiler_prefs') {return $this->parent->_fetch_expr('$tpl->compiler_prefs['.(isset($appendix_set[0])?$appendix_set[0]:'\'\'').']');}
     elseif ($t == 'form') {$type = 'Quicky_form::$forms'; $mode = 1; $type_c = TRUE;}
     elseif ($t == 'template') {return '$path';}
-    elseif ($t == 'version') {return '$this->version';}
+    elseif ($t == 'version') {return '$tpl->version';}
     elseif ($t == 'foreach' or $t == 'section')
     {
      $name = isset($appendix_set[0])?strtolower($this->_dequote($appendix_set[0])):'';
@@ -819,7 +819,7 @@ class Quicky_compiler
      $params = $this->_expr_token_parse_params($expr);
      $t = $this->parent->reg_func[$tag];
      $pstr = implode(',',$params);
-     if (is_array($t) || is_object($t)) {$t = 'call_user_func('.($this->_cplmode?'$this->parent->reg_func['.var_export($tag,TRUE).']':'$this->reg_func['.var_export($tag,TRUE).']').($pstr !== ''?',':'').$pstr.')';}
+     if (is_array($t) || is_object($t)) {$t = 'call_user_func('.($this->_cplmode?'$tpl->parent->reg_func['.var_export($tag,TRUE).']':'$tpl->reg_func['.var_export($tag,TRUE).']').($pstr !== ''?',':'').$pstr.')';}
      else {$t = $t.'('.$pstr.')';}
      return $t;
     }
@@ -841,7 +841,7 @@ class Quicky_compiler
       if ($p !== FALSE and !in_array($p,$this->load_plugins)) {$this->load_plugins[] = $p;}
       $return = '';
       if ($p && (!$c)) {$return .= '((require_once('.var_export($p,TRUE).'))?';}
-      $return .= 'quicky_function_'.$a.'(array('.implode(',',$params).'),'.($this->_cplmode?'$this->parent':'$this').',TRUE)';
+      $return .= 'quicky_function_'.$a.'(array('.implode(',',$params).'),'.($this->_cplmode?'$tpl->parent':'$tpl').',TRUE)';
       if ($p && (!$c)) {$return .= ':NULL)';}
      }
      elseif ($b)
@@ -858,7 +858,7 @@ class Quicky_compiler
        if (isset($this->_tag_stacks[$i]['type']) && in_array($this->_tag_stacks[$i]['type'],$ta)) {$tk = TRUE; break;}
       }
       if ($tk) {$prefix = 'Quicky::$obj->';}
-      else {$prefix = '$this->';}
+      else {$prefix = '$tpl->';}
       return $prefix.$a.'('.implode(',',$params).')';
      }
      else {return $this->_syntax_error('Function \''.$func.'\' not available');}
