@@ -611,4 +611,19 @@ class Quicky
   if ($a['step'] < 0) {$s = $a['s'] - $s;}
   return $s;
  }
+ 
+	public function PHPtemplateFetch($template) {
+		$template = eval('return function($tpl) {
+			$var = &$tpl->_tpl_vars;
+			$config = &$tpl->_tpl_config;
+			$capture = &$tpl->_block_props[\'capture\'];
+			$foreach = &$tpl->_block_props[\'foreach\'];
+			$section = &$tpl->_block_props[\'section\'];
+			?>'.$template.'<?php };');
+		ob_start();
+		$this->_eval($template);
+		$html = ob_get_contents();
+		ob_end_clean();
+		return $html;
+	}
 }
