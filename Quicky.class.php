@@ -255,7 +255,7 @@ class Quicky
   if ($type == 'output') {$this->outputfilters[$name] = 'quicky_'.$type.'filter_'.$name;}
   elseif ($type == 'pre') {$this->prefilters[$name] = 'quicky_'.$type.'filter_'.$name;}
   elseif ($type == 'post') {$this->postfilters[$name] = 'quicky_'.$type.'filter_'.$name;}
-  include $p;
+  include_once $p;
  }
  function load_compiler($a)
  {
