@@ -18,10 +18,10 @@ function quicky_compiler_include($params,$compiler)
  {
   if ($k != 'file' and $k != 'assign')
   {
-   $assign .= '$this->_local_vars['.$params['file'].']['.var_export($k,TRUE).'] = '.$v.";\n";
+   $assign .= '$tpl->_local_vars['.$params['file'].']['.var_export($k,TRUE).'] = '.$v.";\n";
   }
  }
- if ($assign !== '') {$assign = 'if (!isset($this->_local_vars['.$params['file'].'])) {$this->_local_vars['.$params['file'].'] = array();}'."\n".$assign;}
+ if ($assign !== '') {$assign = 'if (!isset($tpl->_local_vars['.$params['file'].'])) {$tpl->_local_vars['.$params['file'].'] = array();}'."\n".$assign;}
  $path = $params['file'];
  $dir = dirname($compiler->template_from);
  if ($dir === '') {$dir = '.';}
@@ -38,7 +38,7 @@ function quicky_compiler_include($params,$compiler)
   if (isset($params['assign']))
   {
    if (is_int(array_search('ob',$params))) {$return .= '<?php $old_inc_ob'.$tmp++.' = ob_get_clean(); ob_start(); ?>';}
-   else {$return .= '<?php $old_inc_write_out_to'.$tmp++.' = $this->_write_out_to; $this->_write_out_to = '.$params['assign'].'; ?>';}
+   else {$return .= '<?php $old_inc_write_out_to'.$tmp++.' = $tpl->_write_out_to; $tpl->_write_out_to = '.$params['assign'].'; ?>';}
   }
   $nesting_old = $nesting;
   $old_depart_scopes = $compiler->parent->local_depart_scopes;
@@ -53,11 +53,11 @@ function quicky_compiler_include($params,$compiler)
   if (isset($params['assign']))
   {
    if (is_int(array_search('ob',$params))) {$return .= '<?php '.$params['assign'].' = ob_get_clean(); echo $old_ob'.$tmp.'; ?>';}
-   else {$return .= '<?php  $this->_write_out_to = $old_inc_write_out_to'.$tmp++.'; ?>';}
+   else {$return .= '<?php  $tpl->_write_out_to = $old_inc_write_out_to'.$tmp++.'; ?>';}
   }
-  $return  .= '<?php $local = &$this->_local_vars['.var_export($from,TRUE).']; ?>'."\n";
+  $return  .= '<?php $local = &$tpl->_local_vars['.var_export($from,TRUE).']; ?>'."\n";
   return $return;
  }
- if (isset($params['assign'])) {return '<?php '.$params['assign'].' = $this->fetch('.$params['file'].'); ?>';}
- return '<?php '.$assign.' $this->display('.$params['file'].'); ?>';
+ if (isset($params['assign'])) {return '<?php '.$params['assign'].' = $tpl->fetch('.$params['file'].'); ?>';}
+ return '<?php '.$assign.' $tpl->display('.$params['file'].'); ?>';
 }
