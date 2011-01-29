@@ -440,7 +440,8 @@ class Quicky
  }
  function dynamic_callback($m)
  {
-  return ((isset($m[1]) && $m[1] !== '')?$m[1]:'').'echo \'!'.UNIQUE_HASH.'!non_cache='.base64_encode($m[4]).'! \'; '.((isset($m[5]) && $m[5] !== '')?$m[5]:'');
+  if ($m[4] !== '?>') {$m[5] = '<?php '.$m[5];}
+  return ((isset($m[1]) && $m[1] !== '')?$m[1]:'').'echo \'!'.UNIQUE_HASH.'!non_cache='.base64_encode($m[5]).'! \'; '.((isset($m[6]) && $m[6] !== '')?$m[6]:'');
  }
  function fetch($path,$cache_id = NULL,$compile_id = NULL,$display = FALSE,$compiler = 'Quicky')
  {
@@ -491,7 +492,7 @@ class Quicky
    if ($this->caching && !$cache)
    {
     $c = file_get_contents($p);
-    $a = preg_replace_callback($e = '~(<\?php )?/\*('.preg_quote(UNIQUE_HASH_STATIC,'~').')\{(dynamic)\}\*/ \?>(.*?)(?:<\?php )?/\*\{/\3\}\2\*/( \?>)?~si',array($this,'dynamic_callback'),$c);
+    $a = preg_replace_callback($e = '~(<\?php )?/\*('.preg_quote(UNIQUE_HASH_STATIC,'~').')\{(dynamic)\}\*/ (\?>)?(.*?)(?:<\?php )?/\*\{/\3\}\2\*/( \?>)?~si',array($this,'dynamic_callback'),$c);
     $fn = tempnam($this->cache_dir,'tmp');
     $fp = fopen($fn,'w');
     fwrite($fp,$a);
