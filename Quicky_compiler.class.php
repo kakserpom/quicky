@@ -805,14 +805,19 @@ class Quicky_compiler
    else {return $this->_syntax_error('Unknown operator '.var_export($operator,TRUE));}
    return $code;
   }
-  elseif (isset($m[3]) and $m[3] !== '' || preg_match('~^(\w+)\s*\(~',$m[1]))
+  elseif (isset($m[1]) && $m[1] === '()') {
+    return '()';
+  }
+  elseif (isset($m[3]) and $m[3] !== '' || ($nm = preg_match('~^(\$?\w+)\s*\(~',$m[1], $q)))
   {
-   if (preg_match('~^(\w+)\s*\(~',$m[1],$q)) {$func = $q[1];}
+    if (!isset($nm)) preg_match('~^(\$?\w+)\s*\(~',$m[1], $q);
+   if (!empty($q[1])) {$func = $q[1];}
    else {$func = '';}
    $expr = $m[3];
    if (trim($func.$expr) == '') {return;}
    if ($func != '')
    {
+    $caseFunc = $func;
     $tag = $a = strtolower($func);    
     if (preg_match('~^\w+$~',$tag) && (isset($this->parent->reg_func[$tag])))
     {
@@ -822,6 +827,12 @@ class Quicky_compiler
      if (is_array($t) || is_object($t)) {$t = 'call_user_func('.($this->_cplmode?'$tpl->parent->reg_func['.var_export($tag,TRUE).']':'$tpl->reg_func['.var_export($tag,TRUE).']').($pstr !== ''?',':'').$pstr.')';}
      else {$t = $t.'('.$pstr.')';}
      return $t;
+    }
+    elseif (preg_match('~^\$\w+$~',$func))
+    {
+     $params = $this->_expr_token_parse_params($expr);
+     $pstr = implode(',',$params);
+     return 'call_user_func('.$this->_var_token($caseFunc).($pstr !== ''?',':'').$pstr.')';
     }
     $b = $p = $c = FALSE;
     foreach ($this->allowed_php_tokens as $i)
@@ -1003,7 +1014,7 @@ class Quicky_compiler
    return $a;
   }
   $return = preg_replace_callback(
-    '~(([\'"]).*?(?<!\\\\)\2|\w*\s*\(((?:(?R)|.)*?)\)'
+    '~(([\'"]).*?(?<!\\\\)\2|\$?\w*\s*\(((?:(?R)|.)*?)\)'
     .'|(?!(?:is\s+not|is|not\s+eq|eq|neq?|gt|lt|gt?e|ge|lt?e|mod)\W)_?[\$#]?\w+#?(?:\\[(?:(?R)|\w+|((?:[^\\]\'"]*(?:([\'"]).*?(?<!\\\\)\5)?)*))*?\\]|\.[\$#]?\w+#?|->\s*_?[\$#]?\w+#?(?:\(((?:(?R)|.)*?)\))?)*'
     .'|-?\d+|(?<=^|[\s\)\:\.=+\-<>])(?!(?:is\s+not|is|not\s+eq|eq|neq?|gt|lt|gt?e|ge|lt?e|mod)\W)(?:\w+)(?=$|[\s\|\.\:\(=+\-<>]))(\s+(?:instanceof (?:\w+|(?R))|is(?:\s+not)?\s+(?:odd|div|even)\s+by\s+(?:-?\d+|(?R))|is(?:\s+not)?\s+(?:odd|even)))?((?:\|@?\w+(?:\\:(?:'.'\w*\(((?:(?R)|.)*?)\)|[\$#]\w+#?(?:\\[(?:(?R)|((?:[^\\]\'"]*(?:([\'"]).*?(?<!\\\\)\11)?)*))*?\\]|\.[\$#]?\w+#?)*|[^\'"\:]*(?:[^\'"\:]*([\'"]).*?(?<!\\\\)\12[^\'"\:]*)*'.'))*)*)'
     .'|((?<=\s|\))(?:is\s+not|is|not\s+eq|eq|neq?|gt|lt|gt?e|ge|lt?e|mod)(?=\s|\()|(?:not\s+))'
