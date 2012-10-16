@@ -31,6 +31,7 @@ function quicky_block_function($params,$content,$compiler)
  $args_v = rtrim($args_v,',');
  $args_vs = rtrim($args_vs,',');
  $return = '<?php'
+ 			  ."\n".'if (!function_exists("quicky_function_'.$g[1] .'")) {'
 			  ."\n".'function quicky_function_'.$g[1].'($args,$quicky)'
 			  ."\n".'{'
 			  ."\n".'$var = &$quicky->_tpl_vars;'
@@ -50,6 +51,6 @@ function quicky_block_function($params,$content,$compiler)
  $compiler->template_defined_functions[] = $g[1];
  $return .= $compiler->_tag_token($content,$block_name)
 			  ."\n".'<?php list('.$args_vs.') = $save_vars;'
-			  ."\n".'} ?>';
+			  ."\n".'}} ?>';
  return $return;
 }
