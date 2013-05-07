@@ -1,6 +1,5 @@
 <?php
-function quicky_modifier_strip($text,$replace = ' ')
-{
- return preg_replace('~\s+~',$replace,$text);
+function quicky_modifier_strip($text, $replace = ' ') {
+	return preg_replace('~\s+~', $replace, $text);
 }
 

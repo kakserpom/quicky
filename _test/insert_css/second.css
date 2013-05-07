@@ -1,1 +1,5 @@
-.term {text-decoration: none; border-bottom:1px dashed #000000;}
+.term
+{
+	text-decoration: none;
+	border-bottom:   1px dashed #000000;
+}

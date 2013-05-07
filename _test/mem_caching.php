@@ -1,24 +1,23 @@
 <?php
 require_once '../Quicky.class.php';
-define('MICROTIME_START',microtime(TRUE));
+define('MICROTIME_START', microtime(TRUE));
 
 error_reporting(E_ALL);
-ini_set('display_errors','On');
+ini_set('display_errors', 'On');
 
 $tpl = new Quicky;
 //$tpl->force_compile = TRUE;
 //$tpl->compile_check = FALSE;
 require_once $tpl->fetch_plugin('addons/memory_cache.class');
-$tpl->cache_dir = 'qmem://'.$tpl->cache_dir;
-$fn = 'caching/index.tpl';
-if (isset($_REQUEST['clear']))
-{
- $tpl->clear_cache($fn,'*');
+$tpl->cache_dir = 'qmem://' . $tpl->cache_dir;
+$fn             = 'caching/index.tpl';
+if (isset($_REQUEST['clear'])) {
+	$tpl->clear_cache($fn, '*');
 }
-$tpl->caching = 1;
-$tpl->cache_lifetime = 60; // минута
-if (!$tpl->is_cached('index.tpl')) //проверяем существует ли актуальный кеш, если нет то передаем данные
+$tpl->caching        = 1;
+$tpl->cache_lifetime = 60; // пїЅпїЅпїЅпїЅпїЅпїЅ
+if (!$tpl->is_cached('index.tpl')) //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 {
- $tpl->assign('var','какое-нибудь значение, например, из БД');
+	$tpl->assign('var', 'пїЅпїЅпїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅ');
 }
 $tpl->display($fn);

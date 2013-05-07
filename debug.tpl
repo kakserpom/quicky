@@ -1,8 +1,8 @@
 {?$_debug_info = get_debug_info()}
 {capture assign="debug_output"}
-{if empty($_debug_charset)}{assign var="_debug_charset" value="utf-8"}{/if}
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+	{if empty($_debug_charset)}{assign var="_debug_charset" value="utf-8"}{/if}
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+	<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 	<head>
 		<title>Quicky Debugger</title>
 		{?$script='<style type="text/css">
@@ -164,7 +164,7 @@
 		'}{$script|html}
 	</head>
 	<body>
-		{?$script='
+	{?$script='
 		<script type="text/javascript">/*
 		originally written by paul sowden <paul@idontsmoke.co.uk> | http://idontsmoke.co.uk
 		modified and localized by alexander shurkayev <alshur@narod.ru> | http://htmlcoder.visions.ru
@@ -335,61 +335,72 @@
 		}
 		</script>
 		'}
-		<div id="debug">
-			<h1>Debug Console</h1>
-			<h2>Global scope of assigned variables</h2>
-			<div id="collapse_menu">
-			</div>
-			<table id="table_assigned_vars">
-				{?$i=0;}
-				{foreach key=$name from=$_debug_info.var item=$varinfo}
-					{?$i++;}
-					<tr class="{cycle values="odd,even"}">
-						<th>{ldelim}${$name}{rdelim}</th>
-						<td><span id="v_{$i}">{$varinfo.value|debug_print_var:$_debug_charset|html}<span></td>
-						<td onclick="toggle('l_{$i}');toggle('l_{$i}_');" class="active">
+	<div id="debug">
+		<h1>Debug Console</h1>
+
+		<h2>Global scope of assigned variables</h2>
+
+		<div id="collapse_menu">
+		</div>
+		<table id="table_assigned_vars">
+			{?$i=0;}
+			{foreach key=$name from=$_debug_info.var item=$varinfo}
+				{?$i++;}
+				<tr class="{cycle values="odd,even"}">
+					<th>{ldelim}${$name}{rdelim}</th>
+					<td><span id="v_{$i}">{$varinfo.value|debug_print_var:$_debug_charset|html}<span></td>
+					<td onclick="toggle('l_{$i}');toggle('l_{$i}_');" class="active">
 							<span id="l_{$i}" class="collapseble" style="display:none;">
 								{foreach from=$varinfo.trace item="traceitem" name="trace"}
-									<p>{$traceitem.file}:{$traceitem.line}</p>
-									{if last}
+								<p>{$traceitem.file}:{$traceitem.line}</p>
+								{if last}
 							</span>
 							<span id="l_{$i}_" class="collapse_title">
 								<p>{$traceitem.file|basename}:{$traceitem.line} ...</p>
 							</span>
-									{/if}
-								{foreachelse}
-							</span>
-								{/foreach}
-							</td>
-					</tr>
+						{/if}
+						{foreachelse}
+						</span>
+						{/foreach}
+					</td>
+				</tr>
 				{foreachelse}
-					<tr><td><p>no template variables assigned</p></td></tr>
-				{/foreach}
-			</table>
-			<div id="collapse_menu">
-				<span onclick="collapse_all();" class="active">collapse all</span> |
-				<span onclick="uncollapse_all();" class="active">expand all</span>
-			</div><hr>
-			<div id = "footer">Quicky debugger. <a href="mailto:leadaxe@yandex.ru">Lex &amp; Quicky</a></div>
+				<tr>
+					<td><p>no template variables assigned</p></td>
+				</tr>
+			{/foreach}
+		</table>
+		<div id="collapse_menu">
+			<span onclick="collapse_all();" class="active">collapse all</span> |
+			<span onclick="uncollapse_all();" class="active">expand all</span>
 		</div>
-		{$script|html}
+		<hr>
+		<div id="footer">Quicky debugger. <a href="mailto:leadaxe@yandex.ru">Lex &amp; Quicky</a></div>
+	</div>
+	{$script|html}
 	</body>
-</html>
+	</html>
 {/capture}
 {if isset($_quicky_debug_output) and $_quicky_debug_output eq "html"}
-    {$debug_output|html}
+	{$debug_output|html}
 {else}
-<script type="text/javascript">
-// <![CDATA[
-    if ( self.name == "" ) {ldelim}
-       var title = "Debug Console";
-    {rdelim}
-    else {ldelim}
-       var title = "Debug Console_" + self.name;
-    {rdelim}
-    _quicky_console = window.open("", title.value, "width=880, height=600, resizable, scrollbars=yes");
-    _quicky_console.document.write({$debug_output|native_json_encode|html});
-    _quicky_console.document.close();
-// ]]>
-</script>
+	<script type="text/javascript">
+		// <![CDATA[
+		if (self.name=="")
+		{ldelim}
+			var title = "Debug Console";
+			{rdelim
+		
+		}
+		else
+		{ldelim}
+			var title = "Debug Console_"+self.name;
+			{rdelim
+		
+		}
+		_quicky_console = window.open("", title.value, "width=880, height=600, resizable, scrollbars=yes");
+		_quicky_console.document.write({$debug_output|native_json_encode|html});
+		_quicky_console.document.close();
+		// ]]>
+	</script>
 {/if}

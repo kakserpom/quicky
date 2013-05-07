@@ -1,4 +1,4 @@
 {shortcut test}
-1
+	1
 {/shortcut}
 {#test}{#test}
