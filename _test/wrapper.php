@@ -28,17 +28,27 @@ class Quicky_simple_wrapper {
 		return $ret;
 	}
 
-	function stream_write($data) { return; }
+	function stream_write($data) {
+		return;
+	}
 
-	function stream_tell() { return $this->position; }
+	function stream_tell() {
+		return $this->position;
+	}
 
-	function stream_eof() { return $this->position >= strlen($this->body); }
+	function stream_eof() {
+		return $this->position >= strlen($this->body);
+	}
 
-	function stream_seek($offset, $whence) { return; }
+	function stream_seek($offset, $whence) {
+		return;
+	}
 
-	function stream_stat() { }
+	function stream_stat() {
+	}
 
-	function url_stat() { }
+	function url_stat() {
+	}
 }
 
 stream_wrapper_register('simple', 'Quicky_simple_wrapper') or die('Failed to register protocol');

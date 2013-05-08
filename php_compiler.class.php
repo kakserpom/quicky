@@ -25,7 +25,8 @@ class php_compiler {
 	public $_cpl_vars = array();
 	public $_cpl_config = array();
 
-	public function Quicky_compiler() { }
+	public function Quicky_compiler() {
+	}
 
 	public function _compile_source_string($template, $from) {
 		$old_load_plugins    = $this->load_plugins;
@@ -48,5 +49,7 @@ class php_compiler {
 		return $header . $source;
 	}
 
-	public function _compile_source($path) { return $this->_compile_source_string(file_get_contents($path), substr($path, strlen($this->parent->template_dir))); }
+	public function _compile_source($path) {
+		return $this->_compile_source_string(file_get_contents($path), substr($path, strlen($this->parent->template_dir)));
+	}
 }

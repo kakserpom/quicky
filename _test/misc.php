@@ -6,7 +6,9 @@ error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 
 $tpl = new Quicky;
-$tpl->assign('myFunc', function () { return 'myResult'; });
+$tpl->assign('myFunc', function () {
+	return 'myResult';
+});
 $tpl->force_compile = TRUE;
 //$tpl->compile_check = FALSE;
 $fn = 'syntax/misc.tpl';

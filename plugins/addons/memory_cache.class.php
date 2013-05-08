@@ -54,13 +54,20 @@ class Quicky_MemoryCache {
 		shmop_write($t, $data, 0);
 	}
 
-	function stream_tell() { return $this->position; }
+	function stream_tell() {
+		return $this->position;
+	}
 
-	function stream_eof() { return $this->position >= strlen($this->body); }
+	function stream_eof() {
+		return $this->position >= strlen($this->body);
+	}
 
-	function stream_seek($offset, $whence) { return; }
+	function stream_seek($offset, $whence) {
+		return;
+	}
 
-	function stream_stat() { }
+	function stream_stat() {
+	}
 }
 
 stream_wrapper_register('qmem', 'Quicky_MemoryCache') or die('Failed to register protocol qmem://');

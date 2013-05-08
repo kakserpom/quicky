@@ -34,9 +34,13 @@ function lang_getmessage($phrase) // your function returning phrases
 	}
 }
 
-function quicky_lang_callback($m) { return lang_getmessage($m[1]); }
+function quicky_lang_callback($m) {
+	return lang_getmessage($m[1]);
+}
 
-function quicky_lang_callback_e($m) { return addslashes(lang_getmessage($m[1])); }
+function quicky_lang_callback_e($m) {
+	return addslashes(lang_getmessage($m[1]));
+}
 
 $tpl->lang_callback   = 'quicky_lang_callback';
 $tpl->lang_callback_e = 'quicky_lang_callback_e';

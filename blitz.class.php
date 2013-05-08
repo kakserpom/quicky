@@ -48,5 +48,7 @@ class Blitz extends Quicky {
 		$this->load_string($tpl->tplname = dechex(abs(crc32($string))), $string);
 	}
 
-	function escape($string) { return htmlspecialchars($string, ENT_QUOTES); }
+	function escape($string) {
+		return htmlspecialchars($string, ENT_QUOTES);
+	}
 }

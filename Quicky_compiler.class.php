@@ -74,7 +74,8 @@ class Quicky_compiler {
 	public $_shortcutslocked = array();
 	public $_var_map = array();
 
-	public function Quicky_compiler() { }
+	public function Quicky_compiler() {
+	}
 
 	static function escape_string($s) {
 		static $escape = array(
@@ -348,7 +349,9 @@ class Quicky_compiler {
 		return $source;
 	}
 
-	public function _compile_source($path, $from) { return $this->_compile_source_string(file_get_contents($path), $from); }
+	public function _compile_source($path, $from) {
+		return $this->_compile_source_string(file_get_contents($path), $from);
+	}
 
 	public function string_or_expr($s) {
 		if (ctype_digit(substr($s, 0, 1) == '-' ? substr($s, 1) : $s)) {
@@ -1374,5 +1377,7 @@ class Quicky_compiler {
 }
 
 if (!function_exists('ctype_digit')) {
-	function ctype_digit($s) { return (bool)preg_match('~^\d+$~', $s); }
+	function ctype_digit($s) {
+		return (bool)preg_match('~^\d+$~', $s);
+	}
 }

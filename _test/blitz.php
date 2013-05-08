@@ -6,7 +6,9 @@ error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 
 class View extends Blitz {
-	function escape($string) { return htmlspecialchars($string); }
+	function escape($string) {
+		return htmlspecialchars($string);
+	}
 }
 
 $fn    = 'blitz/index.tpl';

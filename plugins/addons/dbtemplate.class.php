@@ -20,15 +20,24 @@ class Quicky_DBtemplate {
 		return $ret;
 	}
 
-	function stream_write($data) { return; }
+	function stream_write($data) {
+		return;
+	}
 
-	function stream_tell() { return $this->position; }
+	function stream_tell() {
+		return $this->position;
+	}
 
-	function stream_eof() { return $this->position >= strlen($this->body); }
+	function stream_eof() {
+		return $this->position >= strlen($this->body);
+	}
 
-	function stream_seek($offset, $whence) { return; }
+	function stream_seek($offset, $whence) {
+		return;
+	}
 
-	function stream_stat() { }
+	function stream_stat() {
+	}
 }
 
 Quicky_DBtemplate::$driver = (object)array();

@@ -62,9 +62,13 @@ if (!function_exists('gpcvar_str')) {
 		return floatval($var);
 	}
 
-	function gpcvar_array(&$var) { return is_array($var) ? $var : array(); }
+	function gpcvar_array(&$var) {
+		return is_array($var) ? $var : array();
+	}
 
-	function gpcvar_mixed(&$var) { return $var; }
+	function gpcvar_mixed(&$var) {
+		return $var;
+	}
 }
 class Quicky {
 	public $template_dir = './templates/';
@@ -207,7 +211,9 @@ class Quicky {
 		}
 	}
 
-	public function detect_form($name) { $this->_detect_forms[] = $name; }
+	public function detect_form($name) {
+		$this->_detect_forms[] = $name;
+	}
 
 	public function getFormByName($name) {
 		if (!class_exists('Quicky_form')) {
@@ -298,19 +304,33 @@ class Quicky {
 		return FALSE;
 	}
 
-	function register_prefilter($a, $b) { $this->prefilters[$a] = $b; }
+	function register_prefilter($a, $b) {
+		$this->prefilters[$a] = $b;
+	}
 
-	function unregister_prefilter($a) { unset($this->prefilters[$a]); }
+	function unregister_prefilter($a) {
+		unset($this->prefilters[$a]);
+	}
 
-	function register_postfilter($a, $b) { $this->postfilters[$a] = $b; }
+	function register_postfilter($a, $b) {
+		$this->postfilters[$a] = $b;
+	}
 
-	function unregister_postfilter($a) { unset($this->postfilters[$a]); }
+	function unregister_postfilter($a) {
+		unset($this->postfilters[$a]);
+	}
 
-	function register_outputfilter($a, $b) { $this->outputfilters[$a] = $b; }
+	function register_outputfilter($a, $b) {
+		$this->outputfilters[$a] = $b;
+	}
 
-	function unregister_outputfilter($a) { unset($this->outputfilters[$a]); }
+	function unregister_outputfilter($a) {
+		unset($this->outputfilters[$a]);
+	}
 
-	function template_exists($file) { return file_exists($this->_get_template_path($file)); }
+	function template_exists($file) {
+		return file_exists($this->_get_template_path($file));
+	}
 
 	function config_load($file, $section = '') {
 		$path = $this->config_dir . $file;
@@ -388,15 +408,25 @@ class Quicky {
 		return call_user_func($arg, $tpl);
 	}
 
-	function register_object($a, $b = NULL) { return $this->assign($a, $b); }
+	function register_object($a, $b = NULL) {
+		return $this->assign($a, $b);
+	}
 
-	function unregister_object($a) { return $this->clear_assign($a, $b); }
+	function unregister_object($a) {
+		return $this->clear_assign($a, $b);
+	}
 
-	function get_register_object($a) { return isset($this->_tpl_vars[$a]) ? $this->_tpl_vars[$a] : NULL; }
+	function get_register_object($a) {
+		return isset($this->_tpl_vars[$a]) ? $this->_tpl_vars[$a] : NULL;
+	}
 
-	function get_template_vars($a = NULL) { return is_null($a) ? $this->_tpl_vars : $this->_tpl_vars[$a]; }
+	function get_template_vars($a = NULL) {
+		return is_null($a) ? $this->_tpl_vars : $this->_tpl_vars[$a];
+	}
 
-	function get_templates_vars($a = NULL) { return is_null($a) ? $this->_tpl_vars : $this->_tpl_vars[$a]; }
+	function get_templates_vars($a = NULL) {
+		return is_null($a) ? $this->_tpl_vars : $this->_tpl_vars[$a];
+	}
 
 	function assign($a, $b = NULL, $scope = NULL) {
 		if ($this->debug_mode === TRUE) {
@@ -455,9 +485,13 @@ class Quicky {
 		}
 	}
 
-	function reset() { $this->_tpl_vars = array(); }
+	function reset() {
+		$this->_tpl_vars = array();
+	}
 
-	function clear_all_assign() { $this->reset(); }
+	function clear_all_assign() {
+		$this->reset();
+	}
 
 	function clear_cache($path, $cache_id = NULL, $compile_id = NULL, $exp = -1) {
 		if ($compile_id === NULL) {
@@ -579,7 +613,9 @@ class Quicky {
 		return $name;
 	}
 
-	function display($path, $cache_id = NULL, $compile_id = NULL, $compiler = 'Quicky') { return $this->fetch($path, $cache_id, $compile_id, TRUE, $compiler); }
+	function display($path, $cache_id = NULL, $compile_id = NULL, $compiler = 'Quicky') {
+		return $this->fetch($path, $cache_id, $compile_id, TRUE, $compiler);
+	}
 
 	function is_cached($path, $cache_id = NULL, $compile_id = NULL) {
 		if ($compile_id === NULL) {

@@ -17,9 +17,13 @@ class CAPTCHA_draw {
 	public $noise_skew_n = 1;
 	public $fonts_dir;
 
-	function __construct() { $this->fonts_dir = dirname(__FILE__) . '/fonts/'; }
+	function __construct() {
+		$this->fonts_dir = dirname(__FILE__) . '/fonts/';
+	}
 
-	function generate_text() { return $this->text = chr_gen('ABCDEFGHKLMNPQRSTUVWXYZ23456789abcdefghkmnpqrstuvwxyz23456789', 4); }
+	function generate_text() {
+		return $this->text = chr_gen('ABCDEFGHKLMNPQRSTUVWXYZ23456789abcdefghkmnpqrstuvwxyz23456789', 4);
+	}
 
 	function show() {
 		require_once dirname(__FILE__) . '/imagedraw.class.php';

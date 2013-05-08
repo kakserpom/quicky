@@ -391,11 +391,15 @@
 			var title = "Debug Console";
 			{rdelim
 		
+		
+		
 		}
 		else
 		{ldelim}
 			var title = "Debug Console_"+self.name;
 			{rdelim
+		
+		
 		
 		}
 		_quicky_console = window.open("", title.value, "width=880, height=600, resizable, scrollbars=yes");

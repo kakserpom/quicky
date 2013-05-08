@@ -60,29 +60,51 @@ class Quicky_form {
 		$this->elements->$name->_form = $this;
 	}
 
-	public function removeElement($name) { unset($this->elements->$name); }
+	public function removeElement($name) {
+		unset($this->elements->$name);
+	}
 
-	public function remove() { unset(Quicky_form::$forms[$this->name]); }
+	public function remove() {
+		unset(Quicky_form::$forms[$this->name]);
+	}
 
-	public function __get($name) { return isset($this->$name) ? $this->$name : (isset($this->elements->$name) ? $this->elements->$name : NULL); }
+	public function __get($name) {
+		return isset($this->$name) ? $this->$name : (isset($this->elements->$name) ? $this->elements->$name : NULL);
+	}
 
-	public function __clone() { trigger_error('Cloning Quicky_form is not allowed', E_USER_ERROR); }
+	public function __clone() {
+		trigger_error('Cloning Quicky_form is not allowed', E_USER_ERROR);
+	}
 }
 
 class Quicky_form_filter {
-	static function email($string) { return (bool)preg_match('~^[a-z0-9\._\-]+@[a-z0-9\._\-]+\.+[a-z]{2,}$~i', $string); }
+	static function email($string) {
+		return (bool)preg_match('~^[a-z0-9\._\-]+@[a-z0-9\._\-]+\.+[a-z]{2,}$~i', $string);
+	}
 
-	static function url($string) { return (bool)preg_match('~^\w+://[a-z0-9\._\-]+/?~i', $string); }
+	static function url($string) {
+		return (bool)preg_match('~^\w+://[a-z0-9\._\-]+/?~i', $string);
+	}
 
-	static function format($string, $regexp) { return (bool)preg_match($regexp, $string); }
+	static function format($string, $regexp) {
+		return (bool)preg_match($regexp, $string);
+	}
 
-	static function length($string, $min = -1, $max = -1) { return ($min === -1 or strlen($string) >= $min) && ($max === -1 or strlen($string) <= $max); }
+	static function length($string, $min = -1, $max = -1) {
+		return ($min === -1 or strlen($string) >= $min) && ($max === -1 or strlen($string) <= $max);
+	}
 
-	static function digit($string) { return ctype_digit($string); }
+	static function digit($string) {
+		return ctype_digit($string);
+	}
 
-	static function double($string, $abs = TRUE) { return (bool)preg_match('~^' . (!$abs ? '-?' : '') . '\d+(\.\d+)?$~', $string); }
+	static function double($string, $abs = TRUE) {
+		return (bool)preg_match('~^' . (!$abs ? '-?' : '') . '\d+(\.\d+)?$~', $string);
+	}
 
-	static function notempty($string) { return $string !== ''; }
+	static function notempty($string) {
+		return $string !== '';
+	}
 }
 
 class Quicky_form_element {
@@ -170,7 +192,9 @@ class Quicky_form_element {
 		return gpcvar_array($_REQUEST[$this->name]);
 	}
 
-	public function __toString() { return strval($this->getValue()); }
+	public function __toString() {
+		return strval($this->getValue());
+	}
 }
 
 class QButton extends Quicky_form_element {
@@ -231,7 +255,9 @@ class QCheckBox extends Quicky_form_element {
 		return isset($_REQUEST[$this->name]);
 	}
 
-	public function clicked() { return $this->checked(); }
+	public function clicked() {
+		return $this->checked();
+	}
 }
 
 class QDropdown extends Quicky_form_element {
@@ -255,7 +281,9 @@ class QDropdown extends Quicky_form_element {
 		}
 	}
 
-	public function removeElement($name) { unset($this->elements[$name]); }
+	public function removeElement($name) {
+		unset($this->elements[$name]);
+	}
 }
 
 class QTextBox extends Quicky_form_element {
@@ -268,7 +296,9 @@ class QTextBox extends Quicky_form_element {
 		}
 	}
 
-	public function getText() { return $this->getValue(); }
+	public function getText() {
+		return $this->getValue();
+	}
 }
 
 class QFile extends Quicky_form_element {
@@ -346,7 +376,9 @@ class QBBarea extends Quicky_form_element {
 		$this->_bbcode = new Quicky_BBcode;
 	}
 
-	public function getText() { return $this->getValue(); }
+	public function getText() {
+		return $this->getValue();
+	}
 
 	public function getHTML() {
 		$this->_bbcode->load($this->getValue());

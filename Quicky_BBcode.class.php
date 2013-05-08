@@ -52,7 +52,8 @@ class Quicky_BBcode {
 	public $autourl = TRUE;
 	public $allow_smiles = TRUE;
 
-	public function __construct() { }
+	public function __construct() {
+	}
 
 	public function load($string) {
 		$this->source = $string;
@@ -71,9 +72,13 @@ class Quicky_BBcode {
 		return FALSE;
 	}
 
-	public function register_block($name, $callback) { $this->blocks[strtolower($name)] = $callback; }
+	public function register_block($name, $callback) {
+		$this->blocks[strtolower($name)] = $callback;
+	}
 
-	public function register_tag($name, $callback) { $this->tags[strtolower($name)] = $callback; }
+	public function register_tag($name, $callback) {
+		$this->tags[strtolower($name)] = $callback;
+	}
 
 	private function _parse_params($p) {
 		$params = array();

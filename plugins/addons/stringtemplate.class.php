@@ -21,17 +21,28 @@ class Quicky_Stringtemplate {
 		return $ret;
 	}
 
-	function stream_write($data) { return; }
+	function stream_write($data) {
+		return;
+	}
 
-	function stream_tell() { return $this->position; }
+	function stream_tell() {
+		return $this->position;
+	}
 
-	function stream_eof() { return $this->position >= strlen($this->body); }
+	function stream_eof() {
+		return $this->position >= strlen($this->body);
+	}
 
-	function stream_seek($offset, $whence) { return; }
+	function stream_seek($offset, $whence) {
+		return;
+	}
 
-	function stream_stat() { }
+	function stream_stat() {
+	}
 
-	function url_stat() { return array(); }
+	function url_stat() {
+		return array();
+	}
 }
 
 stream_wrapper_register('string', 'Quicky_Stringtemplate') or die('Failed to register protocol string://');

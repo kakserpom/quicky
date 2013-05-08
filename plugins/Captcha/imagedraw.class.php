@@ -29,7 +29,9 @@ class imagedraw {
 	var $offsetY = 0;
 	var $colortransparent;
 
-	function imagedraw() { $this->init(); }
+	function imagedraw() {
+		$this->init();
+	}
 
 	function init() {
 		$this->sW = $this->W * $this->scale;
@@ -40,9 +42,13 @@ class imagedraw {
 		$this->set_offset($this->offsetX, $this->offsetY);
 	}
 
-	function sY() { return $this->H = imagesy($this->res); }
+	function sY() {
+		return $this->H = imagesy($this->res);
+	}
 
-	function sX() { return $this->W = imagesx($this->res); }
+	function sX() {
+		return $this->W = imagesx($this->res);
+	}
 
 	function set_offset($offsetX, $offsetY) {
 		$this->offsetX = $offsetX * $this->scale;
@@ -91,7 +97,9 @@ class imagedraw {
 		$this->init();
 	}
 
-	function colorat($x, $y) { return imagecolorat($this->res, $x + $this->offsetX, $y + $this->offsetY); }
+	function colorat($x, $y) {
+		return imagecolorat($this->res, $x + $this->offsetX, $y + $this->offsetY);
+	}
 
 	function create($w = NULL, $h = NULL) {
 		if (is_null($w)) {
@@ -114,7 +122,9 @@ class imagedraw {
 		}
 	}
 
-	function setbgcolor($color = 0xFFFFFF) { return imagefill($this->res, 0, 0, $this->hex2color($color)); }
+	function setbgcolor($color = 0xFFFFFF) {
+		return imagefill($this->res, 0, 0, $this->hex2color($color));
+	}
 
 	function border($color = 0x000000) {
 		return imageRectangle($this->res,
@@ -130,13 +140,21 @@ class imagedraw {
 							  $this->hex2color($color));
 	}
 
-	function rscale($a) { return $a / $this->scale; }
+	function rscale($a) {
+		return $a / $this->scale;
+	}
 
-	function tscale($a) { return $a * $this->scale; }
+	function tscale($a) {
+		return $a * $this->scale;
+	}
 
-	function setScale($s) { return $this->scale = floatval($s); }
+	function setScale($s) {
+		return $this->scale = floatval($s);
+	}
 
-	function setpixel($x, $y, $color = 0x000000) { return imagesetpixel($this->res, $this->offsetX + $x, $this->offsetY + $y, $this->hex2color($color)); }
+	function setpixel($x, $y, $color = 0x000000) {
+		return imagesetpixel($this->res, $this->offsetX + $x, $this->offsetY + $y, $this->hex2color($color));
+	}
 
 	function line($x1, $y1, $x2, $y2, $color = 0x000000, $thick = 1) {
 		$x1    = $x1 * $this->scale + $this->offsetX;
@@ -184,13 +202,21 @@ class imagedraw {
 							$this->hex2color($color), $font, win2uni($text));
 	}
 
-	function arc($cx, $cy, $w, $h, $s, $e, $color = 0x000000) { return imagearc($this->res, $cx + $this->offsetX, $cy + $this->offsetY, $w, $h, $s, $e, $this->hex2color($color)); }
+	function arc($cx, $cy, $w, $h, $s, $e, $color = 0x000000) {
+		return imagearc($this->res, $cx + $this->offsetX, $cy + $this->offsetY, $w, $h, $s, $e, $this->hex2color($color));
+	}
 
-	function filledarc($cx, $cy, $w, $h, $s, $e, $color = 0x000000) { return imagefilledarc($this->res, $cx + $this->offsetX, $cy + $this->offsetY, $w, $h, $s, $e, $this->hex2color($color)); }
+	function filledarc($cx, $cy, $w, $h, $s, $e, $color = 0x000000) {
+		return imagefilledarc($this->res, $cx + $this->offsetX, $cy + $this->offsetY, $w, $h, $s, $e, $this->hex2color($color));
+	}
 
-	function ellipse($cx, $cy, $w, $h, $color = 0x000000) { return imageellipse($this->res, $cx + $this->offsetX, $cy + $this->offsetY, $w, $h, $s, $e, $this->hex2color($color)); }
+	function ellipse($cx, $cy, $w, $h, $color = 0x000000) {
+		return imageellipse($this->res, $cx + $this->offsetX, $cy + $this->offsetY, $w, $h, $s, $e, $this->hex2color($color));
+	}
 
-	function filledellipse($cx, $cy, $w, $h, $color = 0x000000) { return imagefilledellipse($this->res, $cx + $this->offsetX, $cy + $this->offsetY, $w, $h, $this->hex2color($color)); }
+	function filledellipse($cx, $cy, $w, $h, $color = 0x000000) {
+		return imagefilledellipse($this->res, $cx + $this->offsetX, $cy + $this->offsetY, $w, $h, $this->hex2color($color));
+	}
 
 	function pointmark($x, $y, $name = NULL, $color = 0x000000) {
 		$this->filledellipse($x, $y, 5, 5, $color);
@@ -228,9 +254,13 @@ class imagedraw {
 		return imagefilledpolygon($this->res, $points, sizeof($points) / 2, $this->hex2color($color));
 	}
 
-	function antialias($bool) { imageantialias($this->res, !!$bool); }
+	function antialias($bool) {
+		imageantialias($this->res, !!$bool);
+	}
 
-	function colortransparent($color = 0xFFFFFF) { return imagecolortransparent($this->res, $this->colortransparent = $this->hex2color($color)); }
+	function colortransparent($color = 0xFFFFFF) {
+		return imagecolortransparent($this->res, $this->colortransparent = $this->hex2color($color));
+	}
 
 	function filter_twirl($dimx = NULL, $dimy = NULL) {
 		if (is_null($dimx)) {
@@ -545,7 +575,9 @@ class imagedraw {
 		$this->res = $img2;
 	}
 
-	function destroy() { return imagedestroy($this->res); }
+	function destroy() {
+		return imagedestroy($this->res);
+	}
 }
 
 class diagramm {
