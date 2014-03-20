@@ -720,7 +720,18 @@ class Quicky {
 			}
 			if ($this->caching && !$cache) {
 				$c  = file_get_contents($p);
+				/*AlexBaks 
+				  Fix not the function announcement in cache files
+				*/
+				preg_match_all('{require_once(.*?);}', $c, $arr);
+				$header = null;
+				foreach ($arr[0] as $val) {
+					$header .= $val."\n";
+				}
+				$header = '<? '.$header.' ?>';
+				/*AlexBaks*/
 				$a  = preg_replace_callback($e = '~(<\?php )?/\*(' . preg_quote(UNIQUE_HASH_STATIC, '~') . ')\{(dynamic)\}\*/ (\?>)?(.*?)(?:<\?php )?/\*\{/\3\}\2\*/( \?>)?~si', array($this, 'dynamic_callback'), $c);
+				$a =  $header . $a; /*AlexBaks*/
 				$fn = tempnam($this->cache_dir, 'tmp');
 				$fp = fopen($fn, 'w');
 				fwrite($fp, $a);
@@ -737,6 +748,7 @@ class Quicky {
 				echo $old;
 				unlink($fn);
 				$a     = preg_replace($e = '~!' . preg_quote(UNIQUE_HASH, '~') . '!non_cache=(.*?)!~sie', 'base64_decode("$1")', $a);
+				$a =  $header . $a; /*AlexBaks*/
 				$cache = $this->_get_cache_path($path, $cache_id, $compile_id);
 				$fp    = fopen($cache, 'w');
 				fwrite($fp, $a);
