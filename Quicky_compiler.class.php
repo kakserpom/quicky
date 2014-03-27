@@ -34,7 +34,7 @@ class Quicky_compiler {
 		'crc32', 'crypt', 'echo', 'explode', 'fprintf', 'get_html_translation_table', 'hebrev', 'hebrevc',
 		'html_entity_decode', 'htmlentities', 'htmlspecialchars_decode', 'htmlspecialchars', 'implode',
 		'join', 'levenshtein', 'localeconv', 'ltrim', 'md5_file', 'md5', 'metaphone', 'money_format',
-		'nl_langinfo', 'nl2br', 'number_format', 'ord', 'parse_str', 'print', 'printf',
+		'nl_langinfo', 'nl2br', 'number_format', 'ord', 'parse_str', 'print', 'printf','print_r',
 		'quoted_printable_decode', 'quotemeta', 'rtrim', 'sha1_file', 'sha1', 'similar_text',
 		'soundex', 'sprintf', 'sscanf', 'str_ireplace', 'str_pad', 'str_repeat', 'str_replace',
 		'str_rot13', 'str_shuffle', 'str_split', 'str_word_count', 'strcasecmp', 'strchr',
