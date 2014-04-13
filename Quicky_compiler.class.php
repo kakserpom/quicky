@@ -43,7 +43,7 @@ class Quicky_compiler {
 		'strpos', 'strrchr', 'strrev', 'strripos', 'strrpos', 'strspn', 'strstr', 'strtok',
 		'strtolower', 'strtoupper', 'strtr', 'substr_compare', 'substr_count', 'substr_replace',
 		'substr', 'trim', 'ucfirst', 'ucwords', 'vfprintf', 'vprintf', 'vsprintf', 'wordwrap', 'and', 'or', 'xor',
-		'json_encode', 'lang_om_number', 'intval', 'floatval', 'strval', 'setcookie', 'in_array',
+		'json_encode', 'json_decode', 'lang_om_number', 'intval', 'floatval', 'strval', 'setcookie', 'in_array',
 		'long2ip', 'ip2long', 'defined', 'file_exists', 'basename', 'mb_substr', 'mb_strlen', 'mb_strtolower', 'getdate');
 	public $_def_mode = NULL;
 	public $_scope_override = NULL;
