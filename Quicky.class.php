@@ -749,11 +749,15 @@ class Quicky {
 				unlink($fn);
 				$a     = preg_replace($e = '~!' . preg_quote(UNIQUE_HASH, '~') . '!non_cache=(.*?)!~sie', 'base64_decode("$1")', $a);
 				$a =  $header . $a; /*AlexBaks*/
-				$cache = $this->_get_cache_path($path, $cache_id, $compile_id);
-				$fp    = fopen($cache, 'w');
-				fwrite($fp, $a);
-				fclose($fp);
-				$p = $cache;
+				/*Alex кеширование outputfilters*/
+				if ($display or !sizeof($this->outputfilters) > 0) {
+					$cache = $this->_get_cache_path($path, $cache_id, $compile_id);
+					$fp    = fopen($cache, 'w');
+					fwrite($fp, $a);
+					fclose($fp);
+					$p = $cache;
+				}
+				/*Alex*/
 			}
 			if (!$display or sizeof($this->outputfilters) > 0) {
 				ob_start();
@@ -771,6 +775,12 @@ class Quicky {
 					for ($i = 0, $s = sizeof($filters); $i < $s; ++$i) {
 						$a = call_user_func($filters[$i], $a, $this);
 					}
+					/*Alex кеширование outputfilters*/
+					$cache = $this->_get_cache_path($path, $cache_id, $compile_id);
+					$fp    = fopen($cache, 'w');
+					fwrite($fp, $a);
+					fclose($fp);
+					/*Alex*/
 				}
 				if ($display) {
 					echo $a;
