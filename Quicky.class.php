@@ -749,11 +749,10 @@ class Quicky {
 				unlink($fn);
 				$a     = preg_replace($e = '~!' . preg_quote(UNIQUE_HASH, '~') . '!non_cache=(.*?)!~sie', 'base64_decode("$1")', $a);
 				$a =  $header . $a; /*AlexBaks*/
-				$cache = $this->_get_cache_path($path, $cache_id, $compile_id);
-				$fp    = fopen($cache, 'w');
+				$p = $this->_get_cache_path($path, $cache_id, $compile_id);
+				$fp    = fopen($p, 'w');
 				fwrite($fp, $a);
 				fclose($fp);
-				$p = $cache;
 			}
 			if (!$display or sizeof($this->outputfilters) > 0) {
 				ob_start();
@@ -771,6 +770,10 @@ class Quicky {
 					for ($i = 0, $s = sizeof($filters); $i < $s; ++$i) {
 						$a = call_user_func($filters[$i], $a, $this);
 					}
+					$p = $this->_get_cache_path($path, $cache_id, $compile_id);
+					$fp    = fopen($p, 'w');
+					fwrite($fp, $a);
+					fclose($fp);
 				}
 				if ($display) {
 					echo $a;
