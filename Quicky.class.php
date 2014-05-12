@@ -758,10 +758,6 @@ class Quicky {
 					for ($i = 0, $s = sizeof($filters); $i < $s; ++$i) {
 						$a = call_user_func($filters[$i], $a, $this);
 					}
-					$p = $this->_get_cache_path($path, $cache_id, $compile_id);
-					$fp    = fopen($p, 'w');
-					fwrite($fp, $a);
-					fclose($fp);
 				}
 				if ($display) {
 					echo $a;
