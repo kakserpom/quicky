@@ -24,11 +24,13 @@
     },
     "autoload": {
         "psr-0": { "Quicky": "" },
-        "files": [
+        "classmap": [
             "Quicky.class.php",
             "Quicky.form.class.php",
             "blitz.class.php",
-            "Quicky_BBcode.class.php"
+            "Quicky_BBcode.class.php",
+			"Quicky_compiler.class.php",
+			"php_compiler.class.php"
         ]
     }
 }

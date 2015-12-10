@@ -2,7 +2,6 @@
 /**************************************************************************/
 /* Quicky: smart and fast templates
 /* ver. 0.5.0.0
-/* http://code.google.com/p/quicky/
 /* ===========================
 /*												
 /* Quicky.class.php: API class

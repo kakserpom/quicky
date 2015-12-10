@@ -5,7 +5,6 @@
 /* ===========================
 /*
 /* Copyright (c)oded 2007-2008 by WP
-/* http://quicky-tpl.net
 /*
 /* php_compiler.class.php: PHP Template compiler
 /**************************************************************************/
