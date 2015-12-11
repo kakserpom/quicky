@@ -42,7 +42,7 @@ class Quicky_BBcode {
 	public $allow_html_tags = FALSE;
 	public $smiles_dir;
 	public $smiles_url;
-	private $_builtin_blocks = '[gmbiusp]|email|link|url|code|php|list|plain|literal';
+	private $_builtin_blocks = '[gmbiusp]|email|youtube|link|url|code|php|list|plain|literal';
 	public $cast_unrecognized_tags = FALSE;
 	public $stat = array();
 	public $use_stat = TRUE;
@@ -168,6 +168,12 @@ class Quicky_BBcode {
 						return $this->_error('Unsafe uri "' . $url . '" in tag ' . $block_type);
 					}
 					return '<a href="' . htmlspecialchars($url) . '">' . $this->_tag_token($block_content) . '</a>';
+				}
+				elseif ($block_type === 'youtube') {
+					if (!ctype_alnum($block_content)) {
+						return '';
+					}
+					return '<iframe width="420" height="315" src="https://www.youtube.com/embed/' . $block_content . '" frameborder="0" allowfullscreen></iframe>';
 				}
 				elseif ($block_type == 'php') {
 					$s = trim($block_content, "\r\n");
