@@ -379,15 +379,17 @@ class Quicky_BBcode {
 		}
 		elseif ($tag == 'size') {
 			if ($close) {
-				return '</font>';
+				return '</span>';
 			}
 			if (substr($param, 0, 1) == '=') {
-				$size = substr($param, 1);
-			}
-			else {
+				$size = $this->_dequote(substr($param, 1));
+			} else {
 				$size = '10';
 			}
-			return '<font size="' . htmlspecialchars($this->_dequote($size)) . '">';
+			if (!ctype_digit($size)) {
+				$size = '10';
+			}
+			return '<span style="font-size:' . $size . 'pt">';
 		}
 		elseif ($tag == 'color') {
 			if (substr($param, 0, 1) == '=') {
