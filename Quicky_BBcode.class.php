@@ -241,10 +241,22 @@ class Quicky_BBcode {
 					else {
 						$flag = '0';
 					}
-					return '<table border=0 width=100%><tr><td width=50></td><td width="95%">'
-							. ($flag == '0' ? '<ol>' : '<ul>')
-							. $this->_tag_token($block_content)
-							. ($flag == '0' ? '</ol>' : '</ul>') . '</td></tr></table>';
+					$ldelim = preg_quote($this->left_delimiter, '~');
+					$rdelim = preg_quote($this->right_delimiter, '~');
+					$return = '<table border=0 width=100%><tr><td width=50></td><td width="95%">'
+						. ($flag == '0' ? '<ol>' : '<ul>');
+
+					foreach (preg_split('~' . $ldelim . '(?:li|\*)' . $rdelim . '~', $block_content) as $item) {
+						$item = trim($item);
+						if ($item === '') {
+							continue;
+						}
+						$return .= '<li>' . $this->_tag_token($item) . '</li>';
+
+					}
+					$return .= ($flag == '0' ? '</ol>' : '</ul>') . '</td></tr></table>';
+					return $return;
+
 				}
 				elseif ($block_type == 'plain' or $block_type == 'literal') {
 					return htmlspecialchars($block_content);
