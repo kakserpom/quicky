@@ -1,0 +1,36 @@
+{
+    "name"  : "kakserpom/quicky",
+    "type"  : "library",
+    "keywords": ["quicky"],
+    "homepage": "https://github.com/kakserpom/quicky",
+    "license" : "GPL-3.0+",
+    "description": "",
+    "authors" : [
+        {
+            "name"      : "Vasily Zorin",
+            "email"     : "quicky@googlegroups.com",
+            "role"      : "Developer"
+        }
+    ],
+    "support" : {
+        "email" : "quicky@googlegroups.com",
+        "issues": "https://github.com/kakserpom/quicky/issues",
+        "forum" : "https://groups.google.com/forum/?hl=ru#!forum/quicky",
+        "wiki"  : "https://github.com/kakserpom/quicky/wiki",
+        "source": "https://github.com/kakserpom/quicky/releases"
+    },
+    "require": {
+        "php": ">=5.4"
+    },
+    "autoload": {
+        "psr-0": { "Quicky": "" },
+        "classmap": [
+            "Quicky.class.php",
+            "Quicky.form.class.php",
+            "blitz.class.php",
+            "Quicky_BBcode.class.php",
+			"Quicky_compiler.class.php",
+			"php_compiler.class.php"
+        ]
+    }
+}
