@@ -42,7 +42,7 @@ class Quicky_BBcode {
 	public $allow_html_tags = FALSE;
 	public $smiles_dir;
 	public $smiles_url;
-	private $_builtin_blocks = '[gmbiusp]|email|youtube|img|link|url|font|color|size|code|php|list|plain|literal';
+	private $_builtin_blocks = '[gm]|email|youtube|img|url|code|php|list|plain|literal';
 	public $cast_unrecognized_tags = FALSE;
 	public $stat = array();
 	public $use_stat = TRUE;
@@ -245,7 +245,6 @@ class Quicky_BBcode {
 					$rdelim = preg_quote($this->right_delimiter, '~');
 					$return = '<table border=0 width=100%><tr><td width=50></td><td width="95%">'
 						. ($flag == '0' ? '<ol>' : '<ul>');
-
 					foreach (preg_split('~' . $ldelim . '(?:li|\*)' . $rdelim . '~', $block_content) as $item) {
 						$item = trim($item);
 						if ($item === '') {
@@ -340,7 +339,7 @@ class Quicky_BBcode {
 			}
 			$regexp = '~'
 					. $ldelim . '\s*(' . implode('|', $blocks) . ')([\s=](?:[^' . $rdelim . '\'"]*([\'"]).*?(?<!\\\\)\3)*.*?)?' . $rdelim . '((?:(?R)|.)*?)' . $ldelim . '/\s*\1?\s*' . $rdelim
-					. '|' . $ldelim . '(\\??(?:[^' . $rdelim . '\'"]*([\'"]).*?(?<!\\\\)\5)*.*?)' . $rdelim
+					. '|' . $ldelim . '((?:[^' . $rdelim . '\'"]*([\'"]).*?(?<!\\\\)\6)*.*?)' . $rdelim
 					. '|(:\w+:)|[<>&\n\'"]'
 					. '~si';
 		}
