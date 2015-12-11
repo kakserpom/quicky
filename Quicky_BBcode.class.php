@@ -42,7 +42,7 @@ class Quicky_BBcode {
 	public $allow_html_tags = FALSE;
 	public $smiles_dir;
 	public $smiles_url;
-	private $_builtin_blocks = '[gmbiusp]|email|youtube|img|link|url|code|php|list|plain|literal';
+	private $_builtin_blocks = '[gmbiusp]|email|youtube|img|link|url|font|color|size|code|php|list|plain|literal';
 	public $cast_unrecognized_tags = FALSE;
 	public $stat = array();
 	public $use_stat = TRUE;
