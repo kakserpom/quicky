@@ -50,6 +50,7 @@ class Quicky_BBcode {
 	public $block_stack_n = 0;
 	public $autourl = TRUE;
 	public $allow_smiles = TRUE;
+	public $urlCallback;
 
 	public function __construct() {
 	}
@@ -166,6 +167,9 @@ class Quicky_BBcode {
 					}
 					if (!$this->safe_uri($url)) {
 						return $this->_error('Unsafe uri "' . $url . '" in tag ' . $block_type);
+					}
+					if ($this->urlCallback !== null) {
+						$url = call_user_func($this->urlCallback, $url);
 					}
 					return '<a href="' . htmlspecialchars($url) . '">' . $this->_tag_token($block_content) . '</a>';
 				}
