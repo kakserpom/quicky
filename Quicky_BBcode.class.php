@@ -148,10 +148,14 @@ class Quicky_BBcode {
 				$block_type    = strtolower($mixed[1]);
 				$block_content = $mixed[4];
 				if ($block_type == 'img') {
-					if (!$this->safe_uri($block_content)) {
-						return $this->_error('Unsafe uri "' . $block_content . '" in tag ' . $block_type);
+					$url = $block_content;
+					if (!$this->safe_uri($url)) {
+						return $this->_error('Unsafe uri "' . $url . '" in tag ' . $block_type);
 					}
-					return '<img src="' . htmlspecialchars($block_content, ENT_QUOTES) . '" />';
+					if ($this->urlCallback !== null) {
+						$url = call_user_func($this->urlCallback, $url, 'img');
+					}
+					return '<img src="' . htmlspecialchars($url, ENT_QUOTES) . '" />';
 				}
 				elseif ($block_type == 'link' or $block_type == 'url') {
 					if (substr($mixed[2], 0, 1) == '=') {
