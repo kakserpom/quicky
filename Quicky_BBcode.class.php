@@ -361,7 +361,7 @@ class Quicky_BBcode {
 			return $return;
 		}
 		--$this->block_stack_n;
-		return $mixed;
+		return $this->allow_html_tags ? $mixed : htmlspecialchars($mixed);
 	}
 
 	public function _exec_tag($close, $tag, $param = '') {
