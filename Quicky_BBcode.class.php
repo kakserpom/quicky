@@ -351,17 +351,14 @@ class Quicky_BBcode {
 					. '|(:\w+:)|[<>&\n\'"]'
 					. '~si';
 		}
-		if ((strpos($mixed, $this->left_delimiter) !== FALSE) or (strpos($mixed, ':') !== FALSE)) {
-			$return = preg_replace_callback($regexp, array($this, '_tag_token'), $mixed);
-			for ($i = sizeof($bs) - 1; $i >= 0; --$i) {
-				if (!$bs[$i][1]) {
-					$return .= $this->_exec_tag('/', $bs[$i][0]);
-				}
+		$return = preg_replace_callback($regexp, array($this, '_tag_token'), $mixed);
+		for ($i = sizeof($bs) - 1; $i >= 0; --$i) {
+			if (!$bs[$i][1]) {
+				$return .= $this->_exec_tag('/', $bs[$i][0]);
 			}
-			return $return;
 		}
 		--$this->block_stack_n;
-		return $this->allow_html_tags ? $mixed : htmlspecialchars($mixed);
+		return $return;
 	}
 
 	public function _exec_tag($close, $tag, $param = '') {
