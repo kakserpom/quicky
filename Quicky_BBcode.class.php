@@ -138,6 +138,20 @@ class Quicky_BBcode {
 					return $mixed[0];
 				}
 			}
+			if (isset($mixed[8]) and $mixed[8] !== '') {
+				if (!$this->autourl) {
+					return $mixed[0];
+				}
+				$url = $mixed[8];
+				if (!$this->safe_uri($url)) {
+					return $this->_error('Unsafe uri "' . $url . '" in tag ' . $block_type);
+				}
+				if ($this->urlCallback !== null) {
+					$url = call_user_func($this->urlCallback, $url);
+				}
+				$urlEscaped = htmlspecialchars($url);
+				return '<a href="' . $urlEscaped . '">' . $urlEscaped . '</a>';
+			}
 			if ($mixed[1] !== '') {
 				if ($this->use_stat) {
 					++$this->stat['numblocks'];
@@ -349,6 +363,7 @@ class Quicky_BBcode {
 					. $ldelim . '\s*(' . implode('|', $blocks) . ')([\s=](?:[^' . $rdelim . '\'"]*([\'"]).*?(?<!\\\\)\3)*.*?)?' . $rdelim . '((?:(?R)|.)*?)' . $ldelim . '/\s*\1?\s*' . $rdelim
 					. '|' . $ldelim . '((?:[^' . $rdelim . '\'"]*([\'"]).*?(?<!\\\\)\6)*.*?)' . $rdelim
 					. '|(:\w+:)|[<>&\n\'"]'
+					. '|([a-z\d]+://[^\s\]\[]+)'
 					. '~si';
 		}
 		$return = preg_replace_callback($regexp, array($this, '_tag_token'), $mixed);
@@ -490,45 +505,10 @@ class Quicky_BBcode {
 		return $this->result = $this->getHTML();
 	}
 
-	public function prepareblock_callback($m) {
-		if (empty($m[1])) {
-			return $m[0];
-		}
-		if (isset($m[7])) {
-			return '[URL="' . $m[7] . '"]' . $m[7] . '[/URL]';
-		}
-		$blockname = $m[1];
-		if ($blockname == 'url' or $blockname == 'php' or $blockname == 'code') {
-			return $m[0];
-		}
-		else {
-			return '[' . $m[1] . $m[2] . ']' . $this->prepareblock($m[4]) . $m[5];
-		}
-	}
-
-	public function prepareblock($source) {
-		static $regexp = NULL;
-		if ($regexp === NULL) {
-			$ldelim = preg_quote($this->left_delimiter, '~');
-			$rdelim = preg_quote($this->right_delimiter, '~');
-			$blocks = array($this->_builtin_blocks);
-			for ($i = 0, $s = sizeof($this->blocks), $v = array_keys($this->blocks); $i < $s; ++$i) {
-				$blocks[] = preg_quote($v[$i], '~');
-			}
-			$regexp = '~'
-					. $ldelim . '\s*(' . implode('|', $blocks) . ')([\s=](?:[^' . $rdelim . '\'"]*([\'"]).*?(?<!\\\\)\3)*.*?)?' . $rdelim . '((?:(?R)|.)*?)(' . $ldelim . '/\s*\1?\s*' . $rdelim . ')'
-					. '|' . $ldelim . '(\\??(?:[^' . $rdelim . '\'"]*([\'"]).*?(?<!\\\\)\6)*.*?)' . $rdelim . '\r?\n?'
-					. '|([a-z\d]+://[^\s\]]+)'
-					. '~si';
-		}
-		return preg_replace_callback($regexp, array($this, 'prepareblock_callback'), $source);
-	}
-
 	public function getHTML() {
 		$this->block_stacks  = array();
 		$this->errors        = array();
 		$this->block_stack_n = 0;
-		$source              = $this->source;
 		$this->stat          = array();
 		if ($this->use_stat) {
 			$this->stat = array(
@@ -537,10 +517,6 @@ class Quicky_BBcode {
 				'numparams' => 0
 			);
 		}
-		if ($this->autourl) {
-			$source = $this->source = $this->prepareblock($source);
-		}
-		$source = $this->_tag_token($source);
-		return $source;
+		return $this->_tag_token($this->source);
 	}
 }
