@@ -42,7 +42,7 @@ class Quicky_BBcode {
 	public $allow_html_tags = FALSE;
 	public $smiles_dir;
 	public $smiles_url;
-	private $_builtin_blocks = '[gm]|email|youtube|img|url|code|php|list|plain|literal';
+	protected $_builtin_blocks = '[gm]|email|youtube|img|url|code|php|list|plain|literal';
 	public $cast_unrecognized_tags = FALSE;
 	public $stat = array();
 	public $use_stat = TRUE;
@@ -67,7 +67,7 @@ class Quicky_BBcode {
 		return TRUE;
 	}
 
-	private function _error($msg) {
+	protected function _error($msg) {
 		$this->errors[] = $msg;
 		return FALSE;
 	}
@@ -80,7 +80,7 @@ class Quicky_BBcode {
 		$this->tags[strtolower($name)] = $callback;
 	}
 
-	private function _parse_params($p) {
+	protected function _parse_params($p) {
 		$params = array();
 		preg_match_all('~\w+\s*=|(([\'"]).*?(?<!\\\\)\2|\S+)~s', $p, $m, PREG_SET_ORDER);
 		$lastkey = '';
@@ -106,7 +106,7 @@ class Quicky_BBcode {
 		return $params;
 	}
 
-	private function _dequote($string) {
+	protected function _dequote($string) {
 		if ((substr($string, 0, 1) == '"' and substr($string, -1) == '"')
 				or (substr($string, 0, 1) == '\'' and substr($string, -1) == '\'')
 		) {
@@ -115,7 +115,7 @@ class Quicky_BBcode {
 		return $string;
 	}
 
-	private function _tag_token($mixed) {
+	protected function _tag_token($mixed) {
 		if (is_array($mixed)) {
 			if (sizeof($mixed) == 1) {
 				if ($mixed[0] == "\n") {
