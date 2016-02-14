@@ -150,7 +150,7 @@ class Quicky_BBcode {
 					$url = call_user_func($this->urlCallback, $url);
 				}
 				$urlEscaped = htmlspecialchars($url);
-				return '<a href="' . $urlEscaped . '">' . $urlEscaped . '</a>';
+				return '<a href="' . $urlEscaped . '" target="_blank">' . $urlEscaped . '</a>';
 			}
 			if ($mixed[1] !== '') {
 				if ($this->use_stat) {
@@ -189,7 +189,7 @@ class Quicky_BBcode {
 					if ($this->urlCallback !== null) {
 						$url = call_user_func($this->urlCallback, $url);
 					}
-					return '<a href="' . htmlspecialchars($url) . '">' . $this->_tag_token($block_content) . '</a>';
+					return '<a href="' . htmlspecialchars($url) . '" target="_blank">' . $this->_tag_token($block_content) . '</a>';
 				}
 				elseif ($block_type === 'youtube') {
 					if (!ctype_alnum($block_content)) {
