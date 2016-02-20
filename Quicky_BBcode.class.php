@@ -192,6 +192,7 @@ class Quicky_BBcode {
 					return '<a href="' . htmlspecialchars($url) . '" target="_blank">' . $this->_tag_token($block_content) . '</a>';
 				}
 				elseif ($block_type === 'youtube') {
+					$block_content = trim($block_content);
 					if (!preg_match('~^[a-zA-Z\d\-_]+$~', $block_content)) {
 						return '';
 					}
