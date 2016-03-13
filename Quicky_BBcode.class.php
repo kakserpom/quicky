@@ -146,11 +146,13 @@ class Quicky_BBcode {
 				if (!$this->safe_uri($url)) {
 					return $this->_error('Unsafe uri "' . $url . '" in tag ' . $block_type);
 				}
+				$origUrl = $url;
 				if ($this->urlCallback !== null) {
 					$url = call_user_func($this->urlCallback, $url);
 				}
 				$urlEscaped = htmlspecialchars($url);
-				return '<a href="' . $urlEscaped . '" target="_blank">' . $urlEscaped . '</a>';
+				$origUrlEscaped = htmlspecialchars($origUrl);
+				return '<a href="' . $urlEscaped . '" target="_blank">' . $origUrlEscaped . '</a>';
 			}
 			if ($mixed[1] !== '') {
 				if ($this->use_stat) {
