@@ -224,18 +224,19 @@ class Quicky_BBcode {
 				}
 				elseif ($block_type == 'code') {
 					$s = trim($block_content);
-					$r = '';
+					$r = '<div style="background-color:#cccccc">';
 					$x = 0;
 					$e = explode("\n", $s);
 					for ($i = 0, $s = sizeof($e); $i < $s; ++$i) {
 						$line = $e[$i];
 						if ($x != 0 or strlen(trim(str_replace('<br />', '', $line))) > 0) {
 							$r .= '<font style="color:#000000;background-color:#eeeeee;">&nbsp;' . sprintf('%03d', $x + 1) .
-									'&nbsp;</font>&nbsp;' . $line . "\n";
+									'&nbsp;</font>&nbsp;' . htmlspecialchars($line) . "\n";
 							$x++;
 						}
 					}
-					return '<div style="background-color:#cccccc">' . $r . '</div>';
+					$r .= '</div>';
+					return $r;
 				}
 				elseif (in_array($block_type, array('b', 'i', 'u', 's', 'p'))) {
 					return '<' . $block_type . '>' . $this->_tag_token($block_content) . '</' . $block_type . '>';
