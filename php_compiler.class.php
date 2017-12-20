@@ -17,7 +17,7 @@ class php_compiler {
 	public $load_plugins = array();
 	public $prefs = array();
 	public $template_defined_functions = array();
-	public $syntax_error = NULL;
+	public $syntax_error = null;
 	public $template_from;
 	public $blocks = array();
 	public $_write_out_to = '';
@@ -41,7 +41,7 @@ class php_compiler {
 		}
 		$header .= '?>';
 		$a = array_values($this->postfilters);
-		for ($i = 0, $s = sizeof($a); $i < $s; $i++) {
+		for ($i = 0, $s = count($a); $i < $s; $i++) {
 			$source = call_user_func($a[$i], $source, $this);
 		}
 		$this->load_plugins = $old_load_plugins;

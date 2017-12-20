@@ -10,7 +10,7 @@
 require_once dirname(__FILE__) . '/Quicky.class.php';
 class Blitz extends Quicky {
 	public $tplname;
-	public $parsed = FALSE;
+	public $parsed = false;
 
 	public function __construct($tpl) {
 		$this->init();
@@ -19,7 +19,7 @@ class Blitz extends Quicky {
 
 	public function _fetch($name) {
 		if (!$this->parsed) {
-			$this->parse(TRUE);
+			$this->parse(true);
 		}
 		return $this->context_fetch($name);
 	}
@@ -36,8 +36,8 @@ class Blitz extends Quicky {
 		return $this->context_path($path);
 	}
 
-	public function parse($fetch = FALSE, $vars = array()) {
-		$this->parsed = TRUE;
+	public function parse($fetch = false, $vars = array()) {
+		$this->parsed = true;
 		if ($fetch) {
 			return $this->fetch($this->tplname);
 		}

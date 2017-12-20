@@ -39,17 +39,17 @@ class Quicky_BBcode {
 	public $left_delimiter = '[';
 	public $right_delimiter = ']';
 	public $errors = array();
-	public $allow_html_tags = FALSE;
+	public $allow_html_tags = false;
 	public $smiles_dir;
 	public $smiles_url;
 	protected $_builtin_blocks = '[gm]|email|youtube|img|url|code|php|list|plain|literal';
-	public $cast_unrecognized_tags = FALSE;
+	public $cast_unrecognized_tags = false;
 	public $stat = array();
-	public $use_stat = TRUE;
+	public $use_stat = true;
 	public $block_stacks = array();
 	public $block_stack_n = 0;
-	public $autourl = TRUE;
-	public $allow_smiles = TRUE;
+	public $autourl = true;
+	public $allow_smiles = true;
 	public $urlCallback;
 
 	public function __construct() {
@@ -62,14 +62,14 @@ class Quicky_BBcode {
 	public function safe_uri($uri) {
 		$uri = trim($uri);
 		if (preg_match('~^(?:java|vb)script:~i', preg_replace('~\s+~', '', $uri))) {
-			return FALSE;
+			return false;
 		}
-		return TRUE;
+		return true;
 	}
 
 	protected function _error($msg) {
 		$this->errors[] = $msg;
-		return FALSE;
+		return false;
 	}
 
 	public function register_block($name, $callback) {
@@ -88,7 +88,7 @@ class Quicky_BBcode {
 			if (trim($v[0]) === '') {
 				continue;
 			}
-			if (sizeof($v) == 1) {
+			if (count($v) == 1) {
 				$lastkey = ltrim(rtrim($v[0], " =\t"));
 				continue;
 			}
@@ -101,7 +101,7 @@ class Quicky_BBcode {
 			$lastkey = '';
 		}
 		if ($this->use_stat) {
-			$this->stat['numparams'] += sizeof($params);
+			$this->stat['numparams'] += count($params);
 		}
 		return $params;
 	}
@@ -117,7 +117,7 @@ class Quicky_BBcode {
 
 	protected function _tag_token($mixed) {
 		if (is_array($mixed)) {
-			if (sizeof($mixed) == 1) {
+			if (count($mixed) == 1) {
 				if ($mixed[0] == "\n") {
 					return '<br />' . "\n";
 				}
@@ -208,7 +208,7 @@ class Quicky_BBcode {
 					else {
 						$s = str_replace("\r", '', '<?php' . "\n" . $s . ' ?>');
 					}
-					$s    = @highlight_string($s, TRUE);
+					$s    = @highlight_string($s, true);
 					$s    = substr_replace($s, '', strpos($s, '&lt;?php'), 8);
 					$s    = substr_replace($s, '', strrpos($s, '?&gt;'), 5);
 					$from = 0;
@@ -227,7 +227,7 @@ class Quicky_BBcode {
 					$r = '<div style="background-color:#cccccc">';
 					$x = 0;
 					$e = explode("\n", $s);
-					for ($i = 0, $s = sizeof($e); $i < $s; ++$i) {
+					for ($i = 0, $s = count($e); $i < $s; ++$i) {
 						$line = $e[$i];
 						if ($x != 0 or strlen(trim(str_replace('<br />', '', $line))) > 0) {
 							$r .= '<font style="color:#000000;background-color:#eeeeee;">&nbsp;' . sprintf('%03d', $x + 1) .
@@ -322,18 +322,18 @@ class Quicky_BBcode {
 					$el  = array_slice($bs, -$c_offsets[$this->block_stack_n], 1);
 					$tag = current($el);
 					++$c_offsets[$this->block_stack_n];
-					if ($tag === FALSE or $tag[1]) {
+					if ($tag === false or $tag[1]) {
 						return '';
 					}
 					$tag             = $tag[0];
-					$bs[key($el)][1] = TRUE;
+					$bs[key($el)][1] = true;
 				}
 				elseif ($close) {
-					$found = FALSE;
-					for ($i = sizeof($bs) - 1; $i >= 0; --$i) {
+					$found = false;
+					for ($i = count($bs) - 1; $i >= 0; --$i) {
 						if ((!$bs[$i][1]) and ($bs[$i][0] == $tag)) {
-							$bs[$i][1] = TRUE;
-							$found     = TRUE;
+							$bs[$i][1] = true;
+							$found     = true;
 							break;
 						}
 					}
@@ -342,8 +342,8 @@ class Quicky_BBcode {
 					}
 				}
 				$return = $this->_exec_tag($close, $tag, $param);
-				if (!$close and !in_array($tag, array('hr')) and ($return !== FALSE)) {
-					$bs[]                            = array($tag, FALSE);
+				if (!$close and !in_array($tag, array('hr')) and ($return !== false)) {
+					$bs[]                            = array($tag, false);
 					$c_offsets[$this->block_stack_n] = 0;
 				}
 				return $return;
@@ -356,11 +356,11 @@ class Quicky_BBcode {
 		}
 		$bs = & $this->block_stacks[$this->block_stack_n];
 		static $regexp;
-		if ($regexp === NULL) {
+		if ($regexp === null) {
 			$ldelim = preg_quote($this->left_delimiter, '~');
 			$rdelim = preg_quote($this->right_delimiter, '~');
 			$blocks = array($this->_builtin_blocks);
-			for ($i = 0, $s = sizeof($this->blocks), $v = array_keys($this->blocks); $i < $s; ++$i) {
+			for ($i = 0, $s = count($this->blocks), $v = array_keys($this->blocks); $i < $s; ++$i) {
 				$blocks[] = preg_quote($v[$i], '~');
 			}
 			$regexp = '~'
@@ -371,7 +371,7 @@ class Quicky_BBcode {
 					. '~si';
 		}
 		$return = preg_replace_callback($regexp, array($this, '_tag_token'), $mixed);
-		for ($i = sizeof($bs) - 1; $i >= 0; --$i) {
+		for ($i = count($bs) - 1; $i >= 0; --$i) {
 			if (!$bs[$i][1]) {
 				$return .= $this->_exec_tag('/', $bs[$i][0]);
 			}
@@ -455,16 +455,16 @@ class Quicky_BBcode {
 			return '<table border="1">';
 		}
 		elseif ($tag == 'row') {
-			$found = FALSE;
-			for ($i = sizeof($bs) - 1; $i >= 0; --$i) {
+			$found = false;
+			for ($i = count($bs) - 1; $i >= 0; --$i) {
 				if ((!$bs[$i][1]) and ($bs[$i][0] == 'table')) {
-					$found = TRUE;
+					$found = true;
 					break;
 				}
 			}
 			if (!$found) {
 				$this->_error('Unexpected tag-type: \'' . $tag . '\'');
-				return FALSE;
+				return false;
 			}
 			if ($close) {
 				return '</tr>';
@@ -472,10 +472,10 @@ class Quicky_BBcode {
 			return '<tr>';
 		}
 		elseif ($tag == 'col') {
-			$found = FALSE;
-			for ($i = sizeof($bs) - 1; $i >= 0; --$i) {
+			$found = false;
+			for ($i = count($bs) - 1; $i >= 0; --$i) {
 				if ((!$bs[$i][1]) and ($bs[$i][0] == 'table')) {
-					$found = TRUE;
+					$found = true;
 					break;
 				}
 			}
@@ -499,7 +499,7 @@ class Quicky_BBcode {
 			$return = call_user_func($this->tags[$tag], $param, $close);
 		}
 		else {
-			return $this->cast_unrecognized_tags ? NULL : $this->_error('Unrecognized tag-type: \'' . $tag . '\' (' . $close . ')');
+			return $this->cast_unrecognized_tags ? null : $this->_error('Unrecognized tag-type: \'' . $tag . '\' (' . $close . ')');
 		}
 		return $return;
 	}

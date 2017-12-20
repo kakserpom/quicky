@@ -11,7 +11,7 @@
 /**************************************************************************/
 class Quicky_form {
 	static $forms = array();
-	static $_uploads_temp = FALSE;
+	static $_uploads_temp = false;
 	public $name;
 	public $elements;
 	public $properties;
@@ -36,12 +36,12 @@ class Quicky_form {
 
 	public function complete() {
 		if ($this->_num_of_errors) {
-			return FALSE;
+			return false;
 		}
 		if (isset($this->elements->submit) && !$this->elements->submit->clicked()) {
-			return FALSE;
+			return false;
 		}
-		return TRUE;
+		return true;
 	}
 
 	public function addElement($name, $properties = array()) {
@@ -68,7 +68,7 @@ class Quicky_form {
 	}
 
 	public function __get($name) {
-		return isset($this->$name) ? $this->$name : (isset($this->elements->$name) ? $this->elements->$name : NULL);
+		return isset($this->$name) ? $this->$name : (isset($this->elements->$name) ? $this->elements->$name : null);
 	}
 
 	public function __clone() {
@@ -97,7 +97,7 @@ class Quicky_form_filter {
 		return ctype_digit($string);
 	}
 
-	static function double($string, $abs = TRUE) {
+	static function double($string, $abs = true) {
 		return (bool)preg_match('~^' . (!$abs ? '-?' : '') . '\d+(\.\d+)?$~', $string);
 	}
 
@@ -138,10 +138,10 @@ class Quicky_form_element {
 		}
 		if (!call_user_func_array(array('Quicky_form_filter', $name), $filter)) {
 			$this->error($errmsg);
-			return FALSE;
+			return false;
 		}
 		else {
-			return TRUE;
+			return true;
 		}
 	}
 
@@ -155,7 +155,7 @@ class Quicky_form_element {
 
 	public function getValue() {
 		if (!isset($this->name)) {
-			return FALSE;
+			return false;
 		}
 		if (isset($this->value)) {
 			return $this->value;
@@ -208,14 +208,14 @@ class QButton extends Quicky_form_element {
 
 	public function clicked() {
 		if (!isset($this->name)) {
-			return FALSE;
+			return false;
 		}
 		return isset($_REQUEST[$this->name]);
 	}
 
 	public function notClicked() {
 		if (!isset($this->name)) {
-			return TRUE;
+			return true;
 		}
 		return !isset($_REQUEST[$this->name]);
 	}
@@ -233,7 +233,7 @@ class QSubmit extends Quicky_form_element {
 
 	public function clicked() {
 		if (!isset($this->name)) {
-			return FALSE;
+			return false;
 		}
 		return isset($_REQUEST[$this->name]);
 	}
@@ -249,7 +249,7 @@ class QCheckBox extends Quicky_form_element {
 
 	public function checked() {
 		if (!isset($this->name)) {
-			return FALSE;
+			return false;
 		}
 		return isset($_REQUEST[$this->name]);
 	}
@@ -321,7 +321,7 @@ class QFile extends Quicky_form_element {
 	public function moveFileTo($dest) {
 		$p = $this->getPath();
 		if (!$p) {
-			return FALSE;
+			return false;
 		}
 		copy($p, $dest);
 		chmod($dest, 0644);
@@ -332,30 +332,30 @@ class QFile extends Quicky_form_element {
 		return $this->moveFileTo($dest);
 	}
 
-	public function getContents($empty = FALSE) {
+	public function getContents($empty = false) {
 		$p = $this->getPath();
 		if (!$p) {
-			return $empty ? '' : FALSE;
+			return $empty ? '' : false;
 		}
 		return file_get_contents($p);
 	}
 
 	public function getPath() {
-		if ($this->_upload_id !== NULL) {
+		if ($this->_upload_id !== null) {
 			$p = $this->_uploads_temp . basename($this->_upload_id);
-			return file_exists($p) ? $p : FALSE;
+			return file_exists($p) ? $p : false;
 		}
 		if (!isset($this->name)) {
-			return FALSE;
+			return false;
 		}
 		if (isset($_FILES[$this->name])) {
-			return is_uploaded_file($_FILES[$this->name]['tmp_name']) ? $_FILES[$this->name]['tmp_name'] : FALSE;
+			return is_uploaded_file($_FILES[$this->name]['tmp_name']) ? $_FILES[$this->name]['tmp_name'] : false;
 		}
 		if (isset($_REQUEST[$this->name]) && ($_REQUEST[$this->name] !== '')) {
 			$p = $this->_uploads_temp . basename(strval($_REQUEST[$this->name]));
-			return file_exists($p) ? $p : FALSE;
+			return file_exists($p) ? $p : false;
 		}
-		return FALSE;
+		return false;
 	}
 
 	public function getName() {

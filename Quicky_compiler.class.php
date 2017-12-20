@@ -7,7 +7,7 @@
 /* Quicky_compiler.class.php: Template compiler
 /**************************************************************************/
 class Quicky_compiler {
-	public $pcre_trace = FALSE;
+	public $pcre_trace = false;
 	public $precompiled_vars = array();
 	public $prefilters = array();
 	public $postfilters = array();
@@ -16,7 +16,7 @@ class Quicky_compiler {
 	public $load_plugins = array();
 	public $seq = array();
 	public $seq_id = 0;
-	public $_alt_tag = FALSE;
+	public $_alt_tag = false;
 	public $prefs = array();
 	public $template_defined_functions = array();
 	public $allowed_php_tokens = array('array', 'date', 'strtotime', 'isset', 'empty', 'is_empty', 'count', 'sizeof', 'shuffle',
@@ -44,8 +44,8 @@ class Quicky_compiler {
 		'substr', 'trim', 'ucfirst', 'ucwords', 'vfprintf', 'vprintf', 'vsprintf', 'wordwrap', 'and', 'or', 'xor',
 		'json_encode', 'json_decode', 'lang_om_number', 'intval', 'floatval', 'strval', 'setcookie', 'in_array',
 		'long2ip', 'ip2long', 'defined', 'file_exists', 'basename', 'mb_substr', 'mb_strlen', 'mb_strtolower', 'getdate', 'current','next');
-	public $_def_mode = NULL;
-	public $_scope_override = NULL;
+	public $_def_mode = null;
+	public $_scope_override = null;
 	public $allowed_php_constants = array();
 	public $syntax_errors = array();
 	public $template_from;
@@ -55,21 +55,21 @@ class Quicky_compiler {
 	public $magic_constants = array('tplpath', 'tplpathdir', 'ldelim', 'rdelim');
 	public $block_props = array();
 	public $_write_out_to = '';
-	public $_halt = FALSE;
+	public $_halt = false;
 	public $_line = array();
 	public $_line_count = array();
 	public $_current_tag = array();
 	public $_tag_stacks = array();
 	public $_tag_stack_n = 0;
-	public $_no_magic = FALSE;
-	public $no_optimize = FALSE;
+	public $_no_magic = false;
+	public $no_optimize = false;
 	public $_tmp = array();
 	public $_cpl_vars = array();
 	public $_cpl_config = array();
-	public $_cplmode = FALSE;
-	public $_no_auto_escape = FALSE;
+	public $_cplmode = false;
+	public $_no_auto_escape = false;
 	public $_shortcuts = array();
-	public $_shortcutslockmode = FALSE;
+	public $_shortcutslockmode = false;
 	public $_shortcutslocked = array();
 	public $_var_map = array();
 
@@ -85,10 +85,10 @@ class Quicky_compiler {
 	}
 
 	public function push_block_props($props, $blocktype, $name) {
-		for ($i = 0; $i < sizeof($props); $i++) {
+		for ($i = 0; $i < count($props); $i++) {
 			$this->block_props[$props[$i]] = array($name, $blocktype);
 		}
-		return TRUE;
+		return true;
 	}
 
 	public function _resolve_var($name) {
@@ -125,16 +125,16 @@ class Quicky_compiler {
 		if (!in_array($block, $this->blocks)) {
 			$this->blocks[] = $block;
 		}
-		return TRUE;
+		return true;
 	}
 
 	public function unregister_block($block) {
 		if ($k = array_search($block, $this->blocks)) {
 			unset($this->blocks[$k]);
-			return TRUE;
+			return true;
 		}
 		else {
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -155,7 +155,7 @@ class Quicky_compiler {
 
 	public function _form_detect_field($m) {
 		$tag    = strtolower($m[1] !== '' ? $m[1] : $m[3]);
-		$params = $this->_parse_params($m[1] !== '' ? $m[2] : $m[4], TRUE);
+		$params = $this->_parse_params($m[1] !== '' ? $m[2] : $m[4], true);
 		if ($tag == 'option') {
 			$params['text'] = $m[5];
 			if (!isset($params['value'])) {
@@ -189,7 +189,7 @@ class Quicky_compiler {
 	}
 
 	public function _form_detect($m) {
-		$params                = $this->_parse_params($m[1], TRUE);
+		$params                = $this->_parse_params($m[1], true);
 		$form_name             = '';
 		$p                     = '';
 		$params['auto_object'] = 1;
@@ -229,9 +229,9 @@ class Quicky_compiler {
 		return '~' . $this->seq_hash . '_' . $this->seq_id . str_repeat("\n", substr_count($m[1], "\n")) . '~';
 	}
 
-	public function _read_seq($reset = FALSE) {
+	public function _read_seq($reset = false) {
 		static $i = array();
-		if ($reset === TRUE or !isset($i[$this->seq_id])) {
+		if ($reset === true or !isset($i[$this->seq_id])) {
 			$i[$this->seq_id] = 0;
 			return;
 		}
@@ -241,7 +241,7 @@ class Quicky_compiler {
 
 	public function _read_sequences($source) {
 		$this->seq_id = 'comment';
-		$this->_read_seq(TRUE);
+		$this->_read_seq(true);
 		$source = preg_replace_callback('~\~' . $this->seq_hash . '_' . $this->seq_id . '\s*\~~si', array($this, '_read_comment'), $source);
 		return $source;
 	}
@@ -260,7 +260,7 @@ class Quicky_compiler {
 	}
 
 	public function _compile_source_string($template, $from) {
-		$this->parent->local_depart_scopes       = FALSE;
+		$this->parent->local_depart_scopes       = false;
 		$old_load_plugins                        = $this->load_plugins;
 		$this->load_plugins                      = array();
 		$old_template_from                       = $this->template_from;
@@ -280,7 +280,7 @@ class Quicky_compiler {
 		$template     = preg_replace_callback('~([\'"]).*?\1|(' . $ldelim . '\*.*?\*' . $rdelim . ')~s', array($this, '_write_comment'), $template);
 
 		$a = array_values($this->prefilters);
-		for ($i = 0, $s = sizeof($a); $i < $s; $i++) {
+		for ($i = 0, $s = count($a); $i < $s; $i++) {
 			$template = call_user_func($a[$i], $template, $this);
 		}
 		$source = $template;
@@ -290,7 +290,7 @@ class Quicky_compiler {
 			$source = preg_replace_callback('~' . $ldelim . 'e_\s+(.*?)' . $rdelim . '~i', $this->parent->lang_callback_e, $source);
 			$source = preg_replace_callback('~' . $ldelim . 'LANG(?:=([\'|"])?(.*?)\1)?' . $rdelim . '(.*?)' . $ldelim . '/LANG' . $rdelim . '~si', array($this, '_block_lang_callback'), $source);
 		}
-		if ($this->parent->_auto_detect_forms or sizeof($this->parent->_detect_forms) > 0) {
+		if ($this->parent->_auto_detect_forms or count($this->parent->_detect_forms) > 0) {
 			$source = preg_replace_callback('~<form(\s+.*?)?>(.*?)</form>~si', array($this, '_form_detect'), $source);
 		}
 		if (!isset($this->prefs['allow_php_native']) or !$this->prefs['allow_php_native']) {
@@ -306,39 +306,39 @@ class Quicky_compiler {
 
 		$source = $this->_read_sequences($source);
 
-		if (!$this->no_optimize and FALSE) {
+		if (!$this->no_optimize and false) {
 			$source = preg_replace_callback('~\?>(.{0,20}?)<\?php~s', create_function('$m', 'if ($m[1] === \'\') {return \'\';} return \' echo \\\'\'.Quicky_compiler::escape_string($m[1]).\'\\\';' . "\n" . '\';'), $source);
 			$source = preg_replace_callback('~^(.{1,20}?)(<\?php)~s', create_function('$m', 'return $m[2].\' echo \\\'\'.Quicky_compiler::escape_string($m[1]).\'\\\';' . "\n" . '\';'), $source);
 			$source = preg_replace_callback('~(\?>)(.{1,20})$~s', create_function('$m', 'return \' echo \\\'\'.Quicky_compiler::escape_string($m[2]).\'\\\';' . "\n" . '\'.$m[1];'), $source);
 		}
 		$header = '<?php /* Quicky compiler version ' . $this->compiler_version . ', created on ' . date('r') . '
 			 compiled from ' . $from . ' */' . "\n";
-		for ($i = 0, $s = sizeof($this->load_plugins); $i < $s; $i++) {
-			$header .= 'require_once ' . var_export($this->load_plugins[$i], TRUE) . ';' . "\n";
+		for ($i = 0, $s = count($this->load_plugins); $i < $s; $i++) {
+			$header .= 'require_once ' . var_export($this->load_plugins[$i], true) . ';' . "\n";
 		}
-		$header .= '$local = &$tpl->_local_vars[' . var_export($from, TRUE) . '];' . "\n";
-		$header .= '$var_buff = &$tpl->_tpl_vars_buff[' . var_export($from, TRUE) . '];' . "\n";
+		$header .= '$local = &$tpl->_local_vars[' . var_export($from, true) . '];' . "\n";
+		$header .= '$var_buff = &$tpl->_tpl_vars_buff[' . var_export($from, true) . '];' . "\n";
 		$header .= '$var_buff = array();' . "\n";
-		$header .= 'if ($local === NULL) {$local = array();}' . "\n";
+		$header .= 'if ($local === null) {$local = array();}' . "\n";
 		$header .= 'else
 {
  foreach ($local as $k => $v)
  {
-  $var_buff[$k] = isset($var[$k])?$var[$k]:NULL;
+  $var_buff[$k] = isset($var[$k])?$var[$k]:null;
   $var[$k] = &$local[$k];
  }
 }
 ';
 		$header .= '?>';
-		$footer = '<?php foreach ($tpl->_tpl_vars_buff[' . var_export($from, TRUE) . '] as $k => $v) {unset($var[$k]); $var[$k] = $v;} ' . "\n"
-				. ' $tpl->_local_vars[' . var_export($from, TRUE) . '] = array(); ?>';
-		if (sizeof($this->syntax_errors)) {
+		$footer = '<?php foreach ($tpl->_tpl_vars_buff[' . var_export($from, true) . '] as $k => $v) {unset($var[$k]); $var[$k] = $v;} ' . "\n"
+				. ' $tpl->_local_vars[' . var_export($from, true) . '] = array(); ?>';
+		if (count($this->syntax_errors)) {
 			return implode("<br />\n", $this->syntax_errors);
 		}
-		$this->_halt = FALSE;
+		$this->_halt = false;
 
 		$a = array_values($this->postfilters);
-		for ($i = 0, $s = sizeof($a); $i < $s; $i++) {
+		for ($i = 0, $s = count($a); $i < $s; $i++) {
 			$source = call_user_func($a[$i], $source, $this);
 		}
 
@@ -365,7 +365,7 @@ class Quicky_compiler {
 		return $s;
 	}
 
-	public function _parse_params($p, $plain = FALSE) {
+	public function _parse_params($p, $plain = false) {
 		$params = array();
 		preg_match_all('~(?:\w+\s*=|(([\'"]).*?(?<!\\\\)\2|\w*\s*\(((?:(?R)|.)*?)\)'
 							   . '|_?[\$#]\w+#?(?:\\[(?:(?R)|((?:[^\\]\'"]*(?:([\'"]).*?(?<!\\\\)\5)?)*))*?\\]|\.[\$#]?\w+#?|->\s*[\$#]?\w+(?:\(((?:(?R)|.)*?)\))?)*'
@@ -374,7 +374,7 @@ class Quicky_compiler {
 							   . '|.+?~s', $p, $m, PREG_SET_ORDER);
 		$lastkey = '';
 		foreach ($m as $v) {
-			$s = sizeof($v);
+			$s = count($v);
 			if (($s == 1) || ($s == 2) || ($s == 3)) {
 				if (preg_match('~^\w+\s*=$~', $v[0])) {
 					$lastkey = ltrim(rtrim($v[0], " =\t"));
@@ -418,7 +418,7 @@ class Quicky_compiler {
 	public function _get_expr_blockprop($name, $blocktype, $prop) {
 		$blocktype = strtolower($blocktype);
 		$prop      = strtolower($prop);
-		$a         = '$' . $blocktype . '[' . var_export($name, TRUE) . ']';
+		$a         = '$' . $blocktype . '[' . var_export($name, true) . ']';
 		if ($blocktype == 'foreach') {
 			if ($prop == 'iteration' or $prop == 'i') {
 				$prop = 'i';
@@ -458,22 +458,22 @@ class Quicky_compiler {
 		}
 		elseif ($blocktype == 'form') {
 			if ($prop == 'form') {
-				return 'Quicky_form::$forms[' . var_export($name, TRUE) . ']';
+				return 'Quicky_form::$forms[' . var_export($name, true) . ']';
 			}
 		}
-		return $a . '[' . var_export($prop, TRUE) . ']';
+		return $a . '[' . var_export($prop, true) . ']';
 	}
 
 	public function _optimize_callback($m) {
 		$prefix = ' ' . $this->_write_out_to !== '' ? $this->_write_out_to . ' .= ' : 'echo ';
 		if (isset($m[1]) and $m[1] !== '') {
-			$return = $prefix . var_export($m[1], TRUE) . ';';
+			$return = $prefix . var_export($m[1], true) . ';';
 		}
 		elseif (isset($m[2]) and $m[2] !== '') {
-			$return = $prefix . var_export($m[2], TRUE) . ';';
+			$return = $prefix . var_export($m[2], true) . ';';
 		}
 		elseif (isset($m[3]) and $m[3] !== '') {
-			$return = $prefix . var_export($m[3], TRUE) . ';';
+			$return = $prefix . var_export($m[3], true) . ';';
 		}
 		else {
 			$return = '';
@@ -511,7 +511,7 @@ class Quicky_compiler {
 			return is_array($mixed) ? $mixed[0] : $mixed;
 		}
 		if (is_array($mixed)) {
-			if ((sizeof($mixed) == 1) && (($mixed[0] === "\r\n") || $mixed[0] === "\n")) {
+			if ((count($mixed) == 1) && (($mixed[0] === "\r\n") || $mixed[0] === "\n")) {
 				++$this->_line[$this->template_from];
 				return $mixed[0];
 			}
@@ -543,13 +543,13 @@ class Quicky_compiler {
 					$a[4] = $mixed[10];
 				}
 				$mixed          = $a;
-				$this->_alt_tag = FALSE;
+				$this->_alt_tag = false;
 			}
 			else {
-				$this->_alt_tag = TRUE;
+				$this->_alt_tag = true;
 			}
 			if (isset($mixed[4]) && $mixed[4] !== '') {
-				$this->_no_auto_escape = FALSE;
+				$this->_no_auto_escape = false;
 				preg_match('~^\s*(\S+)(.*)$~s', $mixed[4], $m);
 				if (!isset($m[0])) {
 					$m[0] = '';
@@ -569,7 +569,7 @@ class Quicky_compiler {
 					$close  = $tm[1] !== '';
 					$a      = 'quicky_compiler_' . $tag;
 					if ($close) {
-						$return = $a($params, $this, TRUE);
+						$return = $a($params, $this, true);
 					}
 					else {
 						$return = $a($params, $this);
@@ -580,12 +580,12 @@ class Quicky_compiler {
 					$params     = $this->_parse_params($m[2]);
 					$key_params = array();
 					foreach ($params as $k => $v) {
-						$key_params[] = var_export($k, TRUE) . ' => ' . $v;
+						$key_params[] = var_export($k, true) . ' => ' . $v;
 					}
 					$t    = $this->parent->reg_func[strtolower($tag)];
-					$pstr = 'array(' . implode(',', $key_params) . '),' . ($this->_cplmode ? '$tpl->parent' : '$tpl') . ',TRUE';
+					$pstr = 'array(' . implode(',', $key_params) . '),' . ($this->_cplmode ? '$tpl->parent' : '$tpl') . ',true';
 					if (is_array($t) || is_object($t)) {
-						$t = 'call_user_func(' . ($this->_cplmode ? '$tpl->parent->reg_func[' . var_export($tag, TRUE) . ']' : '$tpl->reg_func[' . var_export($tag, TRUE) . ']') . ',' . $pstr . ')';
+						$t = 'call_user_func(' . ($this->_cplmode ? '$tpl->parent->reg_func[' . var_export($tag, true) . ']' : '$tpl->reg_func[' . var_export($tag, true) . ']') . ',' . $pstr . ')';
 					}
 					else {
 						$t = $t . '(' . $pstr . ')';
@@ -596,12 +596,12 @@ class Quicky_compiler {
 					$params     = $this->_parse_params($m[2]);
 					$key_params = array();
 					foreach ($params as $k => $v) {
-						$key_params[] = var_export($k, TRUE) . ' => ' . $v;
+						$key_params[] = var_export($k, true) . ' => ' . $v;
 					}
 					if (!in_array($p, $this->load_plugins) and !$c) {
 						$this->load_plugins[] = $p;
 					}
-					return '<?php ' . (($this->_cplmode and !$c) ? 'require_once ' . var_export($p, TRUE) . '; ' : '') . ($this->_write_out_to !== '' ? $this->_write_out_to . ' .=' : 'echo') . ' quicky_function_' . $tag . '(array(' . implode(',', $key_params) . '),' . ($this->_cplmode ? '$tpl->parent' : '$tpl') . ',TRUE);' . "\n" . '?>';
+					return '<?php ' . (($this->_cplmode and !$c) ? 'require_once ' . var_export($p, true) . '; ' : '') . ($this->_write_out_to !== '' ? $this->_write_out_to . ' .=' : 'echo') . ' quicky_function_' . $tag . '(array(' . implode(',', $key_params) . '),' . ($this->_cplmode ? '$tpl->parent' : '$tpl') . ',true);' . "\n" . '?>';
 				}
 				elseif (preg_match('~^' . preg_quote($this->left_delimiter, '~') . '\\*.*\\*' . preg_quote($this->right_delimiter, '~') . '$~s', $mixed[0])) {
 					return '';
@@ -610,8 +610,8 @@ class Quicky_compiler {
 					if ($this->_alt_tag and preg_match('~^\w+$~', trim($m[0]))) {
 						$m[0] = '$' . trim($m[0]);
 					}
-					$outoff = FALSE;
-					$plain  = FALSE;
+					$outoff = false;
+					$plain  = false;
 					if (substr($m[0], 0, 1) == '_') {
 						$m[0] = substr($m[0], 1);
 						if (substr($m[0], 0, 1) == '_') {
@@ -619,18 +619,18 @@ class Quicky_compiler {
 						}
 						if (substr($m[0], 0, 1) == '?') {
 							$m[0]   = substr($m[0], 1);
-							$outoff = TRUE;
+							$outoff = true;
 						}
-						$e     = $this->_fetch_expr($this->_expr_token($m[0], FALSE, TRUE, TRUE));
-						$plain = TRUE;
+						$e     = $this->_fetch_expr($this->_expr_token($m[0], false, true, true));
+						$plain = true;
 					}
 					else {
 						if (substr($m[0], 0, 1) == '?') {
-							$e      = $this->_expr_token(substr($m[0], 1), FALSE, TRUE);
-							$outoff = TRUE;
+							$e      = $this->_expr_token(substr($m[0], 1), false, true);
+							$outoff = true;
 						}
 						else {
-							$e = $this->_expr_token($m[0], FALSE, TRUE);
+							$e = $this->_expr_token($m[0], false, true);
 						}
 					}
 					if ($plain) {
@@ -648,7 +648,7 @@ class Quicky_compiler {
 			++$this->_tag_stack_n;
 			$block_name    = strtolower($mixed[1]);
 			$block_content = $mixed[3];
-			$p             = FALSE;
+			$p             = false;
 			if (preg_match('~^[\w+\-_]+$~', $block_name) && ((function_exists('quicky_block_' . $block_name) || ($p = $this->parent->fetch_plugin('block.' . $block_name))))) {
 				$block_params = $mixed[2];
 				if ($p) {
@@ -664,7 +664,7 @@ class Quicky_compiler {
 			return $return;
 		}
 		$blocks = array_values($this->blocks + $this->parent->_blocks);
-		for ($i = 0, $s = sizeof($blocks); $i < $s; $i++) {
+		for ($i = 0, $s = count($blocks); $i < $s; $i++) {
 			$blocks[$i] = preg_quote($blocks[$i], '~');
 		}
 		$blocks[] = 'if';
@@ -703,7 +703,7 @@ class Quicky_compiler {
 	public function _pcre_trace($regexp, $subject) {
 		if ($this->pcre_trace) {
 			$fp = fopen(QUICKY_DIR . 'pcre-trace.php.txt', 'w');
-			fwrite($fp, '<?php preg_replace(' . var_export($regexp, TRUE) . ',\'\',' . var_export($subject, TRUE) . "); ?>");
+			fwrite($fp, '<?php preg_replace(' . var_export($regexp, true) . ',\'\',' . var_export($subject, true) . "); ?>");
 			fclose($fp);
 		}
 	}
@@ -717,19 +717,19 @@ class Quicky_compiler {
 		preg_match_all($a = '~([\'"]).*?(?<!\\\\)\1|\(((?:(?R)|.)*?)\)|->((?:_?[\$#]?\w*(?:\(((?:(?R)|.)*?)\)|(\\[((?:(?R)|(?:[^\\]\'"]*([\'"]).*?(?<!\\\\)\4)*.*?))*?\\]|\.[\$#]?\w+#?|(?!a)a->\w*(?:\(((?:(?R)|.)*?)\))?)?)?)+)~', $token, $properties, PREG_SET_ORDER);
 		$token        = preg_replace_callback($a, create_function('$m', 'if (!isset($m[3])) {return $m[0];} return \'\';'), $token);
 		$obj_appendix = '';
-		$type_c       = FALSE;
-		for ($i = 0, $s = sizeof($properties); $i < $s; $i++) {
+		$type_c       = false;
+		for ($i = 0, $s = count($properties); $i < $s; $i++) {
 			if (isset($properties[$i][3])) {
-				$plain = FALSE;
+				$plain = false;
 				preg_match('~^((?:_?[\$#])?\w+#?)(.*)$~', $properties[$i][3], $q);
 				if (preg_match('~^_?[\$#]~', $q[1])) {
 					if (substr($q[1], 0, 1) == '_') {
-						$plain = TRUE;
+						$plain = true;
 						$q[1]  = substr($q[1], 1);
 					}
 					$q[1] = $this->_var_token($q[1]);
 					if ($plain) {
-						$q[1] = $this->_fetch_expr($q[1], FALSE, FALSE, TRUE);
+						$q[1] = $this->_fetch_expr($q[1], false, false, true);
 					}
 				}
 				$obj_appendix .= '->' . $q[1];
@@ -739,20 +739,20 @@ class Quicky_compiler {
 				else {
 					preg_match_all('~(\\[((?:(?R)|(?:[^\\]\'"]*([\'"]).*?(?<!\\\\)\3)*.*?))*?\\]|\.[\$#]?\w+#?)~', $q[2], $w, PREG_SET_ORDER);
 				}
-				for ($j = 0, $n = sizeof($w); $j < $n; $j++) {
+				for ($j = 0, $n = count($w); $j < $n; $j++) {
 					if (substr($w[$j][1], 0, 1) == '.') {
 						$expr = substr($w[$j][1], 1);
 						if (!isset($this->block_props[$expr])) {
 							$expr     = '"' . $expr . '"';
-							$instring = TRUE;
+							$instring = true;
 						}
 						else {
-							$instring = FALSE;
+							$instring = false;
 						}
 					}
 					else {
 						$expr     = substr($w[$j][1], 1, -1);
-						$instring = FALSE;
+						$instring = false;
 					}
 					$r = $this->_expr_token($expr, $instring);
 					$obj_appendix .= '[' . (preg_match('~^\w+$~', $r) ? '\'' . $r . '\'' : $r) . ']';
@@ -770,7 +770,7 @@ class Quicky_compiler {
 			$this->_no_magic = preg_match('~^\$(?:quicky|smarty)[\.\[]~i', $token);
 			preg_match_all('~([\$#]?\w*#?)(\\[((?:(?R)|(?:[^\\]\'"]*([\'"]).*?(?<!\\\\)\4)*.*?))*?\\]|\.[\$#]?\w+#?|->\w*(?:\(((?:(?R)|.)*?)\))?)~', $token, $w, PREG_SET_ORDER);
 			$appendix_set = array();
-			for ($i = 0, $s = sizeof($w); $i < $s; $i++) {
+			for ($i = 0, $s = count($w); $i < $s; $i++) {
 				if ($w[$i][1] !== '') {
 					$token = $w[$i][1];
 				}
@@ -778,32 +778,32 @@ class Quicky_compiler {
 					$expr = substr($w[$i][2], 1);
 					if (!isset($this->block_props[$expr])) {
 						$expr     = '"' . $expr . '"';
-						$instring = TRUE;
+						$instring = true;
 					}
 					else {
-						$instring = FALSE;
+						$instring = false;
 					}
 				}
 				else {
 					$expr     = substr($w[$i][2], 1, -1);
-					$instring = FALSE;
+					$instring = false;
 				}
 				$r              = $this->_expr_token($expr, $instring);
 				$appendix_set[] = preg_match('~^\w+$~', $r) ? '\'' . $r . '\'' : $r;
 			}
-			$this->_no_magic = FALSE;
+			$this->_no_magic = false;
 		}
 		static $operators = array('or', 'xor', 'and', 'true', 'false', 'null');
 		$mode             = 0;
-		$mode_special_var = FALSE;
+		$mode_special_var = false;
 		if (substr($token, 0, 1) == '\'' or substr($token, 0, 1) == '"') {
 			if (substr($token, -1) != $token[0]) {
 				return $this->_syntax_error('Bad string definition.');
 			}
 			if ($token[0] == '"') {
-				return $this->_expr_token($token, TRUE);
+				return $this->_expr_token($token, true);
 			}
-			return var_export($this->_dequote($token), TRUE);
+			return var_export($this->_dequote($token), true);
 		}
 		elseif ($token == '$tplpath') {
 			return '$path';
@@ -812,10 +812,10 @@ class Quicky_compiler {
 			return '$dir';
 		}
 		elseif ($token == '$rdelim') {
-			return var_export($this->right_delimiter, TRUE);
+			return var_export($this->right_delimiter, true);
 		}
 		elseif ($token == '$ldelim') {
-			return var_export($this->left_delimiter, TRUE);
+			return var_export($this->left_delimiter, true);
 		}
 		elseif ($token == '$SCRIPT_NAME') {
 			return '$_SERVER[\'SCRIPT_NAME\']';
@@ -823,7 +823,7 @@ class Quicky_compiler {
 		elseif ($token[0] == '$') {
 			$token = substr($token, 1);
 			if (array_key_exists($token, $this->precompiled_vars)) {
-				return var_export($this->precompiled_vars[$token], TRUE);
+				return var_export($this->precompiled_vars[$token], true);
 			}
 			if (isset($this->_def_mode)) {
 				$this->_var_map[$token] = $this->_def_mode;
@@ -834,10 +834,10 @@ class Quicky_compiler {
 				$appendix_set = array_slice($appendix_set, 1);
 				$type         = '';
 				if ($t == 'rdelim') {
-					return var_export($this->right_delimiter, TRUE);
+					return var_export($this->right_delimiter, true);
 				}
 				elseif ($t == 'ldelim') {
-					return var_export($this->left_delimiter, TRUE);
+					return var_export($this->left_delimiter, true);
 				}
 
 				elseif ($t == 'request') {
@@ -912,7 +912,7 @@ class Quicky_compiler {
 				elseif ($t == 'form') {
 					$type   = 'Quicky_form::$forms';
 					$mode   = 1;
-					$type_c = TRUE;
+					$type_c = true;
 				}
 				elseif ($t == 'template') {
 					return '$path';
@@ -933,27 +933,27 @@ class Quicky_compiler {
 		}
 		elseif (substr($token, 0, 1) == '#') {
 			if (substr($token, -1) != '#') {
-				return var_export($token, TRUE);
+				return var_export($token, true);
 			}
 			$type  = 'config';
 			$token = substr($token, 1, -1);
 		}
 		elseif ($token == 'tplpath') {
-			return var_export($this->template_from, TRUE);
+			return var_export($this->template_from, true);
 		}
 		elseif ($token == 'tplpathdir') {
 			$a = dirname($this->template_from);
-			return var_export($a !== '' ? $a : '.', TRUE);
+			return var_export($a !== '' ? $a : '.', true);
 		}
 		elseif ($token == 'rdelim') {
-			return var_export($this->right_delimiter, TRUE);
+			return var_export($this->right_delimiter, true);
 		}
 		elseif ($token == 'ldelim') {
-			return var_export($this->left_delimiter, TRUE);
+			return var_export($this->left_delimiter, true);
 		}
 		elseif (isset($this->block_props[$token]) and !$this->_no_magic) {
 			$return           = $this->_get_expr_blockprop($this->block_props[$token][0], $this->block_props[$token][1], $token);
-			$mode_special_var = TRUE;
+			$mode_special_var = true;
 		}
 		elseif (isset($this->block_props[$token])) {
 			return $token;
@@ -963,7 +963,7 @@ class Quicky_compiler {
 		}
 		elseif (preg_match('~^\w+$~', $token)) {
 			if (isset($this->prefs['cast_undefined_token_to_strings']) && $this->prefs['cast_undefined_token_to_strings']) {
-				return var_export($token, TRUE);
+				return var_export($token, true);
 			}
 			return $this->_syntax_error('Unexpected constant "' . $token . '"');
 		}
@@ -971,13 +971,13 @@ class Quicky_compiler {
 			return $this->_syntax_error('Unrecognized token \'' . $token . '\'');
 		}
 		$appendix = '';
-		for ($i = 0, $s = sizeof($appendix_set); $i < $s; $i++) {
+		for ($i = 0, $s = count($appendix_set); $i < $s; $i++) {
 			$appendix .= '[' . $appendix_set[$i] . ']';
 		}
 		if ($mode_special_var) {
 			return $return . $appendix . $obj_appendix;
 		}
-		$return = ((!$type_c) ? '$' : '') . $type . ($token !== '' ? '[' . var_export($token, TRUE) . ']' : '') . $appendix . $obj_appendix;
+		$return = ((!$type_c) ? '$' : '') . $type . ($token !== '' ? '[' . var_export($token, true) . ']' : '') . $appendix . $obj_appendix;
 		if ($mode == 2) {
 			$return = 'gpcvar_strnull(' . $return . ')';
 		}
@@ -987,7 +987,7 @@ class Quicky_compiler {
 	public function _expr_token_parse_params($expr) { // This function without regular expressions just for fun
 		$params         = array();
 		$cpos           = 0;
-		$instring       = FALSE;
+		$instring       = false;
 		$instring_delim = '';
 		$bnl            = 0;
 		$size           = strlen($expr);
@@ -1000,7 +1000,7 @@ class Quicky_compiler {
 			$char = $expr[$cpos];
 			if (!$instring) {
 				if ($char == '"' or $char == '\'') {
-					$instring       = TRUE;
+					$instring       = true;
 					$instring_delim = $char;
 				}
 				elseif ($char == '(') {
@@ -1012,7 +1012,7 @@ class Quicky_compiler {
 			}
 			else {
 				if ($char == $instring_delim and $expr[$cpos - 1] != '\\') {
-					$instring = FALSE;
+					$instring = false;
 				}
 			}
 			if (!$instring and $bnl == 0 and $char == ',') {
@@ -1063,7 +1063,7 @@ class Quicky_compiler {
 				$code = '!=';
 			}
 			else {
-				return $this->_syntax_error('Unknown operator ' . var_export($operator, TRUE));
+				return $this->_syntax_error('Unknown operator ' . var_export($operator, true));
 			}
 			return $code;
 		}
@@ -1092,7 +1092,7 @@ class Quicky_compiler {
 					$t      = $this->parent->reg_func[$tag];
 					$pstr   = implode(',', $params);
 					if (is_array($t) || is_object($t)) {
-						$t = 'call_user_func(' . ($this->_cplmode ? '$tpl->parent->reg_func[' . var_export($tag, TRUE) . ']' : '$tpl->reg_func[' . var_export($tag, TRUE) . ']') . ($pstr !== '' ? ',' : '') . $pstr . ')';
+						$t = 'call_user_func(' . ($this->_cplmode ? '$tpl->parent->reg_func[' . var_export($tag, true) . ']' : '$tpl->reg_func[' . var_export($tag, true) . ']') . ($pstr !== '' ? ',' : '') . $pstr . ')';
 					}
 					else {
 						$t = $t . '(' . $pstr . ')';
@@ -1104,10 +1104,10 @@ class Quicky_compiler {
 					$pstr   = implode(',', $params);
 					return 'call_user_func(' . $this->_var_token($caseFunc) . ($pstr !== '' ? ',' : '') . $pstr . ')';
 				}
-				$b = $p = $c = FALSE;
+				$b = $p = $c = false;
 				foreach ($this->allowed_php_tokens as $i) {
 					if (preg_match($e = '~^' . str_replace('\*', '.*', preg_quote($i, '~')) . '$~i', $a)) {
-						$b = TRUE;
+						$b = true;
 						break;
 					}
 				}
@@ -1120,16 +1120,16 @@ class Quicky_compiler {
 				if (preg_match('~^\w+$~', $a) && ($b || $c || $y || ($p = $this->parent->fetch_plugin('function.' . $a)))) {
 					$params = $this->_expr_token_parse_params($expr);
 					if ($p || $c) {
-						if ($p !== FALSE and !in_array($p, $this->load_plugins)) {
+						if ($p !== false and !in_array($p, $this->load_plugins)) {
 							$this->load_plugins[] = $p;
 						}
 						$return = '';
 						if ($p && (!$c)) {
-							$return .= '((require_once(' . var_export($p, TRUE) . '))?';
+							$return .= '((require_once(' . var_export($p, true) . '))?';
 						}
-						$return .= 'quicky_function_' . $a . '(array(' . implode(',', $params) . '),' . ($this->_cplmode ? '$tpl->parent' : '$tpl') . ',TRUE)';
+						$return .= 'quicky_function_' . $a . '(array(' . implode(',', $params) . '),' . ($this->_cplmode ? '$tpl->parent' : '$tpl') . ',true)';
 						if ($p && (!$c)) {
-							$return .= ':NULL)';
+							$return .= ':null)';
 						}
 					}
 					elseif ($b) {
@@ -1139,11 +1139,11 @@ class Quicky_compiler {
 						$return = $a . '(' . implode(',', $params) . ')';
 					}
 					elseif ($y) {
-						$tk = FALSE;
+						$tk = false;
 						$ta = array('begin', 'function');
-						for ($i = sizeof($this->_tag_stacks) - 1; $i >= 0; $i--) {
+						for ($i = count($this->_tag_stacks) - 1; $i >= 0; $i--) {
 							if (isset($this->_tag_stacks[$i]['type']) && in_array($this->_tag_stacks[$i]['type'], $ta)) {
-								$tk = TRUE;
+								$tk = true;
 								break;
 							}
 						}
@@ -1212,26 +1212,26 @@ class Quicky_compiler {
 			$mods_token = $m[8];
 			preg_match_all('~\|@?\s*\w+(?:\:(?:[^\:\|\'"]*(?:([\'"]).*?(?<!\\\\)\1[^\:\|\'"]*)*))*~', $mods_token, $mods_m, PREG_SET_ORDER);
 			$mods = array();
-			for ($i = 0, $s = sizeof($mods_m); $i < $s; $i++) {
+			for ($i = 0, $s = count($mods_m); $i < $s; $i++) {
 				preg_match('~\|(@?\w+)(.*)~', $mods_m[$i][0], $q);
 				$mod_name     = $q[1];
 				$params_token = $q[2];
 				preg_match_all('~\:([^\:\|\'"]*(?:([\'"]).*?(?<!\\\\)\2[^\:\|\'"]*)*)~', $params_token, $p, PREG_SET_ORDER);
 				$params = array();
 				$mod    = array($mod_name, array());
-				for ($j = 0, $ps = sizeof($p); $j < $ps; $j++) {
+				for ($j = 0, $ps = count($p); $j < $ps; $j++) {
 					$mod[1][] = $this->_expr_token($p[$j][1]);
 				}
 				$mods[] = $mod;
 			}
 			$internal_mods = array('html');
-			for ($i = 0, $s = sizeof($mods); $i < $s; $i++) {
+			for ($i = 0, $s = count($mods); $i < $s; $i++) {
 				if (substr($mods[$i][0], 0, 1) == '@') {
-					$no_errors   = TRUE;
+					$no_errors   = true;
 					$mods[$i][0] = substr($mods[$i][0], 1);
 				}
 				else {
-					$no_errors = FALSE;
+					$no_errors = false;
 				}
 				$mod_name   = strtolower($mods[$i][0]);
 				$mod_params = $mods[$i][1];
@@ -1241,10 +1241,10 @@ class Quicky_compiler {
 				if (($mod_name == 'default') && (substr($return, 0, 1) == '$')) {
 					$mod_name = 'default_var';
 				}
-				$short = FALSE;
+				$short = false;
 				foreach ($this->allowed_php_tokens as $av) {
 					if (preg_match($e = '~^' . str_replace('\*', '.*', preg_quote($av, '~')) . '$~i', $mod_name)) {
-						$short = TRUE;
+						$short = true;
 						break;
 					}
 				}
@@ -1254,25 +1254,25 @@ class Quicky_compiler {
 					return $this->_syntax_error('Undefined modifier \'' . $mod_name . '\'');
 				}
 				if ($mod_name == 'escape' or $mod_name == 'html') {
-					$this->_no_auto_escape = TRUE;
+					$this->_no_auto_escape = true;
 				}
-				if ($mod_name == 'escape' && sizeof($mod_params) == 0) {
+				if ($mod_name == 'escape' && count($mod_params) == 0) {
 					$return = 'htmlspecialchars(' . $return . ')';
 					continue;
 				}
 				elseif ($mod_name == 'html') {
 					continue;
 				}
-				elseif ($mod_name == 'escape' && sizeof($mod_params) > 0 && $mod_params[0] == '\'urlencode\'') {
+				elseif ($mod_name == 'escape' && count($mod_params) > 0 && $mod_params[0] == '\'urlencode\'') {
 					$return = 'urlencode(' . $return . ')';
 					continue;
 				}
-				elseif ($mod_name == 'escape' && sizeof($mod_params) > 0 && $mod_params[0] == '\'urldecode\'') {
+				elseif ($mod_name == 'escape' && count($mod_params) > 0 && $mod_params[0] == '\'urldecode\'') {
 					$return = 'urldecode(' . $return . ')';
 					continue;
 				}
 				elseif ($mod_name == 'count' || $mod_name == 'sizeof') {
-					$return = 'sizeof(' . $return . ')';
+					$return = 'count(' . $return . ')';
 					continue;
 				}
 				elseif ($mod_name == 'urlencode') {
@@ -1286,7 +1286,7 @@ class Quicky_compiler {
 				if (!$short and !in_array($p, $this->load_plugins)) {
 					$this->load_plugins[] = $p;
 				}
-				$return = ($no_errors ? '@' : '') . (!$short ? 'quicky_modifier_' : '') . $mod_name . '(' . $return . (sizeof($mod_params) ? ',' . implode(',', $mod_params) : '') . ')';
+				$return = ($no_errors ? '@' : '') . (!$short ? 'quicky_modifier_' : '') . $mod_name . '(' . $return . (count($mod_params) ? ',' . implode(',', $mod_params) : '') . ')';
 			}
 		}
 		return $return;
@@ -1305,7 +1305,7 @@ class Quicky_compiler {
 				return stripslashes($m[1]) . $m[2];
 			}
 			else {
-				$prefix = var_export(stripslashes($m[1]), TRUE) . '.';
+				$prefix = var_export(stripslashes($m[1]), true) . '.';
 			}
 		}
 		$expr = $m[2];
@@ -1324,13 +1324,13 @@ class Quicky_compiler {
 		return '\'.' . $return . '.\'';
 	}
 
-	function _expr_token($token, $instring = FALSE, $emptynull = FALSE, $cplmode = FALSE) {
+	function _expr_token($token, $instring = false, $emptynull = false, $cplmode = false) {
 		while ((substr($token, 0, 1) == '`') && (substr($token, -1) == '`')) {
 			$token = substr($token, 1, -1);
 		}
 		if ($cplmode) {
 			$_cplmode_old   = $this->_cplmode;
-			$this->_cplmode = TRUE;
+			$this->_cplmode = true;
 		}
 		if ($token === '') {
 			return '';
@@ -1340,7 +1340,7 @@ class Quicky_compiler {
 				$token = substr($token, 1);
 			}
 			$token  = substr($token, 1);
-			$return = var_export($this->_fetch_expr($this->_expr_token($token, FALSE, TRUE, TRUE)), TRUE);
+			$return = var_export($this->_fetch_expr($this->_expr_token($token, false, true, true)), true);
 			return $return;
 		}
 		$in    = $token;
@@ -1351,8 +1351,8 @@ class Quicky_compiler {
 				$a                                              = '\'' . strtr(substr($a, 1, -1), array('\'' => '\\\'', '\\' => '\\\\')) . '\'';
 				$ldelim                                         = preg_quote($this->left_delimiter, '~');
 				$rdelim                                         = preg_quote($this->right_delimiter, '~');
-				$o                                              = isset($this->prefs['cast_undefined_token_to_strings']) ? $this->prefs['cast_undefined_token_to_strings'] : FALSE;
-				$this->prefs['cast_undefined_token_to_strings'] = TRUE;
+				$o                                              = isset($this->prefs['cast_undefined_token_to_strings']) ? $this->prefs['cast_undefined_token_to_strings'] : false;
+				$this->prefs['cast_undefined_token_to_strings'] = true;
 				$a                                              = preg_replace_callback('~(\\\*)(' . $ldelim . '.*?' . $rdelim . '|`.*?`|_?[\$#]\w+#?(?:\[[\$#]?\w+#?\])*)|((?<!\\\\)\\\\")~', array($this, '_var_string_callback'), $a);
 				$this->prefs['cast_undefined_token_to_strings'] = $o;
 				$a                                              = preg_replace('~\.\'(?<!\\\\)\'|(?<!\\\\)\'\'\.|^\'\.(?=[\$\(])|(?<=[\)\'])\.\'$|\'\.\'~', '', $a);
@@ -1366,7 +1366,7 @@ class Quicky_compiler {
 					. '|((?<=\s|\))(?:is\s+not|is|not\s+eq|eq|neq?|gt|lt|gt?e|ge|lt?e|mod)(?=\s|\()|(?:not\s+))'
 					. '~si', array($this, '_expr_token_callback'), $token);
 		if ($emptynull and trim($return) === '') {
-			return 'NULL';
+			return 'null';
 		}
 		if ($cplmode) {
 			$this->_cplmode = $_cplmode_old;
