@@ -7,7 +7,6 @@
 /* Quicky_compiler.class.php: Template compiler
 /**************************************************************************/
 class Quicky_compiler {
-	public $pcre_trace = false;
 	public $precompiled_vars = array();
 	public $prefilters = array();
 	public $postfilters = array();
@@ -73,10 +72,11 @@ class Quicky_compiler {
 	public $_shortcutslocked = array();
 	public $_var_map = array();
 
-	public function Quicky_compiler() {
-	}
-
-	static function escape_string($s) {
+    /**
+     * @param $s
+     * @return string
+     */
+	public static function escape_string($s) {
 		static $escape = array(
 			'\\' => '\\\\',
 			'\'' => '\\\''
@@ -84,6 +84,12 @@ class Quicky_compiler {
 		return strtr($s, $escape);
 	}
 
+    /**
+     * @param $props
+     * @param $blocktype
+     * @param $name
+     * @return bool
+     */
 	public function push_block_props($props, $blocktype, $name) {
 		for ($i = 0; $i < count($props); $i++) {
 			$this->block_props[$props[$i]] = array($name, $blocktype);
@@ -91,6 +97,10 @@ class Quicky_compiler {
 		return true;
 	}
 
+    /**
+     * @param $name
+     * @return string
+     */
 	public function _resolve_var($name) {
 		if (isset($this->_scope_override)) {
 			$type = $this->_scope_override;
@@ -112,6 +122,9 @@ class Quicky_compiler {
 		}
 	}
 
+    /**
+     * @param $msg
+     */
 	public function _syntax_error($msg) {
 		$error = 'Quicky syntax error ' . $msg . ' in template ' . $this->template_from . ' on line ' . $this->_line[$this->template_from];
 		if ($this->_line_count[$this->template_from] > 0) {
@@ -121,6 +134,10 @@ class Quicky_compiler {
 		$this->syntax_errors[] = $error;
 	}
 
+    /**
+     * @param $block
+     * @return bool
+     */
 	public function register_block($block) {
 		if (!in_array($block, $this->blocks)) {
 			$this->blocks[] = $block;
@@ -128,6 +145,10 @@ class Quicky_compiler {
 		return true;
 	}
 
+    /**
+     * @param $block
+     * @return bool
+     */
 	public function unregister_block($block) {
 		if ($k = array_search($block, $this->blocks)) {
 			unset($this->blocks[$k]);
@@ -138,6 +159,10 @@ class Quicky_compiler {
 		}
 	}
 
+    /**
+     * @param $m
+     * @return mixed|string
+     */
 	public function _block_lang_callback($m) {
 		$name = $m[2];
 		$tag  = $m[3];
@@ -188,6 +213,10 @@ class Quicky_compiler {
 		return $return;
 	}
 
+    /**
+     * @param $m
+     * @return string
+     */
 	public function _form_detect($m) {
 		$params                = $this->_parse_params($m[1], true);
 		$form_name             = '';
@@ -208,6 +237,10 @@ class Quicky_compiler {
 		return $return;
 	}
 
+    /**
+     * @param $m
+     * @return string
+     */
 	public function _write_comment($m) {
 		if (!isset($m[2])) {
 			return $m[0];
@@ -215,11 +248,19 @@ class Quicky_compiler {
 		return $this->_write_seq(array($m[0], $m[2]));
 	}
 
+    /**
+     * @param $m
+     * @return string
+     */
 	public function _read_comment($m) {
 		$this->_read_seq($m);
 		return '';
 	}
 
+    /**
+     * @param $m
+     * @return string
+     */
 	public function _write_seq($m) {
 		if (!isset($this->seq[$this->seq_id])) {
 			$this->seq[$this->seq_id] = array();
@@ -229,6 +270,9 @@ class Quicky_compiler {
 		return '~' . $this->seq_hash . '_' . $this->seq_id . str_repeat("\n", substr_count($m[1], "\n")) . '~';
 	}
 
+    /**
+     * @param bool $reset
+     */
 	public function _read_seq($reset = false) {
 		static $i = array();
 		if ($reset === true or !isset($i[$this->seq_id])) {
@@ -239,6 +283,10 @@ class Quicky_compiler {
 		return $r;
 	}
 
+    /**
+     * @param $source
+     * @return null|string|string[]
+     */
 	public function _read_sequences($source) {
 		$this->seq_id = 'comment';
 		$this->_read_seq(true);
@@ -246,6 +294,10 @@ class Quicky_compiler {
 		return $source;
 	}
 
+    /**
+     * @param $m
+     * @return string
+     */
 	public function _literal_callback($m) {
 		if (isset($m[2]) && ($m[2] !== '')) {
 			return $this->left_delimiter . 'rdelim' . $this->right_delimiter;
@@ -253,12 +305,21 @@ class Quicky_compiler {
 		return $this->left_delimiter . 'ldelim' . $this->right_delimiter;
 	}
 
+    /**
+     * @param $m
+     * @return null|string|string[]
+     */
 	public function _literal($m) {
 		$ldelim = preg_quote($this->left_delimiter, '~');
 		$rdelim = preg_quote($this->right_delimiter, '~');
 		return preg_replace_callback('~(' . $ldelim . ')|(' . $rdelim . ')~', array($this, '_literal_callback'), $m[1]);
 	}
 
+    /**
+     * @param $template
+     * @param $from
+     * @return mixed|null|string|string[]
+     */
 	public function _compile_source_string($template, $from) {
 		$this->parent->local_depart_scopes       = false;
 		$old_load_plugins                        = $this->load_plugins;
@@ -348,10 +409,19 @@ class Quicky_compiler {
 		return $source;
 	}
 
+    /**
+     * @param $path
+     * @param $from
+     * @return mixed|null|string|string[]
+     */
 	public function _compile_source($path, $from) {
 		return $this->_compile_source_string(file_get_contents($path), $from);
 	}
 
+    /**
+     * @param $s
+     * @return string
+     */
 	public function string_or_expr($s) {
 		if (ctype_digit(substr($s, 0, 1) == '-' ? substr($s, 1) : $s)) {
 			return $s;
@@ -365,6 +435,11 @@ class Quicky_compiler {
 		return $s;
 	}
 
+    /**
+     * @param $p
+     * @param bool $plain
+     * @return array
+     */
 	public function _parse_params($p, $plain = false) {
 		$params = array();
 		preg_match_all('~(?:\w+\s*=|(([\'"]).*?(?<!\\\\)\2|\w*\s*\(((?:(?R)|.)*?)\)'
@@ -409,12 +484,22 @@ class Quicky_compiler {
 		return $params;
 	}
 
+    /**
+     * @param $string
+     * @return null|string|string[]
+     */
 	public function _dequote($string) {
 		$a      = substr($string, 0, 1);
 		$string = preg_replace('~^\s*([\'"])(.*)\1\s*$~s', '$2', $string);
 		return preg_replace('~(?<!\\\\)\\\\' . preg_quote($a, '~') . '~', $a, $string);
 	}
 
+    /**
+     * @param $name
+     * @param $blocktype
+     * @param $prop
+     * @return string
+     */
 	public function _get_expr_blockprop($name, $blocktype, $prop) {
 		$blocktype = strtolower($blocktype);
 		$prop      = strtolower($prop);
@@ -464,6 +549,10 @@ class Quicky_compiler {
 		return $a . '[' . var_export($prop, true) . ']';
 	}
 
+    /**
+     * @param $m
+     * @return string
+     */
 	public function _optimize_callback($m) {
 		$prefix = ' ' . $this->_write_out_to !== '' ? $this->_write_out_to . ' .= ' : 'echo ';
 		if (isset($m[1]) and $m[1] !== '') {
@@ -481,17 +570,29 @@ class Quicky_compiler {
 		return $return;
 	}
 
+    /**
+     * @param $block
+     * @return null|string|string[]
+     */
 	public function _optimize($block) {
 		$block = preg_replace_callback((!preg_match('~<\?php|\?>~i', $block)) ? '~(.*)~s' : '~\?>(.*?)<\?php|^(.*?)<\?php|\?>(.*?)$~si', array($this, '_optimize_callback'), $block);
 		return $block;
 	}
 
+    /**
+     * @param $expr
+     * @return mixed
+     */
 	public function _fetch_expr($expr) {
 		$var    = & $this->_cpl_vars;
 		$config = & $this->_cpl_config;
 		return eval('return ' . $expr . ';');
 	}
 
+    /**
+     * @param $s
+     * @return string|void
+     */
 	public function _varname($s) {
 		if (preg_match('~^\w+$~', $s)) {
 			$s = $this->_var_token('$' . $s);
@@ -503,6 +604,11 @@ class Quicky_compiler {
 		return $s;
 	}
 
+    /**
+     * @param $mixed
+     * @param string $block_parent
+     * @return mixed|null|string|string[]|void
+     */
 	public function _tag_token($mixed, $block_parent = '') {
 		if (!isset($this->_tag_stacks[$this->_tag_stack_n])) {
 			$this->_tag_stacks[$this->_tag_stack_n] = array();
@@ -700,19 +806,20 @@ class Quicky_compiler {
 		return $return;
 	}
 
-	public function _pcre_trace($regexp, $subject) {
-		if ($this->pcre_trace) {
-			$fp = fopen(QUICKY_DIR . 'pcre-trace.php.txt', 'w');
-			fwrite($fp, '<?php preg_replace(' . var_export($regexp, true) . ',\'\',' . var_export($subject, true) . "); ?>");
-			fclose($fp);
-		}
-	}
-
+    /**
+     * @param $e
+     * @param $c
+     * @param $s
+     * @return null|string|string[]
+     */
 	public function preg_replace_callback($e, $c, $s) {
-		$this->_pcre_trace($e, $s);
 		return preg_replace_callback($e, $c, $s);
 	}
 
+    /**
+     * @param $token
+     * @return string|void
+     */
 	public function _var_token($token) {
 		preg_match_all($a = '~([\'"]).*?(?<!\\\\)\1|\(((?:(?R)|.)*?)\)|->((?:_?[\$#]?\w*(?:\(((?:(?R)|.)*?)\)|(\\[((?:(?R)|(?:[^\\]\'"]*([\'"]).*?(?<!\\\\)\4)*.*?))*?\\]|\.[\$#]?\w+#?|(?!a)a->\w*(?:\(((?:(?R)|.)*?)\))?)?)?)+)~', $token, $properties, PREG_SET_ORDER);
 		$token        = preg_replace_callback($a, create_function('$m', 'if (!isset($m[3])) {return $m[0];} return \'\';'), $token);
@@ -984,6 +1091,10 @@ class Quicky_compiler {
 		return $return;
 	}
 
+    /**
+     * @param $expr
+     * @return array
+     */
 	public function _expr_token_parse_params($expr) { // This function without regular expressions just for fun
 		$params         = array();
 		$cpos           = 0;
@@ -1027,6 +1138,10 @@ class Quicky_compiler {
 		return $params;
 	}
 
+    /**
+     * @param $m
+     * @return string|void
+     */
 	public function _expr_token_callback($m) {
 		if (isset($m[13]) and $m[13] !== '') {
 			preg_match('~^(\s*)(.*)(\s*)$~', $m[13], $q);
