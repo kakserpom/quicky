@@ -704,17 +704,13 @@ class Quicky {
 		if (strpos($path, '://') !== false) {
 			return $path;
 		}
-		static $cache = array();
 		if (is_array($this->template_dir) && count($this->template_dir)) {
-			if (isset($cache[$path])) {
-				return $cache[$path];
-			}
-			foreach ($this->template_dir as &$v) {
+			foreach ($this->template_dir as $v) {
 				if (file_exists($v . $path)) {
-					return $cache[$path] = $v . $path;
+					return $v . $path;
 				}
 			}
-			return $cache[$path] = $this->template_dir[0] . $path;
+			return $this->template_dir[0] . $path;
 		}
 		return $this->template_dir . $path;
 	}
@@ -777,11 +773,7 @@ class Quicky {
 		if ($compile_id === null) {
 			$compile_id = $this->compile_id;
 		}
-		static $cache = array();
-		if (isset($cache[$path])) {
-			return $cache[$path];
-		}
-		return $cache[$path] = $this->compile_dir . $this->_get_auto_filename($path, '', $compile_id);
+		return $this->compile_dir . $this->_get_auto_filename($path, '', $compile_id);
 	}
 
     /**
