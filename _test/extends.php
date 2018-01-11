@@ -15,6 +15,8 @@ $tpl->plugins_dir[] = QUICKY_DIR . 'customplugins/';
 
 $fn = 'extends/child.tpl';
 $tpl->display($fn);
+return;
+
 echo '<br />' . (microtime(TRUE) - MICROTIME_START);
 echo '<hr />';
 highlight_file($tpl->_get_compile_path($fn, ''));

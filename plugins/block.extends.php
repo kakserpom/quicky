@@ -8,6 +8,9 @@ function quicky_block_extends($params, $content, $compiler) {
 	$path                         = $compiler->_dequote($params['template']);
 	$old_lockmode                 = $compiler->_shortcutslockmode;
 	$old_shortcutslocked          = $compiler->_shortcutslocked;
+
+    $compiler->parent->_compile($path, '', $compiler->compiler_name, TRUE);
+
 	$compiler->_shortcutslockmode = TRUE;
 	$compiler->_tag_token($content, $block_name);
 	$compiler->_shortcutslockmode = $old_lockmode;

@@ -5,6 +5,6 @@
 <body>
 <p>Just a paragraph</p>
 
-<p>{block foo}It's a parent{/block}</p>
+<p>{block foo}Parent{/block}</p>
 </body>
 </html>
