@@ -42,7 +42,8 @@ class Quicky_compiler {
 		'strtolower', 'strtoupper', 'strtr', 'substr_compare', 'substr_count', 'substr_replace',
 		'substr', 'trim', 'ucfirst', 'ucwords', 'vfprintf', 'vprintf', 'vsprintf', 'wordwrap', 'and', 'or', 'xor',
 		'json_encode', 'json_decode', 'lang_om_number', 'intval', 'floatval', 'strval', 'setcookie', 'in_array',
-		'long2ip', 'ip2long', 'defined', 'file_exists', 'basename', 'mb_substr', 'mb_strlen', 'mb_strtolower', 'getdate', 'current','next');
+		'long2ip', 'ip2long', 'defined', 'file_exists', 'basename', 'mb_substr', 'mb_strlen', 'mb_strtolower', 'getdate',
+        'current','next', 'http_build_query');
 	public $_def_mode = null;
 	public $_scope_override = null;
 	public $allowed_php_constants = array();
