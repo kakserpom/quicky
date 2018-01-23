@@ -43,7 +43,7 @@ class Quicky_compiler {
 		'substr', 'trim', 'ucfirst', 'ucwords', 'vfprintf', 'vprintf', 'vsprintf', 'wordwrap', 'and', 'or', 'xor',
 		'json_encode', 'json_decode', 'lang_om_number', 'intval', 'floatval', 'strval', 'setcookie', 'in_array',
 		'long2ip', 'ip2long', 'defined', 'file_exists', 'basename', 'mb_substr', 'mb_strlen', 'mb_strtolower', 'getdate',
-        'current','next', 'http_build_query');
+        'current','next', 'http_build_query', 'urlencode', 'urldecode');
 	public $_def_mode = null;
 	public $_scope_override = null;
 	public $allowed_php_constants = array();
@@ -280,7 +280,7 @@ class Quicky_compiler {
 			$i[$this->seq_id] = 0;
 			return;
 		}
-		$r = $this->seq[$this->seq_id][$i[$this->seq_id]++];
+		$r = $this->seq[$this->seq_id][$i[$this->seq_id]++] ?? '';
 		return $r;
 	}
 
