@@ -3,17 +3,17 @@
     "type"  : "library",
     "keywords": ["quicky"],
     "homepage": "https://github.com/kakserpom/quicky",
-    "license" : "GPL-3.0+",
+    "license" : "GPL-3.0-or-later",
     "description": "",
     "authors" : [
         {
             "name"      : "Vasily Zorin",
-            "email"     : "quicky@googlegroups.com",
+            "email"     : "kak.serpom.po.yaitsam@gmail.com",
             "role"      : "Developer"
         }
     ],
     "support" : {
-        "email" : "quicky@googlegroups.com",
+        "email" : "kak.serpom.po.yaitsam@gmail.com",
         "issues": "https://github.com/kakserpom/quicky/issues",
         "forum" : "https://groups.google.com/forum/?hl=ru#!forum/quicky",
         "wiki"  : "https://github.com/kakserpom/quicky/wiki",
