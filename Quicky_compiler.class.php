@@ -1308,7 +1308,7 @@ class Quicky_compiler {
 				$return = '((' . $return . ') % 2 != 0)';
 			}
 			elseif (preg_match('~^instanceof (.*)$~', $operator, $e)) {
-				$cn     = preg_match('~^\w+$~', $e[1]) ? $e[1] : $this->_expr_token($e[1]);
+				$cn     = preg_match('~^[\w\\\\]+$~', $e[1]) ? $e[1] : $this->_expr_token($e[1]);
 				$return = '(' . $return . ' instanceof ' . $cn . ')';
 			}
 			elseif (preg_match('~^is( not)? odd by (.*)$~', $operator, $e)) {
@@ -1478,7 +1478,7 @@ class Quicky_compiler {
 		$return = preg_replace_callback(
 			'~(([\'"]).*?(?<!\\\\)\2|\$?\w*\s*\(((?:(?R)|.)*?)\)'
 					. '|(?!(?:is\s+not|is|not\s+eq|eq|neq?|gt|lt|gt?e|ge|lt?e|mod)\W)_?[\$#]?\w+#?(?:\\[(?:(?R)|\w+|((?:[^\\]\'"]*(?:([\'"]).*?(?<!\\\\)\5)?)*))*?\\]|\.[\$#]?\w+#?|->\s*_?[\$#]?\w+#?(?:\(((?:(?R)|.)*?)\))?)*'
-					. '|-?\d+|(?<=^|[\s\)\:\.=+\-<>])(?!(?:is\s+not|is|not\s+eq|eq|neq?|gt|lt|gt?e|ge|lt?e|mod)\W)(?:\w+)(?=$|[\s\|\.\:\(=+\-<>]))(\s+(?:instanceof (?:\w+|(?R))|is(?:\s+not)?\s+(?:odd|div|even)\s+by\s+(?:-?\d+|(?R))|is(?:\s+not)?\s+(?:odd|even)))?((?:\|@?\w+(?:\\:(?:' . '\w*\(((?:(?R)|.)*?)\)|[\$#]\w+#?(?:\\[(?:(?R)|((?:[^\\]\'"]*(?:([\'"]).*?(?<!\\\\)\11)?)*))*?\\]|\.[\$#]?\w+#?)*|[^\'"\:]*(?:[^\'"\:]*([\'"]).*?(?<!\\\\)\12[^\'"\:]*)*' . '))*)*)'
+					. '|-?\d+|(?<=^|[\s\)\:\.=+\-<>])(?!(?:is\s+not|is|not\s+eq|eq|neq?|gt|lt|gt?e|ge|lt?e|mod)\W)(?:\w+)(?=$|[\s\|\.\:\(=+\-<>]))(\s+(?:instanceof (?:[\\\\\w]+|(?R))|is(?:\s+not)?\s+(?:odd|div|even)\s+by\s+(?:-?\d+|(?R))|is(?:\s+not)?\s+(?:odd|even)))?((?:\|@?\w+(?:\\:(?:' . '\w*\(((?:(?R)|.)*?)\)|[\$#]\w+#?(?:\\[(?:(?R)|((?:[^\\]\'"]*(?:([\'"]).*?(?<!\\\\)\11)?)*))*?\\]|\.[\$#]?\w+#?)*|[^\'"\:]*(?:[^\'"\:]*([\'"]).*?(?<!\\\\)\12[^\'"\:]*)*' . '))*)*)'
 					. '|((?<=\s|\))(?:is\s+not|is|not\s+eq|eq|neq?|gt|lt|gt?e|ge|lt?e|mod)(?=\s|\()|(?:not\s+))'
 					. '~si', array($this, '_expr_token_callback'), $token);
 		if ($emptynull and trim($return) === '') {
