@@ -18,7 +18,7 @@ class Quicky_compiler {
 	public $_alt_tag = false;
 	public $prefs = array();
 	public $template_defined_functions = array();
-	public $allowed_php_tokens = array('array', 'date', 'strtotime', 'isset', 'empty', 'is_empty', 'count', 'sizeof', 'shuffle',
+	public $allowed_php_tokens = array('array', 'date', 'date_*', 'strtotime', 'isset', 'empty', 'is_empty', 'count', 'sizeof', 'shuffle',
 		'is_array', 'is_int', 'is_float', 'is_long', 'is_numeric', 'is_object',
 		'is_scalar', 'is_string', 'gettype', 'is_real',
 		'abs', 'acos', 'acosh', 'asin', 'asinh', 'atan2', 'atan', 'atanh', 'base_', 'bindec',
