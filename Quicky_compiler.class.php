@@ -382,7 +382,7 @@ class Quicky_compiler {
             }, $source);
 
 			$source = preg_replace_callback('~(\?>)(.{1,20})$~s', function($m) {
-                return ' echo \''.Quicky_compiler::escape_string($m[2]).'\';'. "\n" . $m[1]
+                return ' echo \''.Quicky_compiler::escape_string($m[2]).'\';'. "\n" . $m[1];
             }, $source);
 		}
 		$header = '<?php /* Quicky compiler version ' . $this->compiler_version . ', created on ' . date('r') . '
@@ -809,7 +809,7 @@ class Quicky_compiler {
 		$blocks[] = 'extends';
 		$ldelim   = preg_quote($this->left_delimiter, '~');
 		$rdelim   = preg_quote($this->right_delimiter, '~');
-		$return   = $this->preg_replace_callback('~'
+		$return   = preg_replace_callback('~'
 														 . '\{\{?\s*(begin)(?:\s+(.*?))?\}\}?((?:(?R)|.)*?)\{\{?\s*(?:end(?:\s+\2)?)?\s*\}\}?'
 														 . '|\{\{' . ($this->left_delimiter === '{{' ? '\{' : '') . '(\\??(?:[^' . $rdelim . '\'"]*([\'"]).*?(?<!\\\\)\5)*.*?)' . ($this->left_delimiter === '}}' ? '\}' : '') . '\}\}'
 														 . '|' . $ldelim . '\s*(' . implode('|', $blocks) . ')(\s(?:[^' . $rdelim . '\'"]*([\'"]).*?(?<!\\\\)\8)*.*?)?' . $rdelim . '((?:(?R)|.)*?)' . $ldelim . '/\s*\6?\s*' . $rdelim
@@ -817,16 +817,6 @@ class Quicky_compiler {
 														 . '|\r?\n'
 														 . '~si', array($this, '_tag_token'), $mixed);
 		return $return;
-	}
-
-    /**
-     * @param $e
-     * @param $c
-     * @param $s
-     * @return null|string|string[]
-     */
-	public function preg_replace_callback($e, $c, $s) {
-		return preg_replace_callback($e, $c, $s);
 	}
 
     /**
