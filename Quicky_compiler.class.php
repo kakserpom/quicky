@@ -369,9 +369,21 @@ class Quicky_compiler {
 		$source = $this->_read_sequences($source);
 
 		if (!$this->no_optimize and false) {
-			$source = preg_replace_callback('~\?>(.{0,20}?)<\?php~s', create_function('$m', 'if ($m[1] === \'\') {return \'\';} return \' echo \\\'\'.Quicky_compiler::escape_string($m[1]).\'\\\';' . "\n" . '\';'), $source);
-			$source = preg_replace_callback('~^(.{1,20}?)(<\?php)~s', create_function('$m', 'return $m[2].\' echo \\\'\'.Quicky_compiler::escape_string($m[1]).\'\\\';' . "\n" . '\';'), $source);
-			$source = preg_replace_callback('~(\?>)(.{1,20})$~s', create_function('$m', 'return \' echo \\\'\'.Quicky_compiler::escape_string($m[2]).\'\\\';' . "\n" . '\'.$m[1];'), $source);
+			$source = preg_replace_callback('~\?>(.{0,20}?)<\?php~s', function($m) {
+                if ($m[1] === '') {
+                    return '';
+                }
+                return ' echo \''.Quicky_compiler::escape_string($m[1]).'\';' . "\n";
+            }, $source);
+
+
+			$source = preg_replace_callback('~^(.{1,20}?)(<\?php)~s', function($m) {
+                return $m[2].' echo \''.Quicky_compiler::escape_string($m[1]).'\';' . "\n";
+            }, $source);
+
+			$source = preg_replace_callback('~(\?>)(.{1,20})$~s', function($m) {
+                return ' echo \''.Quicky_compiler::escape_string($m[2]).'\';'. "\n" . $m[1]
+            }, $source);
 		}
 		$header = '<?php /* Quicky compiler version ' . $this->compiler_version . ', created on ' . date('r') . '
 			 compiled from ' . $from . ' */' . "\n";
@@ -823,7 +835,12 @@ class Quicky_compiler {
      */
 	public function _var_token($token) {
 		preg_match_all($a = '~([\'"]).*?(?<!\\\\)\1|\(((?:(?R)|.)*?)\)|->((?:_?[\$#]?\w*(?:\(((?:(?R)|.)*?)\)|(\\[((?:(?R)|(?:[^\\]\'"]*([\'"]).*?(?<!\\\\)\4)*.*?))*?\\]|\.[\$#]?\w+#?|(?!a)a->\w*(?:\(((?:(?R)|.)*?)\))?)?)?)+)~', $token, $properties, PREG_SET_ORDER);
-		$token        = preg_replace_callback($a, create_function('$m', 'if (!isset($m[3])) {return $m[0];} return \'\';'), $token);
+		$token = preg_replace_callback($a, function($m) {
+		    if (!isset($m[3])) {
+		        return $m[0];
+		    }
+		    return '';
+        }, $token);
 		$obj_appendix = '';
 		$type_c       = false;
 		for ($i = 0, $s = count($properties); $i < $s; $i++) {

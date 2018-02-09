@@ -551,16 +551,23 @@ class Quicky {
 		return true;
 	}
 
+    /**
+     * @param $name
+     * @param $b
+     * @return bool
+     */
     public function assign_by_ref($name, &$b) {
 		$this->_tpl_vars[$a] = & $b;
 		return true;
 	}
 
-	function clear_assign($name) {
+    /**
+     * @param $name
+     */
+	public function clear_assign($name) {
 		if (is_array($name)) {
-			$name = array_values($name);
-			for ($i = 0, $s = count($name); $i < $s; $i++) {
-				unset($this->_tpl_vars[$name[$i]]);
+			foreach ($name as $k) {
+				unset($this->_tpl_vars[$k]);
 			}
 		}
 		else {
