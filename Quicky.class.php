@@ -736,7 +736,9 @@ class Quicky {
 			$cache_id = $this->cache_id;
 		}
 		$path = $this->_get_template_path($path);
-		$name = basename($path) . ($this->auto_filename_prefix !== '' ? '.' . $this->auto_filename_prefix : '') . ($this->lang !== '' ? '.' . $this->lang : '') . ($compile_id !== '' ? '.' . $compile_id : '') . ($cache_id !== '' ? '.' . $cache_id : '') . '.' . substr(abs(crc32($path)), 0, 6) . '.php';
+		$name = basename($path) . ($this->auto_filename_prefix !== '' ? '.' . $this->auto_filename_prefix : '')
+            . ($this->lang !== '' ? '.' . $this->lang : '') . ($compile_id !== '' ? '.' . $compile_id : '')
+            . ($cache_id !== '' ? '.' . $cache_id : '') . '.' . substr(abs(crc32($path)), 0, 6) . '.php';
 		return $name;
 	}
 

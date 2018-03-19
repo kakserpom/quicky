@@ -322,104 +322,118 @@ class Quicky_compiler {
      * @return mixed|null|string|string[]
      */
 	public function _compile_source_string($template, $from) {
-		$this->parent->local_depart_scopes       = false;
-		$old_load_plugins                        = $this->load_plugins;
-		$this->load_plugins                      = array();
-		$old_template_from                       = $this->template_from;
-		$this->template_from                     = $from;
-		$this->_line[$this->template_from]       = 1;
-		$this->_line_count[$this->template_from] = 0;
-		//$template = str_replace("\r",'',$template);
-		$template = preg_replace('~^/.*?/\r?\n~', '', $template);
+	    try {
+            $pcreJit = ini_get('pcre.jit');
+            ini_set('pcre.jit', '0');
 
-		$ldelim = preg_quote($this->left_delimiter, '~');
-		$rdelim = preg_quote($this->right_delimiter, '~');
+            $this->parent->local_depart_scopes = false;
+            $old_load_plugins = $this->load_plugins;
+            $this->load_plugins = array();
+            $old_template_from = $this->template_from;
+            $this->template_from = $from;
+            $this->_line[$this->template_from] = 1;
+            $this->_line_count[$this->template_from] = 0;
+            //$template = str_replace("\r",'',$template);
+            $template = preg_replace('~^/.*?/\r?\n~', '', $template);
 
-		$this->seq_hash = md5(microtime());
-		$this->seq      = array();
+            $ldelim = preg_quote($this->left_delimiter, '~');
+            $rdelim = preg_quote($this->right_delimiter, '~');
 
-		$this->seq_id = 'comment';
-		$template     = preg_replace_callback('~([\'"]).*?\1|(' . $ldelim . '\*.*?\*' . $rdelim . ')~s', array($this, '_write_comment'), $template);
+            $this->seq_hash = md5(microtime());
+            $this->seq = array();
 
-		$a = array_values($this->prefilters);
-		for ($i = 0, $s = count($a); $i < $s; $i++) {
-			$template = call_user_func($a[$i], $template, $this);
-		}
-		$source = $template;
+            $this->seq_id = 'comment';
+            $template = preg_replace_callback('~([\'"]).*?\1|(' . $ldelim . '\*.*?\*' . $rdelim . ')~s',
+                array($this, '_write_comment'), $template);
 
-		if ($this->parent->lang !== '') {
-			$source = preg_replace_callback('~' . $ldelim . '_\s+(.*?)' . $rdelim . '~', $this->parent->lang_callback, $source);
-			$source = preg_replace_callback('~' . $ldelim . 'e_\s+(.*?)' . $rdelim . '~i', $this->parent->lang_callback_e, $source);
-			$source = preg_replace_callback('~' . $ldelim . 'LANG(?:=([\'|"])?(.*?)\1)?' . $rdelim . '(.*?)' . $ldelim . '/LANG' . $rdelim . '~si', array($this, '_block_lang_callback'), $source);
-		}
-		if ($this->parent->_auto_detect_forms or count($this->parent->_detect_forms) > 0) {
-			$source = preg_replace_callback('~<form(\s+.*?)?>(.*?)</form>~si', array($this, '_form_detect'), $source);
-		}
-		if (!isset($this->prefs['allow_php_native']) or !$this->prefs['allow_php_native']) {
-			$source = preg_replace('~<\?(?:php)?|\?>~i', '<?php echo \'$0\'; ?>', $source);
-		}
-		$source = preg_replace_callback('~' . $ldelim . 'literal' . $rdelim . '(.*?)' . $ldelim . '/literal' . $rdelim . '~si', array($this, '_literal'), $source);
+            $a = array_values($this->prefilters);
+            for ($i = 0, $s = count($a); $i < $s; $i++) {
+                $template = call_user_func($a[$i], $template, $this);
+            }
+            $source = $template;
 
-		$cur_seq        = $this->seq;
-		$cur_hash       = $this->seq_hash;
-		$source         = $this->_tag_token($source);
-		$this->seq      = $cur_seq;
-		$this->seq_hash = $cur_hash;
+            if ($this->parent->lang !== '') {
+                $source = preg_replace_callback('~' . $ldelim . '_\s+(.*?)' . $rdelim . '~',
+                    $this->parent->lang_callback, $source);
+                $source = preg_replace_callback('~' . $ldelim . 'e_\s+(.*?)' . $rdelim . '~i',
+                    $this->parent->lang_callback_e, $source);
+                $source = preg_replace_callback('~' . $ldelim . 'LANG(?:=([\'|"])?(.*?)\1)?' . $rdelim . '(.*?)' . $ldelim . '/LANG' . $rdelim . '~si',
+                    array($this, '_block_lang_callback'), $source);
+            }
+            if ($this->parent->_auto_detect_forms or count($this->parent->_detect_forms) > 0) {
+                $source = preg_replace_callback('~<form(\s+.*?)?>(.*?)</form>~si', array($this, '_form_detect'),
+                    $source);
+            }
+            if (!isset($this->prefs['allow_php_native']) or !$this->prefs['allow_php_native']) {
+                $source = preg_replace('~<\?(?:php)?|\?>~i', '<?php echo \'$0\'; ?>', $source);
+            }
+            $source = preg_replace_callback('~' . $ldelim . 'literal' . $rdelim . '(.*?)' . $ldelim . '/literal' . $rdelim . '~si',
+                array($this, '_literal'), $source);
 
-		$source = $this->_read_sequences($source);
+            $cur_seq = $this->seq;
+            $cur_hash = $this->seq_hash;
+            $source = $this->_tag_token($source);
+            $this->seq = $cur_seq;
+            $this->seq_hash = $cur_hash;
 
-		if (!$this->no_optimize and false) {
-			$source = preg_replace_callback('~\?>(.{0,20}?)<\?php~s', function($m) {
-                if ($m[1] === '') {
-                    return '';
-                }
-                return ' echo \''.Quicky_compiler::escape_string($m[1]).'\';' . "\n";
-            }, $source);
+            $source = $this->_read_sequences($source);
+
+            if (!$this->no_optimize and false) {
+                $source = preg_replace_callback('~\?>(.{0,20}?)<\?php~s', function ($m) {
+                    if ($m[1] === '') {
+                        return '';
+                    }
+                    return ' echo \'' . Quicky_compiler::escape_string($m[1]) . '\';' . "\n";
+                }, $source);
 
 
-			$source = preg_replace_callback('~^(.{1,20}?)(<\?php)~s', function($m) {
-                return $m[2].' echo \''.Quicky_compiler::escape_string($m[1]).'\';' . "\n";
-            }, $source);
+                $source = preg_replace_callback('~^(.{1,20}?)(<\?php)~s', function ($m) {
+                    return $m[2] . ' echo \'' . Quicky_compiler::escape_string($m[1]) . '\';' . "\n";
+                }, $source);
 
-			$source = preg_replace_callback('~(\?>)(.{1,20})$~s', function($m) {
-                return ' echo \''.Quicky_compiler::escape_string($m[2]).'\';'. "\n" . $m[1];
-            }, $source);
-		}
-		$header = '<?php /* Quicky compiler version ' . $this->compiler_version . ', created on ' . date('r') . '
-			 compiled from ' . $from . ' */' . "\n";
-		for ($i = 0, $s = count($this->load_plugins); $i < $s; $i++) {
-			$header .= 'require_once ' . var_export($this->load_plugins[$i], true) . ';' . "\n";
-		}
-		$header .= '$local = &$tpl->_local_vars[' . var_export($from, true) . '];' . "\n";
-		$header .= '$var_buff = &$tpl->_tpl_vars_buff[' . var_export($from, true) . '];' . "\n";
-		$header .= '$var_buff = array();' . "\n";
-		$header .= 'if ($local === null) {$local = array();}' . "\n";
-		$header .= 'else
-{
- foreach ($local as $k => $v)
- {
-  $var_buff[$k] = isset($var[$k])?$var[$k]:null;
-  $var[$k] = &$local[$k];
- }
-}
-';
-		$header .= '?>';
-		$footer = '<?php foreach ($tpl->_tpl_vars_buff[' . var_export($from, true) . '] as $k => $v) {unset($var[$k]); $var[$k] = $v;} ' . "\n"
-				. ' $tpl->_local_vars[' . var_export($from, true) . '] = array(); ?>';
-		if (count($this->syntax_errors)) {
-			return implode("<br />\n", $this->syntax_errors);
-		}
-		$this->_halt = false;
+                $source = preg_replace_callback('~(\?>)(.{1,20})$~s', function ($m) {
+                    return ' echo \'' . Quicky_compiler::escape_string($m[2]) . '\';' . "\n" . $m[1];
+                }, $source);
+            }
+            $header = '<?php /* Quicky compiler version ' . $this->compiler_version . ', created on ' . date('r') . '
+                 compiled from ' . $from . ' */' . "\n";
+            for ($i = 0, $s = count($this->load_plugins); $i < $s; $i++) {
+                $header .= 'require_once ' . var_export($this->load_plugins[$i], true) . ';' . "\n";
+            }
+            $header .= '$local = &$tpl->_local_vars[' . var_export($from, true) . '];' . "\n";
+            $header .= '$var_buff = &$tpl->_tpl_vars_buff[' . var_export($from, true) . '];' . "\n";
+            $header .= '$var_buff = array();' . "\n";
+            $header .= 'if ($local === null) {$local = array();}' . "\n";
+            $header .= 'else
+    {
+     foreach ($local as $k => $v)
+     {
+      $var_buff[$k] = isset($var[$k])?$var[$k]:null;
+      $var[$k] = &$local[$k];
+     }
+    }
+    ';
+            $header .= '?>';
+            $footer = '<?php foreach ($tpl->_tpl_vars_buff[' . var_export($from,
+                    true) . '] as $k => $v) {unset($var[$k]); $var[$k] = $v;} ' . "\n"
+                . ' $tpl->_local_vars[' . var_export($from, true) . '] = array(); ?>';
+            if (count($this->syntax_errors)) {
+                return implode("<br />\n", $this->syntax_errors);
+            }
+            $this->_halt = false;
 
-		$a = array_values($this->postfilters);
-		for ($i = 0, $s = count($a); $i < $s; $i++) {
-			$source = call_user_func($a[$i], $source, $this);
-		}
+            $a = array_values($this->postfilters);
+            for ($i = 0, $s = count($a); $i < $s; $i++) {
+                $source = call_user_func($a[$i], $source, $this);
+            }
 
-		$this->load_plugins  = $old_load_plugins;
-		$this->template_from = $old_template_from;
-		$source              = preg_replace('~^(<\?php.*?)\?><\?php~si', '$1', $header . $source . $footer);
-		return $source;
+            $this->load_plugins = $old_load_plugins;
+            $this->template_from = $old_template_from;
+            $source = preg_replace('~^(<\?php.*?)\?><\?php~si', '$1', $header . $source . $footer);
+            return $source;
+        } finally {
+	        ini_set('pcre.jit', $pcreJit);
+        }
 	}
 
     /**
