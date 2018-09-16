@@ -613,6 +613,7 @@ class Quicky_compiler {
 	public function _fetch_expr($expr) {
 		$var    = & $this->_cpl_vars;
 		$config = & $this->_cpl_config;
+		$tpl = $this;
 		return eval('return ' . $expr . ';');
 	}
 
