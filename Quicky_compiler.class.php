@@ -26,7 +26,7 @@ class Quicky_compiler {
 		'fmod', 'getrandmax', 'hexdec', 'hypot', 'is_finite', 'is_infinite', 'is_nan', 'lcg_', 'log10', 'log1p',
 		'log', 'max', 'min', 'mt_getrandmax', 'mt_rand', 'mt_srand', 'octdec', 'pi', 'pow', 'rad2deg', 'rand',
 		'round', 'sin', 'sinh', 'sqrt', 'srand', 'tan', 'tanh',
-		'constant', 'strlen', 'time', 'var_dump', 'var_export',
+		'constant', 'strlen', 'time', 'microtime', 'var_dump', 'var_export',
 		'gmp_*', 'ctype_*', 'array_*', 'addcslashes', 'addslashes', 'bin2hex', 'chop', 'chr',
 		'chunk_split', 'convert_cyr_string', 'convert_uudecode', 'convert_uuencode', 'count_chars',
 		'crc32', 'crypt', 'echo', 'explode', 'fprintf', 'get_html_translation_table', 'hebrev', 'hebrevc',
