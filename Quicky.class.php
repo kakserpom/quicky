@@ -71,6 +71,10 @@ class Quicky {
 	public $local_depart_scopes = false;
 
 	public function __construct() {
+        ini_set('pcre.recursion_limit', PHP_INT_MAX);
+        ini_set('pcre.backtrack_limit', PHP_INT_MAX);
+        posix_setrlimit(POSIX_RLIMIT_STACK, POSIX_RLIMIT_INFINITY, POSIX_RLIMIT_INFINITY);
+
 		$this->init();
 	}
 
