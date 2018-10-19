@@ -561,7 +561,7 @@ class Quicky {
      * @return bool
      */
     public function assign_by_ref($name, &$b) {
-		$this->_tpl_vars[$a] = & $b;
+		$this->_tpl_vars[$name] = &$b;
 		return true;
 	}
 
