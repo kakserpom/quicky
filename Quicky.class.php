@@ -515,8 +515,8 @@ class Quicky {
 		if ($this->debug_mode === true) {
 			$dbg                           = debug_backtrace();
 			$this->debug_trace['assign'][] = array(
-				'name'  => $a,
-				'value' => $b,
+				'name'  => $name,
+				'value' => $value,
 				'file'  => $dbg[0]['file'],
 				'line'  => $dbg[0]['line']
 			);
