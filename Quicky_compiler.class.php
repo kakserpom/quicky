@@ -172,6 +172,7 @@ class Quicky_compiler {
 		foreach ($matches as $m) {
 			$variants[strtolower($m[1])] = trim($m[2]);
 		}
+
 		$reqlang = $this->parent->lang;
 		if (isset($variants[$reqlang])) {
 			return $variants[$reqlang];
