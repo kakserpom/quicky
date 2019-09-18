@@ -172,6 +172,7 @@ class Quicky_compiler {
 		foreach ($matches as $m) {
 			$variants[strtolower($m[1])] = trim($m[2]);
 		}
+
 		$reqlang = $this->parent->lang;
 		if (isset($variants[$reqlang])) {
 			return $variants[$reqlang];
@@ -353,9 +354,9 @@ class Quicky_compiler {
             $source = $template;
 
             if ($this->parent->lang !== '') {
-                $source = preg_replace_callback('~' . $ldelim . '_\s+(.*?)' . $rdelim . '~',
+                $source = preg_replace_callback('~' . $ldelim . '_\s+(.*?)' . $rdelim . '~s',
                     $this->parent->lang_callback, $source);
-                $source = preg_replace_callback('~' . $ldelim . 'e_\s+(.*?)' . $rdelim . '~i',
+                $source = preg_replace_callback('~' . $ldelim . 'e_\s+(.*?)' . $rdelim . '~is',
                     $this->parent->lang_callback_e, $source);
                 $source = preg_replace_callback('~' . $ldelim . 'LANG(?:=([\'|"])?(.*?)\1)?' . $rdelim . '(.*?)' . $ldelim . '/LANG' . $rdelim . '~si',
                     array($this, '_block_lang_callback'), $source);
