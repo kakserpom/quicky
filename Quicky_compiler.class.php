@@ -1251,7 +1251,7 @@ class Quicky_compiler {
 					}
 				}
 				if (!$b) {
-					$c = in_array($a, $this->template_defined_functions)/* || function_exists('quicky_function_' . $a)*/;
+					$c = in_array($a, $this->template_defined_functions);
 				}
 				if (!$b and !$c) {
 					$y = $this->_alt_tag && !in_array($a, get_class_methods('Quicky'));
