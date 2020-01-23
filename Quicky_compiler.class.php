@@ -302,9 +302,9 @@ class Quicky_compiler {
      */
 	public function _literal_callback($m) {
 		if (isset($m[2]) && ($m[2] !== '')) {
-			return $this->left_delimiter . 'rdelim' . $this->right_delimiter;
+			return $this->left_delimiter . '__ rdelim' . $this->right_delimiter;
 		}
-		return $this->left_delimiter . 'ldelim' . $this->right_delimiter;
+		return $this->left_delimiter . '__ ldelim' . $this->right_delimiter;
 	}
 
     /**
