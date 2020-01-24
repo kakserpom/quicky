@@ -79,7 +79,7 @@ class Quicky {
 	}
 
 	public function init() {
-		$this->error_reporting         = E_ALL;
+		$this->error_reporting         = error_reporting();
 		$this->plugins_dir             = array(QUICKY_DIR . 'plugins');
 		$this->_smarty_vars            = & $this->_block_props;
 		$this->_block_props['capture'] = array();
