@@ -302,9 +302,9 @@ class Quicky_compiler {
      */
 	public function _literal_callback($m) {
 		if (isset($m[2]) && ($m[2] !== '')) {
-			return $this->left_delimiter . 'rdelim' . $this->right_delimiter;
+			return $this->left_delimiter . '__ rdelim' . $this->right_delimiter;
 		}
-		return $this->left_delimiter . 'ldelim' . $this->right_delimiter;
+		return $this->left_delimiter . '__ ldelim' . $this->right_delimiter;
 	}
 
     /**
@@ -470,7 +470,7 @@ class Quicky_compiler {
      */
 	public function _parse_params($p, $plain = false) {
 		$params = array();
-		preg_match_all('~(?:\w+\s*=|(([\'"]).*?(?<!\\\\)\2|\w*\s*\(((?:(?R)|.)*?)\)'
+		preg_match_all('~(?:[\w\-]+\s*=|(([\'"]).*?(?<!\\\\)\2|\w*\s*\(((?:(?R)|.)*?)\)'
 							   . '|_?[\$#]\w+#?(?:\\[(?:(?R)|((?:[^\\]\'"]*(?:([\'"]).*?(?<!\\\\)\5)?)*))*?\\]|\.[\$#]?\w+#?|->\s*[\$#]?\w+(?:\(((?:(?R)|.)*?)\))?)*'
 							   . '|-?\d+|(?<=^|[\s\)\:\.=+\-<>])(?:\w+)(?=$|[\s\|\.\:\(=+\-<>])))'
 							   . '(?:\|@?\s*\w+(?:\:\s*(?:[^\:\|\'"\s]*(?:([\'"]).*?(?<!\\\\)\1[^\:\|\'"]*)*))*)*'
@@ -479,7 +479,7 @@ class Quicky_compiler {
 		foreach ($m as $v) {
 			$s = count($v);
 			if (($s == 1) || ($s == 2) || ($s == 3)) {
-				if (preg_match('~^\w+\s*=$~', $v[0])) {
+				if (preg_match('~^[\w\-]+\s*=$~', $v[0])) {
 					$lastkey = ltrim(rtrim($v[0], " =\t"));
 				}
 				elseif ($lastkey !== '') {
